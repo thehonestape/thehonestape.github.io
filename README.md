@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Jekyll Garden v 0.4!
 ![Slide 4_3 - 1 (1)](https://user-images.githubusercontent.com/1788677/169704768-65c32d93-7884-47fa-b98c-bc8329acc6a7.png)
 
@@ -36,3 +37,7 @@ $ docker-compose up -d
 ## License
 
 The theme is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
+=======
+# thehonestape.github.io
+Personal site 
+>>>>>>> be3324e (Initial commit)
