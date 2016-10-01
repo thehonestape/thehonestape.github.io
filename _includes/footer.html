@@ -1,0 +1,34 @@
+<footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">{{ site.title }}</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li>{{ site.title }}</li>
+          <li><a href="mailto:{{ site.email }}">{{ site.email }}</a></li>
+          <li><a href="https://docs.google.com/document/d/14CPnr4Nz-I3Hux6rFM7DMLc4_Yq70LoeFiaU_bIx_0w/edit" target="_blank">Class syllabus</a>
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-2">
+        <ul class="social-media-list">
+          {% if site.github_username %}
+          <li>
+            {% include icon-github.html username=site.github_username %}
+          </li>
+          {% endif %}
+
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-3">
+        <p>Everything should be made as simple as possible, but not simpler.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
