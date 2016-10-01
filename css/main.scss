@@ -1,0 +1,248 @@
+---
+# Only the main Sass file needs front matter (the dashes are enough)
+---
+@charset "utf-8";
+
+@import 'https://fonts.googleapis.com/css?family=Source+Code+Pro';
+
+
+//
+// Colors
+// --------------------------------------------------
+
+$black: #263238;
+$white: #fff;
+$mint: #69f0ae;
+$magenta: #ff4081;
+$gray: #f6f6f6;
+$gray-dark: #b0bec5;
+$red: #fc615d;
+$blue: #40c4ff;
+$yellow: #fdbc40;
+$green: #35ca4a;
+
+
+//
+// Fonts
+// --------------------------------------------------
+
+$font-family-monospace: 'Source Code Pro', monospace;
+
+
+// --------------------------------------------------
+// Theme
+// --------------------------------------------------
+
+
+/* caret blink animation */
+@keyframes blink {
+  0% {
+    opacity: 0;
+	}
+  100% {
+    opacity: 1;
+	}
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus, {
+    outline: none;
+}
+[contenteditable="true"]:focus {
+	outline: none;
+		br {
+			display: none;
+		}
+}
+
+body {
+	background: darken($black, 10%);
+	color: $white;
+	font-family: $font-family-monospace;
+	-webkit-font-smoothing: antialiased;
+
+}
+
+.system.system__bar {
+	height: 30px;
+	width: 100%;
+	background: rgba(255, 255, 255, .8);
+}
+
+.bio {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100vh;
+}
+
+#console {
+	text-alignt: left;
+	min-height: 10px;
+	min-width: 70vw;
+	max-width: 70vw;
+	background: $black;
+	transition: all .5s linear;
+	-webkit-transition: all .5s linear;
+	&.big {
+		min-height: 100vh;
+		min-width: 100vw;
+	}
+	.console__header {
+		background: $gray;
+		color: $black;
+		padding: 20px;
+		.ui {
+			&.ui--window {
+				display: inline-block;
+				margin: 0px;
+				.action {
+					display: inline-block;
+					width: 15px;
+					height: 15px;
+					border-radius: 100%;
+					&--close {
+						background: $red;
+					}
+					&--min {
+						background: $yellow;
+					}
+					&--max {
+						background: $green;
+					}
+				}
+			}
+		}
+	}
+	.console__body {
+		padding: 20px;
+	}
+}
+
+
+.caret {
+	display: inline-block;
+	position: relative;
+	animation: blink .5s ease-in-out infinite;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	&:after {
+	  content: "";
+	  position: absolute;
+	  top: -25px;
+	  right: -25px;
+	  width: 20px;
+	  height: 30px;
+	  background: white;
+	  z-index: 10;
+	  box-shadow: -5px 0px 10px $black;
+	}
+	&:before {
+	  content: "";
+	  position: absolute;
+	  top: 0;
+	  right: -10px;
+	  width: 10px;
+	  height: 50px;
+	  background: bkgd;
+	  z-index: 10;
+	}
+}
+
+//color helpers
+.mint {
+	color: $mint;
+}
+
+.magenta {
+	color: $magenta;
+	&:hover,
+	&:focus {
+		color: $magenta;
+	}
+}
+.yellow {
+	color: $yellow;
+	&:hover,
+	&:focus {
+		color: $yellow;
+	}
+}
+.gray-dark {
+	color: $gray-dark;
+	&:hover,
+	&:focus {
+		color: $gray-dark;
+	}
+}
+
+.blue {
+	color: $blue;
+	&:hover,
+	&:focus {
+		color: $blue;
+	}
+}
+
+
+
+
+// Our variables
+$base-font-family: 'Source Code Pro', "Helvetica Neue", Helvetica, Arial, sans-serif;
+$font-family-mono: 'Source Code Pro', "Helvetica Neue", Helvetica, Arial, sans-serif;
+$base-font-size:   18px;
+$base-font-weight: 400;
+$small-font-size:  $base-font-size * 0.875;
+$base-line-height: 1.5;
+
+$spacing-unit:     30px;
+
+$text-color:       #fffffff;
+$background-color: #000000;
+$brand-color:      rgb(0, 0, 255);
+
+$grey-color:       #828282;
+$grey-color-light: lighten($grey-color, 40%);
+$grey-color-dark:  darken($grey-color, 25%);
+
+// Width of the content area
+$content-width:    800px;
+
+$on-palm:          600px;
+$on-laptop:        800px;
+
+//header variables
+$header-height: 80px;
+
+
+
+// Use media queries like this:
+// @include media-query($on-palm) {
+//     .wrapper {
+//         padding-right: $spacing-unit / 2;
+//         padding-left: $spacing-unit / 2;
+//     }
+// }
+@mixin media-query($device) {
+    @media screen and (max-width: $device) {
+        @content;
+    }
+}
+
+
+
+// Import partials from `sass_dir` (defaults to `_sass`)
+@import
+        "base",
+        "layout",
+        "syntax-highlighting"
+;
+
+.highlighter {
+	background-color: yellow;
+	padding: 3px 0px;
+}

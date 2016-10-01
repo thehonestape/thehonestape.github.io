@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+  {% include head.html %}
+
+  <body>
+
+    <!-- {% include header.html %} -->
+
+		<main class="bio">
+			<div id="console" draggable="true">
+				<div class="console__header">
+					<ul class="ui ui--window">
+						<li class="action action--close"></li>
+						<li class="action action--min"></li>
+						<li class="action action--max"></li>
+					</ul>
+					<script>
+					$('.action--max').click(function() {
+				    $('#console').toggleClass('big');
+					});
+				</script>
+					<span>abe_makes_things</span>
+				</div>
+				<div class="console__body">
+					<p>My name is Abraham Garcia, I am the co-founder of <a class="yellow" href="http://wrkhrs.co" target="_blank">Workhorse</a> in Washington, DC.</p>
+
+					<p>I <a class="magenta" href="https://dribbble.com/thehonestape" target="_blank">design</a> and <a class="mint" href="https://github.com/thehonestape" target="_blank">build</a> things for the web(world).</p>
+
+					<p>Have a question? Shoot me an <a class="blue" href="mailto:abe@wrkhrs.co" target="_top">email at abe@wrkhrs.co</a>
+
+					<div>
+						<span contenteditable="true">&nbsp;&nbsp;</span><span class="caret"></span>
+					</div>
+
+				</div>
+			</div>
+		</main>
+
+    <!-- {% include footer.html %} -->
+
+  </body>
+
+</html>
