@@ -188,6 +188,22 @@ body {
 	}
 }
 
+@media only screen and (min-width: 300px) and (max-width: 500px) {
+	#console {
+		min-width: 85vw;
+		max-width: 85vw;
+	}
+}
+
+@media only screen and (min-width: 1200px) {
+	#console {
+		min-width: 50vw;
+		max-width: 50vw;
+	}
+}
+
+
+
 
 
 
