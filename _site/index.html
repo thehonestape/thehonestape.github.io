@@ -56,11 +56,6 @@
 						<li class="action action--min"></li>
 						<li class="action action--max"></li>
 					</ul>
-					<script>
-					$('.action--max').click(function() {
-				    $('#console').toggleClass('big');
-					});
-				</script>
 					<span>abe_makes_things</span>
 				</div>
 				<div class="console__body">
@@ -77,6 +72,20 @@
 				</div>
 			</div>
 		</main>
+		<script>
+		$('.action--max').click(function() {
+			$('#console').removeClass('small');
+			$('#console').toggleClass('big');
+		});
+		$('.action--min').click(function() {
+			$('#console').toggleClass('small');
+		});
+		$('.action--close').click(function() {
+			$('#console').removeClass('shake');
+				setTimeout(function(){$('#console').addClass('shake')}
+			, 1);
+		});
+	</script>
 
     <!-- <footer class="site-footer">
 

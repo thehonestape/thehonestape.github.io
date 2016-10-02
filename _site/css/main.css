@@ -1,4 +1,48 @@
 @import "https://fonts.googleapis.com/css?family=Source+Code+Pro";
+@-webkit-keyframes headShake {
+  0% {
+    -webkit-transform: translateX(0);
+    transform: translateX(0); }
+  6.5% {
+    -webkit-transform: translateX(-6px) rotateY(-9deg);
+    transform: translateX(-6px) rotateY(-9deg); }
+  18.5% {
+    -webkit-transform: translateX(5px) rotateY(7deg);
+    transform: translateX(5px) rotateY(7deg); }
+  31.5% {
+    -webkit-transform: translateX(-3px) rotateY(-5deg);
+    transform: translateX(-3px) rotateY(-5deg); }
+  43.5% {
+    -webkit-transform: translateX(2px) rotateY(3deg);
+    transform: translateX(2px) rotateY(3deg); }
+  50% {
+    -webkit-transform: translateX(0);
+    transform: translateX(0); } }
+@keyframes headShake {
+  0% {
+    -webkit-transform: translateX(0);
+    transform: translateX(0); }
+  6.5% {
+    -webkit-transform: translateX(-6px) rotateY(-9deg);
+    transform: translateX(-6px) rotateY(-9deg); }
+  18.5% {
+    -webkit-transform: translateX(5px) rotateY(7deg);
+    transform: translateX(5px) rotateY(7deg); }
+  31.5% {
+    -webkit-transform: translateX(-3px) rotateY(-5deg);
+    transform: translateX(-3px) rotateY(-5deg); }
+  43.5% {
+    -webkit-transform: translateX(2px) rotateY(3deg);
+    transform: translateX(2px) rotateY(3deg); }
+  50% {
+    -webkit-transform: translateX(0);
+    transform: translateX(0); } }
+.headShake {
+  -webkit-animation-timing-function: ease-in-out;
+  animation-timing-function: ease-in-out;
+  -webkit-animation-name: headShake;
+  animation-name: headShake; }
+
 /* caret blink animation */
 @keyframes blink {
   0% {
@@ -22,6 +66,9 @@ body {
   font-family: "Source Code Pro", monospace;
   -webkit-font-smoothing: antialiased; }
 
+.shake {
+  animation: headShake ease-in 1s; }
+
 .system.system__bar {
   height: 30px;
   width: 100%;
@@ -39,11 +86,21 @@ body {
   min-width: 70vw;
   max-width: 70vw;
   background: #263238;
-  transition: all .5s linear;
-  -webkit-transition: all .5s linear; }
+  transition: all .25s linear;
+  -webkit-transition: all .25s linear;
+  overflow: hidden; }
   #console.big {
     min-height: 100vh;
     min-width: 100vw; }
+  #console.small {
+    min-width: 80px;
+    min-height: 30px; }
+    #console.small .console__body {
+      min-height: 0px;
+      padding: 0px;
+      overflow: hidden; }
+      #console.small .console__body p, #console.small .console__body span {
+        display: none; }
   #console .console__header {
     background: #f6f6f6;
     color: #263238;
@@ -63,12 +120,16 @@ body {
         #console .console__header .ui.ui--window .action--max {
           background: #35ca4a; }
   #console .console__body {
-    padding: 20px; }
+    padding: 20px;
+    min-height: 40px;
+    min-width: 10px;
+    transition: all .25s linear;
+    -webkit-transition: min-height .25s linear; }
 
 .caret {
   display: inline-block;
   position: relative;
-  animation: blink .5s ease-in-out infinite;
+  animation: blink .25s ease-in-out infinite;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -116,10 +177,13 @@ body {
   .blue:hover, .blue:focus {
     color: #40c4ff; }
 
-@media only screen and (min-width: 300px) and (max-width: 500px) {
+@media only screen and (min-width: 100px) and (max-width: 500px) {
   #console {
     min-width: 85vw;
-    max-width: 85vw; } }
+    max-width: 85vw; }
+
+  p, span {
+    font-size: .8em; } }
 @media only screen and (min-width: 1200px) {
   #console {
     min-width: 50vw;
