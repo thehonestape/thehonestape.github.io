@@ -194,7 +194,7 @@ body {
     font-size: .8em; } }
 @media only screen and (min-width: 1200px) {
   #terminal {
-    width: 400px;
+    width: 600px;
     max-width: 50vw; } }
 /**
  * Reset some basic elements
