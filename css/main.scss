@@ -160,7 +160,6 @@ body {
 	text-alignt: left;
 	border-radius: 5px;
 	min-height: 1px;
-	// min-width: 70vw;
 	max-height: 100vh;
 	background: $black;
 	transition: max-height .25s .35s linear, max-width .25s  linear, width .25s  .05s linear, min-height .25s linear;
@@ -306,7 +305,7 @@ body {
 
 @media only screen and (min-width: 1200px) {
 	#terminal {
-		width: 400px;
+		width: 600px;
 		max-width: 50vw;
 	}
 }
