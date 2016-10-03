@@ -82,25 +82,26 @@ body {
 
 #console {
   text-alignt: left;
-  min-height: 10px;
+  min-height: 1px;
   min-width: 70vw;
-  max-width: 70vw;
+  max-height: 100vh;
   background: #263238;
-  transition: all .25s linear;
-  -webkit-transition: all .25s linear;
+  transition: max-height .25s .35s linear, max-width .25s  linear, min-width .25s  .05s linear, min-height .25s linear;
   overflow: hidden; }
+  #console p, #console span {
+    transition: all .25s .45s linear; }
   #console.big {
     min-height: 100vh;
-    min-width: 100vw; }
+    min-width: 100vw;
+    transition: min-width .25s linear, min-height .25s .05s linear; }
   #console.small {
-    min-width: 80px;
-    min-height: 30px; }
-    #console.small .console__body {
-      min-height: 0px;
-      padding: 0px;
-      overflow: hidden; }
-      #console.small .console__body p, #console.small .console__body span {
-        display: none; }
+    max-height: 68px;
+    max-width: 300px;
+    min-width: 300px;
+    transition: max-height .25s linear, max-width .25s .35s  linear; }
+    #console.small .console__body p, #console.small .console__body span {
+      opacity: 0;
+      transition: all .25s linear; }
   #console .console__header {
     background: #f6f6f6;
     color: #263238;
@@ -120,11 +121,10 @@ body {
         #console .console__header .ui.ui--window .action--max {
           background: #35ca4a; }
   #console .console__body {
+    position: relative;
     padding: 20px;
-    min-height: 40px;
-    min-width: 10px;
     transition: all .25s linear;
-    -webkit-transition: min-height .25s linear; }
+    -webkit-transition: all .25s linear; }
 
 .caret {
   display: inline-block;
