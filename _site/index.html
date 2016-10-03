@@ -9,6 +9,8 @@
   <title>Abe Garcia Makes Things</title>
   <meta name="description" content="Abraham Garcia">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
   <link rel="stylesheet" href="/css/main.css">
   <link rel="canonical" href="https://thehonestape.github.io/">
   <link rel="alternate" type="application/rss+xml" title="Abe Garcia Makes Things" href="https://thehonestape.github.io/feed.xml">
@@ -49,7 +51,7 @@
  -->
 
 		<main class="bio">
-			<div id="console" draggable="true">
+			<div id="console">
 				<div class="console__header">
 					<ul class="ui ui--window">
 						<li class="action action--close"></li>
@@ -73,6 +75,7 @@
 			</div>
 		</main>
 		<script>
+		$( "#console" ).draggable({ handle: ".console__header" });
 		$('.action--max').click(function() {
 			$('#console').removeClass('small');
 			$('#console').toggleClass('big');
