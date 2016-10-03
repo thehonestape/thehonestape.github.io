@@ -8,7 +8,7 @@
 # Site settings
 title: Abe Makes Things
 email: abe@wrkhrs.co
-description: Abraham Garcia
+description: Some information about Abe Garcia
 favicon:     "/favicon.ico"
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://thehonestape.com" # the base hostname & protocol for your site
