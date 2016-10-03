@@ -1,3 +1,3 @@
 $('.action--max').click(function() {
-	$('#console').toggleClass('big');
+	$('#terminal').toggleClass('big');
 });

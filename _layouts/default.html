@@ -8,8 +8,8 @@
     <!-- {% include header.html %} -->
 
 		<main class="bio">
-			<div id="console">
-				<div class="console__header">
+			<div id="terminal">
+				<div class="terminal__header">
 					<ul class="ui ui--window">
 						<li class="action action--close"></li>
 						<li class="action action--min"></li>
@@ -17,10 +17,10 @@
 					</ul>
 					<span>abe_makes_things</span>
 				</div>
-				<div class="console__body">
+				<div class="terminal__body">
 					<p>My name is Abraham Garcia, I am the co-founder of <a class="yellow" href="http://wrkhrs.co" target="_blank">Workhorse</a> in Washington, DC.</p>
 
-					<p>I <a class="magenta" href="https://dribbble.com/thehonestape" target="_blank">design</a> and <a class="mint" href="https://github.com/thehonestape" target="_blank">build</a> things for the web(world).</p>
+					<p>I <a class="magenta" href="https://dribbble.com/thehonestape" target="_blank">design</a> and <a class="mint" href="https://github.com/thehonestape" target="_blank">build</a> things for the web(world) from Charleston, SC &#127796;.</p>
 
 					<p>Have a question? Shoot me an <a class="blue" href="mailto:abe@wrkhrs.co" target="_top">email at abe@wrkhrs.co</a>
 
@@ -32,17 +32,18 @@
 			</div>
 		</main>
 		<script>
-		$( "#console" ).draggable({ handle: ".console__header" });
+		$( "#terminal" ).draggable({ handle: ".terminal__header" });
 		$('.action--max').click(function() {
-			$('#console').removeClass('small');
-			$('#console').toggleClass('big');
+			$('#terminal').removeClass('small');
+			$('#terminal').toggleClass('big');
 		});
 		$('.action--min').click(function() {
-			$('#console').toggleClass('small');
+			$('#terminal').removeClass('big');
+			$('#terminal').toggleClass('small');
 		});
 		$('.action--close').click(function() {
-			$('#console').removeClass('shake');
-				setTimeout(function(){$('#console').addClass('shake')}
+			$('#terminal').removeClass('shake');
+				setTimeout(function(){$('#terminal').addClass('shake')}
 			, 1);
 		});
 	</script>

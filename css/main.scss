@@ -156,7 +156,7 @@ body {
 	height: 100vh;
 }
 
-#console {
+#terminal {
 	text-alignt: left;
 	border-radius: 5px;
 	min-height: 1px;
@@ -174,6 +174,8 @@ body {
 		left: 0 !important;
 		min-height: 100vh;
 		min-width: 100vw;
+		max-height: 100vh;
+		max-width: 100vw;
 		top: 0;
 		transition: min-width .25s linear, min-height .25s .05s linear;
 	}
@@ -181,15 +183,15 @@ body {
 		max-height: 68px;
 		max-width: 300px;
 		min-width: 300px;
-		transition: max-height .25s linear, max-width .25s .35s  linear;
-		.console__body {
+		transition: max-height .25s linear, max-width .25s .35s  linear, min-width .25s linear, min-height .25s .55s linear;
+		.terminal__body {
 			p, span {
 				opacity: 0;
 				transition: all .25s linear;
 			}
 		}
 	}
-	.console__header {
+	.terminal__header {
 		background: $gray;
 		color: $black;
 		padding: 20px;
@@ -216,7 +218,7 @@ body {
 			}
 		}
 	}
-	.console__body {
+	.terminal__body {
 		position: relative;
 		padding: 20px;
 		transition:  all .25s linear;
@@ -293,7 +295,7 @@ body {
 }
 
 @media only screen and (min-width: 100px) and (max-width: 500px) {
-	#console {
+	#terminal {
 		min-width: 85vw;
 		max-width: 85vw;
 	}
@@ -303,7 +305,7 @@ body {
 }
 
 @media only screen and (min-width: 1200px) {
-	#console {
+	#terminal {
 		min-width: 50vw;
 		max-width: 50vw;
 	}
