@@ -82,7 +82,7 @@ body {
 
 #console {
   text-alignt: left;
-  border-radius: 0px 0px 5px 5px;
+  border-radius: 5px;
   min-height: 1px;
   min-width: 70vw;
   max-height: 100vh;
