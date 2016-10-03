@@ -232,6 +232,13 @@ body, html {
   .blue:hover, .blue:focus {
     color: #40c4ff; }
 
+input, textarea {
+  background: transparent;
+  border: none; }
+
+textarea {
+  width: 100%; }
+
 @media only screen and (min-width: 100px) and (max-width: 500px) {
   #terminal {
     width: 85vw;
