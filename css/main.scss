@@ -158,6 +158,7 @@ body {
 
 #console {
 	text-alignt: left;
+	border-radius: 0px 0px 5px 5px;
 	min-height: 1px;
 	min-width: 70vw;
 	max-height: 100vh;
@@ -168,8 +169,12 @@ body {
 		transition: all .25s .45s linear;
 	}
 	&.big {
+		position: absolute;
+		top: 0 !important;
+		left: 0 !important;
 		min-height: 100vh;
 		min-width: 100vw;
+		top: 0;
 		transition: min-width .25s linear, min-height .25s .05s linear;
 	}
 	&.small {
@@ -188,6 +193,7 @@ body {
 		background: $gray;
 		color: $black;
 		padding: 20px;
+		border-radius: 5px 5px 0px 0px;
 		.ui {
 			&.ui--window {
 				display: inline-block;
@@ -215,6 +221,7 @@ body {
 		padding: 20px;
 		transition:  all .25s linear;
 		-webkit-transition:  all .25s linear;
+		border-radius: 0px 0px 5px 5px;
 	}
 }
 

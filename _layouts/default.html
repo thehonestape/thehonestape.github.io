@@ -8,7 +8,7 @@
     <!-- {% include header.html %} -->
 
 		<main class="bio">
-			<div id="console" draggable="true">
+			<div id="console">
 				<div class="console__header">
 					<ul class="ui ui--window">
 						<li class="action action--close"></li>
@@ -32,6 +32,7 @@
 			</div>
 		</main>
 		<script>
+		$( "#console" ).draggable({ handle: ".console__header" });
 		$('.action--max').click(function() {
 			$('#console').removeClass('small');
 			$('#console').toggleClass('big');
