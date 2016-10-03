@@ -43,6 +43,52 @@
   -webkit-animation-name: headShake;
   animation-name: headShake; }
 
+@-webkit-keyframes bounceInUp {
+  0%, 60%, 75%, 90%, 100% {
+    -webkit-transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1); }
+  0% {
+    opacity: 0;
+    -webkit-transform: translate3d(0, 3000px, 0);
+    transform: translate3d(0, 3000px, 0); }
+  60% {
+    -webkit-transform: translate3d(0, -20px, 0);
+    transform: translate3d(0, -20px, 0); }
+  75% {
+    -webkit-transform: translate3d(0, 10px, 0);
+    transform: translate3d(0, 10px, 0); }
+  90% {
+    opacity: 1;
+    -webkit-transform: translate3d(0, -5px, 0);
+    transform: translate3d(0, -5px, 0); }
+  100% {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0); } }
+@keyframes bounceInUp {
+  0%, 60%, 75%, 90%, 100% {
+    -webkit-transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1); }
+  0% {
+    opacity: 0;
+    -webkit-transform: translate3d(0, 3000px, 0);
+    transform: translate3d(0, 3000px, 0); }
+  60% {
+    -webkit-transform: translate3d(0, -20px, 0);
+    transform: translate3d(0, -20px, 0); }
+  75% {
+    -webkit-transform: translate3d(0, 10px, 0);
+    transform: translate3d(0, 10px, 0); }
+  90% {
+    opacity: 1;
+    -webkit-transform: translate3d(0, -5px, 0);
+    transform: translate3d(0, -5px, 0); }
+  100% {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0); } }
+.bounceInUp {
+  -webkit-animation-name: bounceInUp;
+  animation-name: bounceInUp; }
+
 /* caret blink animation */
 @keyframes blink {
   0% {
@@ -60,7 +106,7 @@ button:focus {
   [contenteditable="true"]:focus br {
     display: none; }
 
-body {
+body, html {
   background: #11171a;
   color: #fff;
   font-family: "Source Code Pro", monospace;
@@ -87,7 +133,8 @@ body {
   max-height: 100vh;
   background: #263238;
   transition: max-height .25s .35s linear, max-width .25s  linear, width .25s  .05s linear, min-height .25s linear;
-  overflow: hidden; }
+  overflow: hidden;
+  animation: bounceInUp .5s forwards; }
   #terminal p, #terminal span {
     transition: all .25s .45s linear; }
   #terminal.big {
@@ -137,7 +184,7 @@ body {
 .caret {
   display: inline-block;
   position: relative;
-  animation: blink .25s ease-in-out infinite;
+  animation: blink .45s ease-in-out infinite;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
