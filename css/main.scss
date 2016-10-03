@@ -158,26 +158,29 @@ body {
 
 #console {
 	text-alignt: left;
-	min-height: 10px;
+	min-height: 1px;
 	min-width: 70vw;
-	max-width: 70vw;
+	max-height: 100vh;
 	background: $black;
-	transition: all .25s linear;
-	-webkit-transition: all .25s linear;
+	transition: max-height .25s .35s linear, max-width .25s  linear, min-width .25s  .05s linear, min-height .25s linear;
 	overflow: hidden;
+	p, span {
+		transition: all .25s .45s linear;
+	}
 	&.big {
 		min-height: 100vh;
 		min-width: 100vw;
+		transition: min-width .25s linear, min-height .25s .05s linear;
 	}
 	&.small {
-		min-width: 80px;
-		min-height: 30px;
+		max-height: 68px;
+		max-width: 300px;
+		min-width: 300px;
+		transition: max-height .25s linear, max-width .25s .35s  linear;
 		.console__body {
-			min-height: 0px;
-			padding: 0px;
-			overflow: hidden;
 			p, span {
-				display: none;
+				opacity: 0;
+				transition: all .25s linear;
 			}
 		}
 	}
@@ -208,11 +211,10 @@ body {
 		}
 	}
 	.console__body {
+		position: relative;
 		padding: 20px;
-		min-height: 40px;
-		min-width: 10px;
-		transition: all .25s linear;
-		-webkit-transition: min-height .25s linear;
+		transition:  all .25s linear;
+		-webkit-transition:  all .25s linear;
 	}
 }
 
