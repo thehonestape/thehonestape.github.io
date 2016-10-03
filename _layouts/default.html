@@ -33,6 +33,10 @@
 		</main>
 		<script>
 		$( "#terminal" ).draggable({ handle: ".terminal__header" });
+		$( "#terminal" ).resizable({
+      minHeight: 68,
+      minWidth: 300
+    });
 		$('.action--max').click(function() {
 			$('#terminal').removeClass('small');
 			$('#terminal').toggleClass('big');
