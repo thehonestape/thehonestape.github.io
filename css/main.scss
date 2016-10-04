@@ -211,7 +211,8 @@ body, html {
 }
 
 .shake {
-	animation: headShake ease-in 1s;
+	animation: headShake 1s forwards !important;
+	-webkit-animation: headShake 1s forwards !important;
 }
 
 .system.system__bar {
