@@ -85,8 +85,8 @@
 <!--Static Page : pages/index.md-->
 
 {%- if page.feedformat == "home" -%}
-<div class="home-notes mt-6">   
-    <h5 class="home-sub-title pb-0">Latest Notes</h5>
+<div class="home-notes">   
+    <h5 class="home-sub-text pt-0">Notes</h5>
 
     {% assign note_items = site.notes | sort: "date" | reverse %}
     {% for note_items in note_items %}
@@ -103,33 +103,11 @@
         {%-endif -%}
     {%- endfor -%}
     <a href="/notes">
-        <h6 class="home-sub-title arrow-link">
+        <h6 class="arrow-link">
             <span class="text">See All Notes</span>
         </h6>
     </a>
     </div>
 
-    <div class="home-notes mt-6">   
-    <h5 class="home-sub-title ">Latest Notes</h5>
-
-    {% assign note_items = site.notes | sort: "date" | reverse %}
-    {% for note_items in note_items %}
-        {%- if note_items.feed == "show" -%}
-            <div class="list-feed">
-                <a href="{{ site.baseurl }}{{note_items.url}}" style="text-decoration: none;display: flex;justify-content: space-between;flex-direction: row;width: 100%;">
-                    <article>
-                        <div class="writinglist-title">
-                            {{note_items.title }}
-                        </div>
-                    </article>
-                </a>
-            </div>
-        {%-endif -%}
-    {%- endfor -%}
-    <a href="/notes">
-        <h6 class="home-sub-title arrow-link">
-            <span class="text">See All Notes</span>
-        </h6>
-    </a>
-    </div>
+    
 {%-endif -%}

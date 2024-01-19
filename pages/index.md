@@ -4,8 +4,7 @@
 
 layout: Post
 permalink: /
-title: Jekyll Garden
+title: The Honest Ape
 feedformat: home
 ---
 
-### Designing for meaning, creating identities, and shaping worlds. Words and images created and curated Abraham Garcia Flores.
