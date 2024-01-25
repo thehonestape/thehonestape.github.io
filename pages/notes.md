@@ -1,6 +1,6 @@
 ---
 layout: Post
-permalink: /notes
+permalink: /writing
 feedformat: card
-title: Notes
+title: Writing
 ---

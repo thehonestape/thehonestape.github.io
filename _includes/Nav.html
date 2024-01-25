@@ -1,39 +1,9 @@
-{%- comment -%}
-*
-* MIT License
-* Copyright (c) 2020 Raghuveer S, Hiran Venugopalan
-*
-* Permission is hereby granted, free of charge, to any person obtaining a copy
-* of this software and associated documentation files (the "Software"), to deal
-* in the Software without restriction, including without limitation the rights
-* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-* copies of the Software, and to permit persons to whom the Software is
-* furnished to do so, subject to the following conditions:
-*
-* The above copyright notice and this permission notice shall be included in all
-* copies or substantial portions of the Software.
-*
-* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-* SOFTWARE.
-*
-* File: Nav.html
-* Author Raghuveer S, Hiran Venugopalan
-*
-* This file contains the markup for the context menu thingy you see when you right
-* click on the post titles on the home page.
-*
-{%- endcomment -%}
 <div class="columns is-centered">
   <div class="column is-12-widescreen  is-12-desktop is-12-tablet is-12-mobile">
     <nav class="navbar is-transparent" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
           <a class="navbar-item pl-0 ml-0" href="{{ site.baseurl }}/index.html">
-              <h1> {{site.heading}}</h1></a>
+              {%- include logo.svg -%}
           <div class="navbar-item navbar-dark-mode__mobile is-hidden-tablet" onclick="modeSwitcher()">
             <div class="buttons">
               <a class="button is-text">
@@ -50,12 +20,11 @@
             <span aria-hidden="true"></span>
           </a>
         </div>
-        
-
+      
         
         <div id="main-nav" class="navbar-menu">
           <div class="navbar-start">
-            <a class="navbar-item" href="{{'/notes' | relative_url}}" class="navbar-item">Notes</a>
+            <a class="navbar-item" href="{{'/Writing' | relative_url}}" class="navbar-item">Writing</a>
             <!-- <a href="{{'/about' | relative_url}}" class="navbar-item">About</a> -->
             <a class="navbar-item" href="https://www.are.na/abraham-garcia-flores" target="_blank"><i class="fa-sm fa-sharp fa-light fa-asterisk"></i></a>
             <a class="navbar-item" href="https://twitter.com/thehonestape" target="_blank"><i class="fa-sm fa-brands fa-twitter"></i></a>

@@ -83,10 +83,9 @@
 
 <!--Dynamic List Feed-->
 <!--Static Page : pages/index.md-->
-
 {%- if page.feedformat == "home" -%}
 <div class="home-notes">   
-    <h5 class="home-sub-text pt-0">Notes</h5>
+    <h5 class="home-sub-text pt-0">Words</h5>
 
     {% assign note_items = site.notes | sort: "date" | reverse %}
     {% for note_items in note_items %}
@@ -102,9 +101,9 @@
             </div>
         {%-endif -%}
     {%- endfor -%}
-    <a href="/notes">
-        <h6 class="arrow-link">
-            <span class="text">See All Notes</span>
+    <a href="/writing">
+        <h6 class="icon-link">
+            <span class="text">See All <i class="fa-sharp fa-solid fa-arrow-right-long"></i></span>
         </h6>
     </a>
     </div>
