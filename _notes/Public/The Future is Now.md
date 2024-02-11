@@ -1,7 +1,9 @@
 ---
 featured-image: https://cdn-images-1.medium.com/max/3600/0*Zg-JF4LT685A8BtJ.jpg
+categories: [Writing, Images]
 feed: show
 date : 31-03-2020
+featured: true
 source: https://medium.com/workhorse/the-future-is-now-workhorse-4a78b7997b8d
 author: Abraham Garcia Flores
 ---
@@ -30,11 +32,10 @@ As the Brookings Institute points out in their blog post entitled, “ [The](htt
 
 ## Live Events
 
- <iframe src="https://medium.com/media/5485485488c90aa478a1c64cc340e2f6" frameborder=0></iframe>
+
 
 If you have yet to see clips of [WWE performing matches without an audience](https://www.vulture.com/2020/03/pro-wrestling-no-audience-coronavirus.html), you need to watch it now. It is a sight to behold. The combination of over the top acting and empty calls to the audience results in a surreal combination of performance art and sport. Before the NCAA called off the tournament they had talked about playing games without a crowd. On St. Patrick’s Day, I watched a live-streamed Dropkick Murphy’s concert that was filmed in a studio with no audience. DJs are streaming live sets from home and getting views and press. Michelle Obama even “showed up” to [D-Nice’s Club Quarantine](https://variety.com/2020/music/news/dj-d-nice-club-quarantine-rihanna-michelle-obama-interview-1203541666/).
 
- <iframe src="https://medium.com/media/f275692dfb501482d8cad04af9b407e3" frameborder=0></iframe>
 
 These all seem like things I’ve seen before: recorded live concerts and events, minus the lack of audience, of course. But then, I saw something truly peculiar. On March 18, Sony live-streamed a press conference with what seemed to be a live audience. However, on closer look, this was very obviously a green screen and the “audience” [was made up of silhouettes](https://www.pushsquare.com/news/2020/03/poll_so_er_was_that_ps5_deep_dive_audience_real_or_not). It’s sort of like a visual laugh track. I found this absurd but then I remembered [Black Mirror’s “Fifteen Million Merits,”](https://www.youtube.com/watch?v=Fay3bevS0HM) where the audience of the “American Idol” styled competition is made up of digital characters powered by remote reactions from viewers. So maybe a simulated audience isn’t so out there.
 

@@ -1,21 +1,68 @@
-<h2 class="pt-0"><strong>Design for Meaning: Creating Identities and Shaping Worlds.</strong> The words and images of Abraham Garcia Flores.</h2>
+<div class="column is-6-desktop">
+    <div id="terminal">
+    <div class="terminal__header tx-2">
+        <ul class="content ui ui--window">
+            <li class="action action--close"></li>
+            <li class="action action--min"></li>
+            <li class="action action--max"></li>
+        </ul>
+        <span>The Honest Ape | Abraham Garcia Flores</span>
+    </div>
+    <div class="terminal__body">
+        <h4>This site is an ode to the simple, personal, and personable websites I've always loved. Treat this as a record of my practice and process.</h4>        <span class="caret"></span>
 
-<h4>I am in interdiscipinary designer that helps humans understand and share complex ideas, emotions, and experiences. I collaborate with experts and eccentrics to find new ways for humans to discover, define, design, and develop meaning.</h4>
+        
+    </div>
+</div>
+<script>
+$("#terminal").draggable({handle: ".terminal__header"});
+$("#terminal").resizable({minHeight: 68, minWidth: 300});
+$('.action--max').click(function () {
+$('#terminal')
+    .removeClass('small')
+    .toggleClass('big')
+    .animate({
+        top: 0,
+        left: 0
+    }, 1000); // Animate over 500 milliseconds
+});
 
-<div class="social-links pt-0">
-    <div class="field has-addons">
-        <p class="control">
+$('.action--min').click(function () {
+$('#terminal').removeClass('big');
+$('#terminal').toggleClass('small');
+});
+$('.action--close').click(function () {
+$('#terminal').removeClass('shake');
+setTimeout(function () {
+    $('#terminal').addClass('shake')
+}, 1);
+});
+</script>
+    <figure class="image mt-0">
+        <img class="is-rounded " src="{{ '/assets/img/ilo-hands.png' | relative_url }}">
+    </figure>
+</div>
+<div class="column is-6-desktop">
+
+
+
+
+<h1>
+            <strong>Design for Meaning, Creating Identities, and Shaping Worlds.</strong> The words and images of Abraham Garcia Flores.</h1>
+<h4>Hey, I'm Abraham, the co-founder of <a class="yellow" href="http://wrkhrs.co" target="_blank">Workhorse</a>, a branding consultancy that collaborates with experts and institutions to find new ways for humans to discover, define, design, and develop meaningful experiences, identities, and products. </h4>
+
+<div class="social-links pt-5">
+
+            <a href="https://wrkhrs.co" class="button">
+                <span>Learn More</span>
+            </a>
+
             <a class="button is-primary"  href="mailto:abe@wrkhrs.co" target="_blank">
                 <span class="icon is-small">
                     <i class="fa-thin fa-envelope"></i>
                 </span>
                 <span>Get in Touch</span>
             </a>
-        </p>
-        <p class="control">
-            <a href="https://wrkhrs.co" class="button">
-                <span>Learn More</span>
-            </a>
-        </p>
-    </div>
+        </div>
+
 </div>

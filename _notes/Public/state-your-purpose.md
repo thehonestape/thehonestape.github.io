@@ -1,6 +1,9 @@
 ---
+featured-image: https://cdn-images-1.medium.com/max/5760/1*az7ZyM8LGs4tG2I_RK_zQg.jpeg
 title : State Your Purpose!
+categories: [Writing, Images]
 feed: show
+featured: true
 date : 31-10-2017
 ---
 

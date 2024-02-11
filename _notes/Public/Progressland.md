@@ -1,5 +1,8 @@
 ---
+featured-image: https://cdn-images-1.medium.com/max/3840/1*YcXORBRtBKat91bBy3L0Bw.jpeg
+categories: [Writing, Images]
 feed: show
+featured: true
 date : 16-08-2023
 source: https://medium.com/workhorse/progressland-b192771b753
 author: Abraham Garcia Flores
