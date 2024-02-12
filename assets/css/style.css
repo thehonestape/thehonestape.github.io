@@ -7,7 +7,20 @@ layout: Stylesheet
 html {
     --color-brown-dark: #281a16;
     --color-brown-light: #be7f51;
-    --font-family-sans: "Inter", system-ui, sans-serif;
+    --font-family-sans: "Inter",
+        BlinkMacSystemFont,
+        -apple-system,
+        "Segoe UI",
+        "Roboto",
+        "Oxygen",
+        "Ubuntu",
+        "Cantarell",
+        "Fira Sans",
+        "Droid Sans",
+        "Helvetica Neue",
+        "Helvetica",
+        "Arial",
+        sans-serif !important;
     --font-family-mono: "VT323", monospace;
 
 }
@@ -70,7 +83,9 @@ html[data-theme="dark"] {
     --text-xxl: clamp(1.94rem, calc(1.80rem + 0.73vw), 2.96rem);
     --text-jumbo: clamp(2.33rem, calc(2.10rem + 1.15vw), 4rem);
     --text-weight-bold: 600;
+    --text-weight-semibold: 500;
     --text-weight-normal: 400;
+    --text-weight-light: 300;
     --text-leading-wide: 1.8em;
     --text-leading-normal: 1.m;
     --text-leading-narrow: 1.4em;
@@ -92,21 +107,21 @@ html[data-theme="dark"] {
 h1 {
     font-size: var(--text-xxl);
     line-height: var(--text-leading-narrow);
-    font-weight: var(--text-weight-normal);
+    font-weight: var(--text-weight-semibold);
     padding: var(--padding-thin) 0;
 }
 
 h2 {
     font-size: var(--text-xl);
     line-height: var(--text-leading-narrow);
-    font-weight: var(--text-weight-normal);
+    font-weight: var(--text-weight-semibold);
     padding: var(--padding-thin) 0;
 }
 
 h3 {
     font-size: var(--text-xl);
     line-height: var(--text-leading-narrow);
-    font-weight: var(--text-weight-normal);
+    font-weight: var(--text-weight-semibold);
     padding: var(--padding-thin) 0;
 }
 
@@ -337,14 +352,12 @@ ul ul {
 .notelist-feed {
     color: var(--color-text-main);
     display: block;
-    padding: 1rem;
     border-bottom: 1px solid var(--color-border-light);
 }
 
 .notelist-feed:hover {
     color: var(--color-text-main);
     display: block;
-    padding: 1rem;
     border-bottom: 1px solid var(--color-text-link);
     background-color: var(--color-bg-sub);
 }
@@ -374,23 +387,26 @@ ul ul {
 .list-feed {
     display: block;
     border: 1px solid transparent;
-    transition: border 0.125s ease-in-out, background 0.125s ease-in-out;
+    transition: border 0.125s ease-in-out, background-color 0.125s ease-in-out, box-shadow 0.125s ease-in-out;    
+}
+.home-notes .list-feed {
+    border-bottom: 1px solid var(--color-border-light);
 }
 
 .list-feed:hover {
     display: block;
     border: 1px solid var(--color-text-link);
     background-color: var(--color-bg-sub);
+    box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1), 0 0 0 1px #7c7c7c;
     transition: border 0.25s ease-in-out, background-color 0.25s ease-in-out;
 }
 
 .list-feed:hover button {
-    color: var(--color-text-link);
+    background: var(--color-bg-main);
 }
 
 .list-feed h6, .list-feed button { 
      color: var(--color-text-main);
-
 }
 
 .list-feed a {
@@ -1018,17 +1034,18 @@ hr {
 }
 
 .tag {
-    color: var(--color-text-main);
-    background: var(--color-bg-main);
+    color: var(--color-text-main) !important;
+    background: var(--color-bg-main) !important;
     text-decoration: none;
     display: inline-block;
-    padding: 0 12px;
+    padding: 0 12px !important;
+    border: 1px solid var(--color-border-light);
     border-radius: 32px;
     height: auto;
     vertical-align: middle;
-    font-family: var(--primary-font-family);
+    font-family: var(--font-family-mono);
+    font-size: var(--text-m) !important;
     font-weight: normal !important;
-    font-size: 13px;
 }
 
 .content {}
@@ -1671,7 +1688,10 @@ a[href^="http"] {
     text-align: left;
     border-radius: 5px;
     min-height: 1px;
-    transition: max-height .25s .35s linear, max-width .25s linear, width .25s .05s linear, min-height .25s linear;
+    transition: max-height .25s .35s linear,
+        max-width .25s linear,
+        width .25s .05s linear,
+        min-height .25s linear;
     overflow: hidden;
     z-index: 9999999;
 }
@@ -1687,7 +1707,7 @@ a[href^="http"] {
 
 #terminal.big {
     position: absolute;
-    min-height: 100vh;
+    height: 100vh;
     width: 100vw;
     max-height: 100vh;
     max-width: 100vw;

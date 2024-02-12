@@ -47,12 +47,24 @@
     {% assign note_items = site.notes | sort: "date" | reverse %}
     {% for note_items in note_items %}
         {%- if note_items.feed == "show" -%}
-                <div class="notelist-feed">
+                <div class="card notelist-feed">
                     <a href="{{ site.baseurl }}{{note_items.url}}">
-                        <h6>{{ note_items.title }}</h6>
-                        <p class="excerpt">
-                            {{ note_items.content | strip_html | strip | remove: "[[" | remove: "]]" | remove: "-" | escape | truncate: 200 }}
-                        </p>
+                         {%- if note_items.featured-image -%}
+                         <div class="card-image">
+                            {% for category in note_items.categories %}
+                                        <span style="text-transform: capitalize;" class="tag is-primary is-rounded">{{ category }}</span>
+                                    {% endfor %}
+                             <figure class="home-image ml-0 mt-0 mb-0 pt-0">
+                                <img src="{{- note_items.featured-image | relative_url -}}" alt="" class="blog-roll-image">
+                                </figure>
+                            </div>
+                        {%- endif -%}
+                        <div class="card-content">
+                            <h5 class="title mb-0">{{ note_items.title }}</h6>
+                            <p class="excerpt">
+                                {{ note_items.content | strip_html | strip | remove: "[[" | remove: "]]" | remove: "-" | escape | truncate: 200 }}
+                            </p>
+                        </div>
                     </a>
                 </div>
         {%- endif -%}
@@ -85,7 +97,7 @@
 <!--Static Page : pages/index.md-->
 {%- if page.feedformat == "home" -%}
 <div class="home-notes">   
-    <h5 class="home-sub-text pt-0">Writing</h5>
+    <h5 class="title pt-0">Writing</h5>
 
     {% assign note_items = site.notes | sort: "date" | reverse %}
     {% for note_items in note_items %}

@@ -39,14 +39,7 @@
                 </article>
             {%-endif -%}
         {%- endfor -%}
-        <a href="/writing">
-            <!--
-        <h6 class="icon-link">
-            <span class="text">See All <i class="fa-sharp fa-solid fa-arrow-right-long"></i>
-            </span>
-        </h6>
-        -->
-        </a>
+   
     </div>
 
     <div class="container pt-6 mt-6 is-fluid home-feed">
@@ -57,15 +50,14 @@
             </div>
             <div class="column is-multiline is-8">
                 <div class="columns is-multiline">
-                    <div class="column is-12"> <h4 class="home-sub-text pt-0">Projects</h4></div>
+                    <div class="column is-12"> <h4 class="title pt-0">Projects</h4></div>
 
-                {% assign note_items = site.notes | sort : "date" | reverse %}
+                {% assign note_items = site.notes | sort : "date" | reverse |  where: "categories","Design" %}
                 {% for note_items in note_items %}
-                    {% if note_items.featured %}
                         <article class="column is-half">
                             {%- if note_items.external_link -%}
                                 <a href="{{ note_items.external_link }}" target="_blank" style="text-decoration: none;display: flex;justify-content: space-between;flex-direction: row;width: 100%;">
-                                {%- else -%}
+                                {%- else -%}`
                                     <a href="{{ site.baseurl }}{{note_items.url}}" style="text-decoration: none;display: flex;justify-content: space-between;flex-direction: row;width: 100%;">
                                     {%- endif -%}
                                     <div class="card list-feed">
@@ -83,7 +75,6 @@
                                             <h3 class="title is-4">{{note_items.title }}</h3>
                                         </div>
                                     </div>
-                                {%-endif -%}
                             </a>
                         </article>
                     {%- endfor -%}

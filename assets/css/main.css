@@ -436,7 +436,7 @@ button,
 input,
 select,
 textarea {
-  font-family: "usual", BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif; }
+  font-family: "Inter", BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif; }
 
 code,
 pre {
@@ -845,13 +845,13 @@ a.has-text-danger:hover, a.has-text-danger:focus {
   font-weight: 700 !important; }
 
 .is-family-primary {
-  font-family: "usual", BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif !important; }
+  font-family: "Inter", BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif !important; }
 
 .is-family-secondary {
-  font-family: "usual", BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif !important; }
+  font-family: "Inter", BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif !important; }
 
 .is-family-sans-serif {
-  font-family: "usual", BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif !important; }
+  font-family: "Inter", BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif !important; }
 
 .is-family-monospace {
   font-family: monospace !important; }
@@ -3301,12 +3301,22 @@ fieldset[disabled] .select select:hover {
 .card:hover {
     box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1), 0 0px 0 1px rgba(10, 10, 10, 0.02);
 }
+.card:hover .card-image .tag {
+  background: var(--color-bg-main) !important;
+  color: var(--color-text-main) !important;
+}
+
+.card:hover .card-content {
+  border-top: 1px solid var(--color-brown-light);
+}
 
 .card {
-  background-color: var(--color-bg-sub);
+  background-color: transparent;
   color: var(--color-text-main);
+  border: 1px solid var(--color-border-light);
   max-width: 100%;
   position: relative; }
+
 
 .card-header {
   background-color: transparent;
@@ -3333,14 +3343,30 @@ fieldset[disabled] .select select:hover {
 
 .card-image {
   display: block;
-  position: relative; }
+  position: relative;
+  border: 1px 1px 0px 1px var(--color-border-light); 
+}
 
-.card-image figure {
+.card-image figure, .card-image figure img {
   margin: 0px;
+}
+.card-image .tag {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  z-index: 2;
+  background: transparent !important;  
+      backdrop-filter: blur(12px) saturate(200%);
+        -webkit-backdrop-filter: blur(12px) saturate(200%);
+  transition: all 0.25s ease-in-out;
+
 }
 .card-content {
   background-color: transparent;
-  padding: 1.5rem; }
+  padding: 1rem; 
+  border-top: 1px solid var(--color-border-light);
+  transition: border-top 0.3s ease;
+}
 
 .card-footer {
   background-color: transparent;
@@ -7702,7 +7728,7 @@ a.tag:hover {
     }
   
     .is-family-primary {
-      font-family: BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif !important;
+      font-family: var(--font-family-sans-serif) !important;
     }
   
     .is-family-secondary {
