@@ -6,6 +6,6 @@ layout: Post
 permalink: /
 title: The Honest Ape
 feedformat: home
-featured-image: assets/img/OGimage.png
+featured-image: assets/img/OGImg.png
 ---
 
