@@ -37,7 +37,11 @@
         property="og:description">
         <meta content="{{ site.url }}/about/" property="article:author">
         <meta name="facebook-domain-verification" content="6kck4s6moxw58kw5wczjc6tuc2esd3" />
-        <meta property="og:image" content="{{ site.url }}/assets/img/OGImg.png">
+        {% if page.featured-image %}
+  <meta content="{{ site.url }}/{{ page.featured-image }}" property="og:image">
+{% else %}
+  <meta content="{{ site.url }}/assets/img/OGImg.png" property="og:image">
+{% endif %}
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <script src="https://code.jquery.com/jquery-latest.min.js"></script>
