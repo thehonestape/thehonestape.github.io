@@ -1,6 +1,6 @@
 ---
 featured-image: https://wrkhrs.co/wp-content/uploads/2021/09/@wrkhrsco-dx-film-fest-logos.jpg
-external_link: hhttps://wrkhrs.co/wp-content/uploads/2021/09/@wrkhrsco-dx-film-fest-logos.jpg
+external_link: https://wrkhrs.co/portfolio/investigative-film-festival/
 categories: [Design]
 feed: show
 featured: false

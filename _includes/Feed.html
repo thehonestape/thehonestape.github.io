@@ -48,7 +48,11 @@
     {% for note_items in note_items %}
         {%- if note_items.feed == "show" -%}
                 <div class="card notelist-feed">
-                    <a href="{{ site.baseurl }}{{note_items.url}}">
+                    {%- if note_items.external_link -%}
+                                <a href="{{ note_items.external_link }}" target="_blank">
+                                {%- else -%}
+                                    <a href="{{ site.baseurl }}{{note_items.url}}">
+                                    {%- endif -%}
                          {%- if note_items.featured-image -%}
                          <div class="card-image">
                             {% for category in note_items.categories %}
