@@ -8,4 +8,3 @@ title: The Honest Ape
 feedformat: home
 featured-image: assets/img/OGImg.png
 ---
-

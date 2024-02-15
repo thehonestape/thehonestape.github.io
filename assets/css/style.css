@@ -1871,7 +1871,6 @@ textarea {
 
 @media only screen and (min-width: 1200px) {
     #terminal {
-        width: 600px;
-        max-width: 50vw;
+        max-width: 600px;
     }
 }

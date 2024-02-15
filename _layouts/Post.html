@@ -113,17 +113,24 @@
                     {%- endif -%}
 
                     {%- if page.permalink == "/about" -%}
+                    <div class="container"> 
                         <div class="columns is-multiline">
                             <div class="column is-6-widescreen  is-6-desktop is-6-tablet is-12-mobile">
-                            {%- include Homepage.html -%}
-                               
+                                <img src="/assets/img/abe.jpg" alt="" class="blog-roll-image">
                             </div>
-                            <div class="column is-6-widescreen  is-6-desktop is-6-tablet is-12-mobile">
-                                {%- include intro-text.html -%}
+                            <div class="pt-0 mt-0 column is-6-widescreen  is-6-desktop is-6-tablet is-12-mobile">
                                 {%- include Content.html -%}
+
+ <a class="button is-primary"  href="mailto:abe@wrkhrs.co" target="_blank">
+    <span class="icon is-small">
+        <i class="fa-thin fa-envelope"></i>
+    </span>
+    <span>Get in Touch</span>
+</a>
        
                             </div>
                         </div>
+                    </div>
                     {%- endif -%}
 
                     <!--- Notes Feed Layout-->
