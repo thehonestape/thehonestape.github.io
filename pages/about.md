@@ -6,11 +6,14 @@ featured-image: assets/img/abe.jpg
 
 ---
 
-#### About Abraham Garcia Flores
-Abraham is a designer whose practice explores the underlying connections between disparate domains, topics, and ideas. Abraham's restless curiosity, talent, and good luck have culminated in diverse skills and experiences spanning design, art, academia, science, and the occasional stint in advertising.
+#### Hi, I'm Abraham.
+I am a designer whose practice explores the underlying connections between seemingly disparate domains, topics, and ideas. My curiosity, talent, teachers, and mentors have allowed me to collect various skills and experiences spanning design, art, academia, science, and advertising. I utilize these experiences, perspectives, and tools to create, communicate, and collaborate with like-minded people who want to push the boundaries of design by focusing on meaningful experiences.
 
-As Workhorse's co-founder and design director, Abraham has spent the last decade working directly with founders, experts, and innovators to transform businesses into brands and ideas into identities. A natural systems thinker, Abraham can see the big picture by looking at the details and thrives in bringing together experts and expertise to create meaningful experiences and authentic identities across space, time, media, and millennia.
+#### I design brands and systems.
+Since 2014, I have operated an independent and interdisciplinary design studio, Workhorse, in Washington, DC. By fostering brands and relationships, we have helped founders, independent experts, and institutions develop meaningful brands and experiences backed by solid design foundations and practical systems.
 
 
-#### Work with me
-Are you a founder, scientist, researcher, or president of the United States? I love working with people to solve complex problems, discover new possibilities, and shape the world of tomorrow. If you're on Capitol Hill, stop by, and let's get to work! 
+#### A design expert for experts.
+I love working with experts to solve complex problems and discover the underlying connections across domains. I specialize in helping people define design problems more effectively in order to design more comprehensive and effective brands and design systems.
+
+Are you looking for help connecting interspersed thoughts in your design thinking? Are you an institution trying to incorporate new technology and processes into your systems? Are you an innovator looking for someone to build a meaningful brand and design system for growth? Let's talk! 
