@@ -13,7 +13,7 @@ I am a designer whose practice explores the underlying connections between seemi
 Since 2014, I have operated an independent and interdisciplinary design studio, Workhorse, in Washington, DC. By fostering brands and relationships, we have helped founders, independent experts, and institutions develop meaningful brands and experiences backed by solid design foundations and practical systems.
 
 
-#### A design expert for experts.
+#### I can help you connect the dots.
 I love working with experts to solve complex problems and discover the underlying connections across domains. I specialize in helping people define design problems more effectively in order to design more comprehensive and effective brands and design systems.
 
 Are you looking for help connecting interspersed thoughts in your design thinking? Are you an institution trying to incorporate new technology and processes into your systems? Are you an innovator looking for someone to build a meaningful brand and design system for growth? Let's talk! 
