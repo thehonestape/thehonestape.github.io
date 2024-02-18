@@ -3352,12 +3352,12 @@ fieldset[disabled] .select select:hover {
   margin: 0px;
 }
 .card-image .tag {
-  color: var(--color-text-main) !important;
+  color: #fff!important;
   position: absolute;
   top: 1rem;
   left: 1rem;
   z-index: 2;
-  background: rgba(38, 32, 32, 0.3) !important;  
+  background: rgba(229, 211, 211, 0.3) !important;  
       backdrop-filter: blur(12px) saturate(200%);
         -webkit-backdrop-filter: blur(12px) saturate(200%);
   transition: all 0.25s ease-in-out;

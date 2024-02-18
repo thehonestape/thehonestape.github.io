@@ -16,30 +16,10 @@
         
     </div>
 </div>
-<script>
-$("#terminal").draggable({handle: ".terminal__header"});
-$("#terminal").resizable({minHeight: 68, minWidth: 300});
-$('.action--max').click(function () {
-$('#terminal')
-    .removeClass('small')
-    .toggleClass('big')
-    .animate({
-        top: 0,
-        left: 0
-    }, 1000); // Animate over 500 milliseconds
-});
 
-$('.action--min').click(function () {
-$('#terminal').removeClass('big');
-$('#terminal').toggleClass('small');
-});
-$('.action--close').click(function () {
-$('#terminal').removeClass('shake');
-setTimeout(function () {
-    $('#terminal').addClass('shake')
-}, 1);
-});
-</script>
+
+
+
     <figure class="image mt-0">
         <img class="is-rounded " src="{{ '/assets/img/ilo-hands.png' | relative_url }}">
     </figure>
