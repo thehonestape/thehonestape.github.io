@@ -1,4 +1,5 @@
- 
+ {% comment %}
+ ////Featured Notes Section
 <div class="container is-fluid featured-notes">
     {% assign note_items = site.notes | sort : "date" | reverse %}
     {% for note_items in note_items %}
@@ -41,6 +42,8 @@
         {%- endfor -%}
    
     </div>
+     {% endcomment %}
+
 
     <div class="container pt-6 mt-6 is-fluid home-feed">
         <div class="columns ">

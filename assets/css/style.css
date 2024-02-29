@@ -1681,51 +1681,38 @@ a[href^="http"] {
 /*Terminal*/
 
 #terminal {
-    font-family: var(--font-family-mono) !important;
+    font-family: var(--font-family-mono);
     position: absolute;
     top: 0;
     bottom: 0;
     text-align: left;
     border-radius: 5px;
-    min-height: 1px;
+    width: 100%;
+    height: fit-content;
     transition: max-height .25s .35s linear,
         max-width .25s linear,
         width .25s .05s linear,
         min-height .25s linear;
     overflow: hidden;
     z-index: 9999999;
-    animation: bounceInUp 1s forwards !important;
-        -webkit-animation: bounceInUp 1s forwards !important;
 }
 
 #terminal p, #terminal h4 {
         font-family: var(--font-family-mono) !important;
 }
 
-#terminal p,
-#terminal span {
-    transition: all .25s .45s linear;
-}
 
 #terminal.big {
-    position: absolute;
     height: 100vh;
     width: 100vw;
     max-height: 100vh;
     max-width: 100vw;
-    top: 0;
-    left: 0;
-transition: max-height .25s .35s linear,
-        max-width .25s linear,
-        width .25s .05s linear,
-        min-height .25s linear;
-    }
+}
 
 #terminal.small {
-    max-height: 68px;
-    max-width: 300px;
-    min-width: 300px;
-transition: max-height .25s .35s linear,
+    height: 68px;
+    width: 300px;
+transition: height .25s .35s linear,
         max-width .25s linear,
         width .25s .05s linear,
         min-height .25s linear;}
@@ -1733,14 +1720,14 @@ transition: max-height .25s .35s linear,
 #terminal.small .terminal__body p,
 #terminal.small .terminal__body span {
     opacity: 0;
-    transition: all .25s linear;
+    transition: all.25s linear;
 }
 
 #terminal .terminal__header {
     background-color: rgba(38, 39, 41, 0.8);   
      color: #ffffff;
     padding: 10px;
-                    border: 1px solid rgba(255, 255, 255, 0.125);
+    border: 1px solid rgba(255, 255, 255, 0.125);
     border-radius: 5px 5px 0px 0px;
         backdrop-filter: blur(12px) saturate(200%);
             -webkit-backdrop-filter: blur(12px) saturate(200%);
@@ -1775,6 +1762,8 @@ transition: max-height .25s .35s linear,
 }
 
 #terminal .terminal__body {
+    height: fit-content;
+    min-height: 300px;
     position: relative;
     background-color: rgba(38, 39, 41, 0.8);   
     color: #ffffff;

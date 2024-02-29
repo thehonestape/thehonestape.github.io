@@ -2,6 +2,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const terminal = document.getElementById('terminal');
     let isDragging = false;
 
+    const terminalBody = document.querySelector('.terminal__body');
+    let commandsIndex = 0;
+    const commands = [
+        {
+            command: 'w3m thehonestape.com', response: `  
+   <p>Local time is {{ site.time | date: '%Y-%m-%d %H:%M:%S' }}` },
+        {
+            command: 'abe-bio', response: `<p>My name is Abraham Garcia, I am the co-founder of <a class="yellow" href="http://wrkhrs.co" target="_blank">Workhorse</a> in Washington, DC.</p>
+<p>I <a class="magenta" href="https://dribbble.com/thehonestape" target="_blank">design</a> and <a class="mint" href="https://github.com/thehonestape" target="_blank">build</a> things for the web(world) from Charleston, SC &#127796;.</p>
+<p>Have a question? Shoot me an <a class="blue" href="mailto:abe@wrkhrs.co" target="_top">email at abe@wrkhrs.co</a></p>` },
+        { command: 'exit', response: '' }
+    ];
+
     // Drag functionality
     const header = terminal.querySelector('.terminal__header');
     header.addEventListener('mousedown', function (e) {
@@ -40,42 +53,85 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-function typeText(element, text, interval = 100) {
-    let i = 0;
-    const typing = setInterval(() => {
-        if (i < text.length) {
-            element.innerHTML += text.charAt(i);
-            i++;
-        } else {
-            clearInterval(typing);
-        }
-    }, interval);
-}
 
-// Usage
-document.addEventListener('DOMContentLoaded', function () {
-    const terminalBody = document.querySelector('.terminal__body h4');
-    terminalBody.innerHTML = ''; // Clear initial text
-    typeText(terminalBody, 'Dear reader, this site is an ode to the simple, personal, and personable websites of the past, present, and future. Treat this as a record of my practice and process.', 50);
-});
+
+
+
+
+
+
+
+
+
+
 
 document.addEventListener('DOMContentLoaded', () => {
-    const terminal = document.getElementById('terminal');
-    const maximizeBtn = document.querySelector('.action--max');
-    const minimizeBtn = document.querySelector('.action--min');
-    const closeBtn = document.querySelector('.action--close');
+    const terminalBody = document.querySelector('.terminal__body');
+    let commandsIndex = 0;
+    const commands = [
+        {
+            command: 'w3m thehonestape.com', response: `  
+   <p>Local time is {{ site.time | date: '%Y-%m-%d %H:%M:%S' }}` },
+        {
+            command: 'abe-bio', response: `<p>My name is Abraham Garcia, I am the co-founder of <a class="yellow" href="http://wrkhrs.co" target="_blank">Workhorse</a> in Washington, DC.</p>
+<p>I <a class="magenta" href="https://dribbble.com/thehonestape" target="_blank">design</a> and <a class="mint" href="https://github.com/thehonestape" target="_blank">build</a> things for the web(world) from Charleston, SC &#127796;.</p>
+<p>Have a question? Shoot me an <a class="blue" href="mailto:abe@wrkhrs.co" target="_top">email at abe@wrkhrs.co</a></p>` },
+        { command: 'exit', response: '' }
+    ];
 
-    maximizeBtn.addEventListener('click', () => {
-        terminal.classList.toggle('maximized');
-    });
+    function simulateCommandInput() {
+        if (commandsIndex < commands.length) {
+            const command = commands[commandsIndex];
+            typeCommand(command.command, () => {
+                addResponse(command.response);
+                commandsIndex++;
+                simulateCommandInput();
+            });
+        } else {
+            // Final state with editable caret
+            addFinalCaret();
+        }
+    }
 
-    minimizeBtn.addEventListener('click', () => {
-        terminal.classList.add('minimized');
-        setTimeout(() => terminal.classList.remove('minimized'), 300); // Revert minimized state for potential maximize action
-    });
+    function typeCommand(command, callback) {
+        const prompt = document.createElement('div');
+        prompt.innerHTML = `abe@wrkhrs.co ~ % <span class="typed-command"></span>`;
+        terminalBody.appendChild(prompt);
+        const typedCommand = prompt.querySelector('.typed-command');
 
-    closeBtn.addEventListener('click', () => {
-        terminal.classList.add('shake');
-        setTimeout(() => terminal.classList.remove('shake'), 820); // Length of the shake animation
-    });
+        let i = 0;
+        const typingInterval = setInterval(() => {
+            if (i < command.length) {
+                typedCommand.textContent += command.charAt(i);
+                i++;
+                scrollToBottom();
+            } else {
+                clearInterval(typingInterval);
+                if (callback) callback(); // Proceed to add response after typing command
+            }
+        }, 100); // Adjust typing speed as needed
+    }
+
+    function addResponse(responseHTML) {
+        const response = document.createElement('div');
+        response.innerHTML = responseHTML;
+        terminalBody.appendChild(response);
+        scrollToBottom();
+        setTimeout(() => { // Wait a bit before next command for readability
+            if (responseHTML.trim() !== '') scrollToBottom();
+        }, 500);
+    }
+
+    function addFinalCaret() {
+        const finalPrompt = document.createElement('div');
+        finalPrompt.innerHTML = `abe@wrkhrs.co ~ % <span contenteditable="true">&nbsp;&nbsp;</span><span class="caret"></span>`;
+        terminalBody.appendChild(finalPrompt);
+        scrollToBottom();
+    }
+
+    function scrollToBottom() {
+        terminalBody.scrollTop = terminalBody.scrollHeight;
+    }
+
+    simulateCommandInput(); // Start the simulation
 });

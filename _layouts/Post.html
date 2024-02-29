@@ -88,6 +88,11 @@
         <link rel="alternate" type="application/rss+xml" href="{{ site.url }}/feed.xml">
     </head>
 
+<div id="jekyll-info" style="display: none;"
+     data-local-time="{{ 'now' | date: '%Y-%m-%d %H:%M:%S' }}"
+     data-charleston-weather="Sunny, 75°F"> <!-- Placeholder values -->
+</div>
+
     <body>
        
         <main>
@@ -97,7 +102,7 @@
                 {%- if page.permalink == "/" -%}
                 <section class="intro">
                     <div class="container p-6 mb-6 is-fluid">
-                        <div class="columns is-variable">
+                        <div class="columns is-multiline is-centered">
                             {%- include intro-text.html -%}
                             {%- include Content.html -%}                
                         </div>
