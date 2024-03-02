@@ -43,24 +43,19 @@
    
     </div>
      {% endcomment %}
-
-
-    <div class="container pt-6 mt-6 is-fluid home-feed">
+     <div class="container pt-6 mt-6 is-fluid is-multiline home-feed">
         <div class="columns ">
-            <div class="column is-4-widescreen  is-6-desktop is-8-tablet is-12-mobile">
-                    <!--- Show Feed Part -->
-                    {%- include Feed.html -%}
-            </div>
-            <div class="column is-multiline is-8">
+ 
+                <div class="column is-multiline is-12">
                 <div class="columns is-multiline">
                     <div class="column is-12"> <h4 class="title pt-0">Projects</h4></div>
 
                 {% assign note_items = site.notes | sort : "date" | reverse |  where: "categories","Design" %}
                 {% for note_items in note_items %}
-                        <article class="column is-half">
+                        <article class="column is-4">
                             {%- if note_items.external_link -%}
                                 <a href="{{ note_items.external_link }}" target="_blank" style="text-decoration: none;display: flex;justify-content: space-between;flex-direction: row;width: 100%;">
-                                {%- else -%}`
+                                {%- else -%}
                                     <a href="{{ site.baseurl }}{{note_items.url}}" style="text-decoration: none;display: flex;justify-content: space-between;flex-direction: row;width: 100%;">
                                     {%- endif -%}
                                     <div class="card list-feed">
@@ -81,6 +76,10 @@
                             </a>
                         </article>
                     {%- endfor -%}
+                </div>
+                <div class="column is-12 pt-6">
+                        <!--- Show Feed Part -->
+                    {%- include Feed.html -%}
                 </div>
             </div>
         </div>
