@@ -1,54 +1,50 @@
-<div class="container py-6 px-6 is-fluid"> 
-  <div class="columns is-centered">
-    <div class="column is-12-widescreen  is-12-desktop is-12-tablet is-12-mobile">
-      <nav class="navbar is-transparent" role="navigation" aria-label="main navigation">
-          <div class="navbar-brand">
-            <a class="navbar-item pl-0 ml-0" href="{{ site.baseurl }}/index.html">
-                {%- include logo.svg -%}
-            <div class="navbar-item navbar-dark-mode__mobile is-hidden-tablet" onclick="modeSwitcher()">
-              <div class="buttons">
-                <a class="button is-text">
-                  <span class="icon is-small">
-                    <img src="{{ '/assets/img/sun.svg' | relative_url }}" id="theme-toggle-img--mobile">
-                  </span>
-                </a>
-              </div>
-            </div>
-        
-            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="main-nav">
-              <span aria-hidden="true"></span>
-              <span aria-hidden="true"></span>
-              <span aria-hidden="true"></span>
+<div class="container">
+  <nav class="navbar is-transparent" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <a class="navbar-item pl-0 ml-0" href="{{ site.baseurl }}/index.html">
+          {%- include logo.svg -%}
+      <div class="navbar-item navbar-dark-mode__mobile is-hidden-tablet" onclick="modeSwitcher()">
+        <div class="buttons">
+          <a class="button is-text">
+            <span class="icon is-small">
+              <img src="{{ '/assets/img/sun.svg' | relative_url }}" id="theme-toggle-img--mobile">
+            </span>
+          </a>
+        </div>
+      </div>
+  
+      <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="main-nav">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+  
+    
+    <div id="main-nav" class="navbar-menu">
+      <div class="navbar-start">
+        <a class="navbar-item" href="{{'/notes' | relative_url}}" class="navbar-item">Notes</a>
+        <a class="navbar-item" href="{{'/about' | relative_url}}" class="navbar-item">About</a>
+        <!-- <a href="{{'/about' | relative_url}}" class="navbar-item">About</a> -->
+        <a class="navbar-item" href="https://www.are.na/abraham-garcia-flores" target="_blank"><i class="fa-sm fa-sharp fa-light fa-asterisk"></i></a>
+        <a class="navbar-item" href="https://twitter.com/thehonestape" target="_blank"><i class="fa-sm fa-brands fa-twitter"></i></a>
+        <a class="navbar-item" href="https://www.instagram.com/thehonestape/" target="_blank"><i class="fa-sm fa-brands fa-instagram"></i></a>
+        <a class="navbar-item" href="https://www.linkedin.com/in/thehonestape/" target="_blank"><i class="fa-sm fa-brands fa-linkedin"></i></a>
+      
+      </div>
+      <div class="navbar-end is-hidden-mobile" onclick="modeSwitcher()" >
+        <div class="navbar-item">
+          <div class="buttons">
+            <a class="button is-text">
+              <span class="icon is-small">
+                <img src="{{ '/assets/img/sun.svg' | relative_url }}" id="theme-toggle-img">
+              </span>
+              <script src="{{ site.baseurl }}/assets/js/modeswitcher.js"></script>
+              <script src="{{ site.baseurl }}/assets/js/Hamburger.js"></script>
             </a>
           </div>
-        
-          
-          <div id="main-nav" class="navbar-menu">
-            <div class="navbar-start">
-              <a class="navbar-item" href="{{'/notes' | relative_url}}" class="navbar-item">Notes</a>
-              <a class="navbar-item" href="{{'/about' | relative_url}}" class="navbar-item">About</a>
-              <!-- <a href="{{'/about' | relative_url}}" class="navbar-item">About</a> -->
-              <a class="navbar-item" href="https://www.are.na/abraham-garcia-flores" target="_blank"><i class="fa-sm fa-sharp fa-light fa-asterisk"></i></a>
-              <a class="navbar-item" href="https://twitter.com/thehonestape" target="_blank"><i class="fa-sm fa-brands fa-twitter"></i></a>
-              <a class="navbar-item" href="https://www.instagram.com/thehonestape/" target="_blank"><i class="fa-sm fa-brands fa-instagram"></i></a>
-              <a class="navbar-item" href="https://www.linkedin.com/in/thehonestape/" target="_blank"><i class="fa-sm fa-brands fa-linkedin"></i></a>
-            
-            </div>
-            <div class="navbar-end is-hidden-mobile" onclick="modeSwitcher()" >
-              <div class="navbar-item">
-                <div class="buttons">
-                  <a class="button is-text">
-                    <span class="icon is-small">
-                      <img src="{{ '/assets/img/sun.svg' | relative_url }}" id="theme-toggle-img">
-                    </span>
-                    <script src="{{ site.baseurl }}/assets/js/modeswitcher.js"></script>
-                    <script src="{{ site.baseurl }}/assets/js/Hamburger.js"></script>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </nav>
+        </div>
       </div>
     </div>
-  </div>
+  </nav>
+</div>

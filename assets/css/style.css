@@ -5,7 +5,7 @@ layout: Stylesheet
 @import "flexoki.css";
 
 html {
-    --color-brown-dark: #281a16;
+    --color-brown-dark: #010001;
     --color-brown-light: #be7f51;
     --font-family-sans: "Inter",
         BlinkMacSystemFont,
@@ -391,6 +391,15 @@ ul ul {
 }
 .home-notes .list-feed {
     border-bottom: 1px solid var(--color-border-light);
+}
+#featured-notes .list-feed {
+border: 0px;
+}
+
+#featured-notes .list-feed:hover {
+   background: inherit;
+   border: 0px;
+   box-shadow: none;
 }
 
 .list-feed:hover {
@@ -1630,6 +1639,33 @@ a[href^="http"] {
 
 /*Homepage*/
 
+.home-feed-wrapper {
+    column-count: 4 !important;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-gap: 1rem 2rem;
+}
+
+.card.is-fullheight {
+    height: 100%;
+}
+
+.card-image {
+    overflow: hidden;
+}
+
+.card-image .image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-image img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
 
 .home-wrapper {
     display: flex;
@@ -1681,13 +1717,13 @@ a[href^="http"] {
 /*Terminal*/
 
 #terminal {
+    position: relative;
     font-family: var(--font-family-mono) !important;
-    position: absolute;
-    top: 0;
-    bottom: 0;
+    top: 50%;
     text-align: left;
     border-radius: 5px;
     min-height: 1px;
+    overflow: vislble;
     transition: max-height .25s .35s linear,
         max-width .25s linear,
         width .25s .05s linear,
@@ -1786,6 +1822,8 @@ transition: max-height .25s .35s linear,
                 -webkit-backdrop-filter: blur(12px) saturate(200%);
                 border: 1px solid rgba(255, 255, 255, 0.125);
 }
+
+
 
 .caret {
     display: inline-block;

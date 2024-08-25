@@ -88,20 +88,17 @@
         <link rel="alternate" type="application/rss+xml" href="{{ site.url }}/feed.xml">
     </head>
 
-    <body>
+    <body "has-navbar-fixed-top">
        
         <main>
             {%- include Nav.html -%}
 
+            
                 <!-- Homepage Layout-->
                 {%- if page.permalink == "/" -%}
                 <section class="intro">
-                    <div class="container p-6 mb-6 is-fluid">
-                        <div class="columns is-variable">
-                            {%- include intro-text.html -%}
+                            {%- include hero.html -%}
                             {%- include Content.html -%}                
-                        </div>
-                    </div>
                 </section>
                 <section class="home-featured">
                    

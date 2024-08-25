@@ -1,31 +1,59 @@
 document.addEventListener('DOMContentLoaded', () => {
     const terminal = document.getElementById('terminal');
     let isDragging = false;
+    let currentX;
+    let currentY;
+    let initialX;
+    let initialY;
+    let xOffset = 0;
+    let yOffset = 0;
 
     // Drag functionality
     const header = terminal.querySelector('.terminal__header');
-    header.addEventListener('mousedown', function (e) {
-        isDragging = true;
-        let dragOffsetX = e.clientX - terminal.offsetLeft;
-        let dragOffsetY = e.clientY - terminal.offsetTop;
-        function mouseMoveHandler(e) {
-            terminal.style.left = e.clientX - dragOffsetX + 'px';
-            terminal.style.top = e.clientY - dragOffsetY + 'px';
+
+    header.addEventListener('mousedown', dragStart);
+    document.addEventListener('mousemove', drag);
+    document.addEventListener('mouseup', dragEnd);
+
+    function dragStart(e) {
+        initialX = e.clientX - xOffset;
+        initialY = e.clientY - yOffset;
+
+        if (e.target === header) {
+            isDragging = true;
         }
-        function mouseUpHandler() {
-            window.removeEventListener('mousemove', mouseMoveHandler);
-            window.removeEventListener('mouseup', mouseUpHandler);
-            isDragging = false;
+    }
+
+    function drag(e) {
+        if (isDragging) {
+            e.preventDefault();
+            currentX = e.clientX - initialX;
+            currentY = e.clientY - initialY;
+
+            xOffset = currentX;
+            yOffset = currentY;
+
+            setTranslate(currentX, currentY, terminal);
         }
-        window.addEventListener('mousemove', mouseMoveHandler);
-        window.addEventListener('mouseup', mouseUpHandler);
-    });
+    }
+
+    function dragEnd(e) {
+        initialX = currentX;
+        initialY = currentY;
+
+        isDragging = false;
+    }
+
+    function setTranslate(xPos, yPos, el) {
+        el.style.transform = `translate3d(${xPos}px, ${yPos}px, 0)`;
+    }
 
     // Maximize functionality
     document.querySelector('.action--max').addEventListener('click', function () {
         terminal.classList.toggle('big');
-        terminal.style.top = '0';
-        terminal.style.left = '0';
+        xOffset = 0;
+        yOffset = 0;
+        setTranslate(0, 0, terminal);
     });
 
     // Minimize functionality
@@ -38,44 +66,102 @@ document.addEventListener('DOMContentLoaded', () => {
         terminal.classList.add('shake');
         setTimeout(() => terminal.classList.remove('shake'), 500);
     });
+
+    // Terminal typing effect
+    initializeTerminal();
 });
 
 function typeText(element, text, interval = 100) {
-    let i = 0;
-    const typing = setInterval(() => {
-        if (i < text.length) {
-            element.innerHTML += text.charAt(i);
-            i++;
-        } else {
-            clearInterval(typing);
-        }
-    }, interval);
+    return new Promise((resolve) => {
+        let i = 0;
+        const typing = setInterval(() => {
+            if (i < text.length) {
+                element.textContent += text.charAt(i);
+                i++;
+            } else {
+                clearInterval(typing);
+                resolve();
+            }
+        }, interval);
+    });
 }
 
-// Usage
-document.addEventListener('DOMContentLoaded', function () {
-    const terminalBody = document.querySelector('.terminal__body h4');
+async function initializeTerminal() {
+    const terminalBody = document.querySelector('.terminal__body');
     terminalBody.innerHTML = ''; // Clear initial text
-    typeText(terminalBody, 'Dear reader, this site is an ode to the simple, personal, and personable websites of the past, present, and future. Treat this as a record of my practice and process.', 50);
-});
 
-document.addEventListener('DOMContentLoaded', () => {
-    const terminal = document.getElementById('terminal');
-    const maximizeBtn = document.querySelector('.action--max');
-    const minimizeBtn = document.querySelector('.action--min');
-    const closeBtn = document.querySelector('.action--close');
+    // Initial intro
+    await showInitialIntro(terminalBody);
 
-    maximizeBtn.addEventListener('click', () => {
-        terminal.classList.toggle('maximized');
+    // Start interactive prompt
+    await showPromptAndAwaitInput(terminalBody);
+}
+
+async function showInitialIntro(terminalBody) {
+    const promptElement = document.createElement('p');
+    const outputElement = document.createElement('h4');
+
+    promptElement.className = 'terminal__prompt';
+    promptElement.textContent = 'abe@wrkhrs.co ~ % ';
+    terminalBody.appendChild(promptElement);
+
+    // Pause before typing command
+    await new Promise(resolve => setTimeout(resolve, 500));
+
+    // Type the command
+    await typeText(promptElement, 'bio', 50);
+
+    // Small pause after command
+    await new Promise(resolve => setTimeout(resolve, 200));
+
+    // Add and type the output
+    terminalBody.appendChild(outputElement);
+    await typeText(outputElement, 'Abraham is a highly experienced interdisciplinary designer, creative technologist, and award-winning studio founder.', 20);
+}
+
+async function showPromptAndAwaitInput(terminalBody) {
+    const promptElement = document.createElement('p');
+    promptElement.className = 'terminal__prompt';
+    promptElement.textContent = 'abe@wrkhrs.co ~ % ';
+    terminalBody.appendChild(promptElement);
+
+    const inputElement = document.createElement('span');
+    inputElement.className = 'terminal__input';
+    inputElement.contentEditable = true;
+    promptElement.appendChild(inputElement);
+    inputElement.focus();
+
+    inputElement.addEventListener('keydown', async function (e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            const command = this.textContent;
+            this.remove();
+            await typeText(promptElement, command, 10);
+            await processCommand(command, terminalBody);
+            await showPromptAndAwaitInput(terminalBody);
+        } else if (this.textContent.length === 0 && e.key === 'Backspace') {
+            e.preventDefault(); // Prevent backspace from navigating back
+        }
     });
+}
 
-    minimizeBtn.addEventListener('click', () => {
-        terminal.classList.add('minimized');
-        setTimeout(() => terminal.classList.remove('minimized'), 300); // Revert minimized state for potential maximize action
-    });
+async function processCommand(command, terminalBody) {
+    const outputElement = document.createElement('p');
+    terminalBody.appendChild(outputElement);
 
-    closeBtn.addEventListener('click', () => {
-        terminal.classList.add('shake');
-        setTimeout(() => terminal.classList.remove('shake'), 820); // Length of the shake animation
-    });
-});
+    switch (command.toLowerCase().trim()) {
+        case 'help':
+            await typeText(outputElement, 'Available commands: help, bio, clear', 20);
+            break;
+        case 'bio':
+            await typeText(outputElement, 'Abraham is a highly experienced interdisciplinary designer, creative technologist, and award-winning studio founder.', 20);
+            break;
+        case 'clear':
+            terminalBody.innerHTML = '';
+            break;
+        default:
+            // Here you can implement your search functionality
+            await typeText(outputElement, `Searching for: ${command}`, 20);
+        // Add your search logic here
+    }
+}
