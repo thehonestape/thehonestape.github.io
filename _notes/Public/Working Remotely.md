@@ -1,5 +1,5 @@
 ---
-categories: [Writing]
+categories: [writing]
 tags: []
 feed: show
 featured-image: https://wrkhrs.co/wp-content/uploads/2020/03/astro-remote.jpg

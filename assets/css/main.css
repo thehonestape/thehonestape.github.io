@@ -6715,7 +6715,8 @@ print {
 
 a.tag {
   border: 1px solid transparent;
-  transition: all 0.2s; }
+  transition: all 0.2s ease-in-out;
+ }
 
 a.tag:hover {
   border: 1px solid var(--color-border-light);
