@@ -143,7 +143,7 @@ async function showInitialIntro(terminalBody) {
 
     // Add and type the output
     terminalBody.appendChild(outputElement);
-    await typeText(outputElement, 'Abraham is an interdisciplinary designer, creative technologist, and founder of <a href="https://wrkhrs.co">Workhorse</a> award-winning studio founder.', 20);
+    await typeText(outputElement, 'Abraham is an interdisciplinary designer, creative technologist, and founder of <a href="https://wrkhrs.co">Workhorse</a>.', 20);
 }
 
 async function showPromptAndAwaitInput(terminalBody) {
