@@ -48,7 +48,11 @@
     {% for note_items in note_items %}
         {%- if note_items.feed == "show" -%}
                 <div class="card notelist-feed">
-                    <a href="{{ site.baseurl }}{{note_items.url}}">
+                    {%- if note_items.external_link -%}
+                                <a href="{{ note_items.external_link }}" target="_blank">
+                                {%- else -%}
+                                    <a href="{{ site.baseurl }}{{note_items.url}}">
+                                    {%- endif -%}
                          {%- if note_items.featured-image -%}
                          <div class="card-image">
                             {% for category in note_items.categories %}
@@ -96,28 +100,46 @@
 <!--Dynamic List Feed-->
 <!--Static Page : pages/index.md-->
 {%- if page.feedformat == "home" -%}
-<div class="home-notes">   
-    <h5 class="title pt-0">Writing</h5>
-    {% assign note_items = site.notes | sort : "date" | reverse |  where: "categories","Writing" %}
-    {% for note_items in note_items %}
-        {%- if note_items.feed == "show" -%}
-            <div class="list-feed">
-                    <a href="{{ site.baseurl }}{{note_items.url}}" style="text-decoration: none;display: flex;justify-content: space-between;flex-direction: row;width: 100%;">
-                        <article>
-                            <div class="writinglist-title">
-                                <h3 class="title is-4">{{note_items.title }}</h3>
-                            </div>
-                        </article>
-                    </a>
-            </div>
-        {%-endif -%}
-    {%- endfor -%}
-    <a href="/writing">
-        <h6 class="icon-link">
-            <span class="text">See All <i class="fa-sharp fa-solid fa-arrow-right-long"></i></span>
-        </h6>
-    </a>
+  {%- if site.preferences.search.enabled -%}
+    <!-- search bar -->
+    <div class="block">
+      <input class="input is-medium" type="text" placeholder="Search notes.." id="search-input" autocomplete="off">
+      <div id="search-results" class="search-results"></div>
     </div>
-
-    
+    <script type="text/javascript" src="{{ site.baseurl }}/assets/js/vendor/lunr.min.js"></script>
+    <script src="{{ site.baseurl }}/assets/js/Search.js"></script>
+  {%- endif -%}
+  <!-- feed with filter-->
+  <div class="columns is-multiline">
+    {% assign note_items = site.notes | sort: "date" | reverse %}
+    {% for note_items in note_items %}
+      {%- if note_items.feed == "show" -%}
+        <div class="column is-one-third-desktop is-half-tablet">
+          <div class="card is-flex is-flex-direction-column is-fullheight">
+            {%- if note_items.external_link -%}
+              <a href="{{ note_items.external_link }}" target="_blank" class="is-flex is-flex-direction-column is-flex-grow-1">
+            {%- else -%}
+              <a href="{{ site.baseurl }}{{note_items.url}}" class="is-flex is-flex-direction-column is-flex-grow-1">
+            {%- endif -%}
+            {%- if note_items.featured-image -%}
+              <div class="card-image">
+                <figure class="image">
+                  <img src="{{- note_items.featured-image | relative_url -}}" alt="" class="blog-roll-image">
+                </figure>
+              </div>
+              <div class="is-overlay is-flex is-justify-content-flex-start" style="pointer-events: none;">
+                {% for category in note_items.categories %}
+                  <span class="tag is-primary is-rounded m-2">{{ category }}</span>
+                {% endfor %}
+              </div>
+            {%- endif -%}
+            <div class="card-content is-flex-grow-1 is-flex is-flex-direction-column is-justify-content-flex-end">
+              <h5 class="title is-6 mb-0">{{ note_items.title }}</h5>
+            </div>
+            </a>
+          </div>
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
 {%-endif -%}
