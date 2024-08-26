@@ -1719,6 +1719,17 @@ a[href^="http"] {
     z-index: 9999999;
 }
 
+.terminal-wrapper {
+    position: relative;
+}
+
+.terminal-wrapper.headShake {
+    animation-timing-function: ease-in-out;
+    animation-name: headShake;
+    animation-duration: 0.5s;
+    /* Duration for the shake animation */
+}
+
 #terminal p, #terminal h4 {
         font-family: var(--font-family-mono) !important;
 }
@@ -1732,8 +1743,8 @@ a[href^="http"] {
 }
 
 #terminal.small {
-    height: 68px;
-    width: 300px;
+    height: 80px;
+    width: 100%;
 transition: height .25s .35s linear,
         max-width .25s linear,
         width .25s .05s linear,

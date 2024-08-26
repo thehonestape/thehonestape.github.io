@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const terminal = document.getElementById('terminal');
+    const shakeWrapper = document.querySelector('.terminal-wrapper');
     let isDragging = false;
     let currentX;
     let currentY;
@@ -7,6 +8,14 @@ document.addEventListener('DOMContentLoaded', () => {
     let initialY;
     let xOffset = 0;
     let yOffset = 0;
+
+    // Store the initial position and size
+    const initialPosition = {
+        x: terminal.getBoundingClientRect().left,
+        y: terminal.getBoundingClientRect().top,
+        width: terminal.offsetWidth,
+        height: terminal.offsetHeight,
+    };
 
     // Drag functionality
     const header = terminal.querySelector('.terminal__header');
@@ -16,10 +25,15 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('mouseup', dragEnd);
 
     function dragStart(e) {
+        // Only start dragging if the target is not an interactive element
+        if (e.target.closest('.action--close, .action--min, .action--max, a')) {
+            return; // Don't start dragging if the mousedown is on a button or link
+        }
+
         initialX = e.clientX - xOffset;
         initialY = e.clientY - yOffset;
 
-        if (e.target === header) {
+        if (e.target === header || header.contains(e.target)) {
             isDragging = true;
         }
     }
@@ -37,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function dragEnd(e) {
+    function dragEnd() {
         initialX = currentX;
         initialY = currentY;
 
@@ -50,6 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Maximize functionality
     document.querySelector('.action--max').addEventListener('click', function () {
+        terminal.classList.remove('small');
         terminal.classList.toggle('big');
         xOffset = 0;
         yOffset = 0;
@@ -58,32 +73,44 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Minimize functionality
     document.querySelector('.action--min').addEventListener('click', function () {
+        terminal.classList.remove('big');
         terminal.classList.toggle('small');
+        if (terminal.classList.contains('small')) {
+            // Reset to original position
+            terminal.style.transform = `translate3d(${initialPosition.x}px, ${initialPosition.y}px, 0)`;
+            terminal.style.width = `${initialPosition.width / 2}px`;  // Optional: scale down the width
+            terminal.style.height = `${initialPosition.height / 2}px`; // Optional: scale down the height
+        } else {
+            setTranslate(currentX, currentY, terminal);
+            terminal.style.width = `${initialPosition.width}px`;  // Restore original width
+            terminal.style.height = `${initialPosition.height}px`; // Restore original height
+        }
     });
 
-    // Close functionality
+    // Close functionality (with shake animation)
     document.querySelector('.action--close').addEventListener('click', function () {
-        terminal.classList.add('shake');
-        setTimeout(() => terminal.classList.remove('shake'), 500);
+        shakeWrapper.classList.add('headShake');
+        setTimeout(() => shakeWrapper.classList.remove('headShake'), 500); // Duration should match your animation-duration
     });
 
     // Terminal typing effect
     initializeTerminal();
 });
 
-function typeText(element, text, interval = 100) {
-    return new Promise((resolve) => {
-        let i = 0;
-        const typing = setInterval(() => {
-            if (i < text.length) {
-                element.textContent += text.charAt(i);
-                i++;
-            } else {
-                clearInterval(typing);
-                resolve();
+async function typeText(element, html, interval = 100) {
+    const contentArray = html.split(/(<[^>]+>)/g); // Split the HTML string into text and HTML tags
+    for (let part of contentArray) {
+        if (part.startsWith('<')) {
+            // Directly append HTML tags
+            element.innerHTML += part;
+        } else {
+            // Type out text character by character
+            for (let char of part) {
+                element.innerHTML += char;
+                await new Promise(resolve => setTimeout(resolve, interval));
             }
-        }, interval);
-    });
+        }
+    }
 }
 
 async function initializeTerminal() {
@@ -106,17 +133,17 @@ async function showInitialIntro(terminalBody) {
     terminalBody.appendChild(promptElement);
 
     // Pause before typing command
-    await new Promise(resolve => setTimeout(resolve, 500));
+    await new Promise(resolve => setTimeout(resolve, 200));
 
     // Type the command
     await typeText(promptElement, 'bio', 50);
 
     // Small pause after command
-    await new Promise(resolve => setTimeout(resolve, 200));
+    await new Promise(resolve => setTimeout(resolve, 100));
 
     // Add and type the output
     terminalBody.appendChild(outputElement);
-    await typeText(outputElement, 'Abraham is a highly experienced interdisciplinary designer, creative technologist, and award-winning studio founder.', 20);
+    await typeText(outputElement, 'Abraham is an interdisciplinary designer, creative technologist, and founder of <a href="https://wrkhrs.co">Workhorse</a> award-winning studio founder.', 20);
 }
 
 async function showPromptAndAwaitInput(terminalBody) {
