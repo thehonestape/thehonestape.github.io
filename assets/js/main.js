@@ -25,15 +25,10 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('mouseup', dragEnd);
 
     function dragStart(e) {
-        // Only start dragging if the target is not an interactive element
-        if (e.target.closest('.action--close, .action--min, .action--max, a')) {
-            return; // Don't start dragging if the mousedown is on a button or link
-        }
-
         initialX = e.clientX - xOffset;
         initialY = e.clientY - yOffset;
 
-        if (e.target === header || header.contains(e.target)) {
+        if (e.target === header) {
             isDragging = true;
         }
     }
@@ -64,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Maximize functionality
     document.querySelector('.action--max').addEventListener('click', function () {
-        terminal.classList.remove('small');
+        terminal.classList.remove('minimized');
         terminal.classList.toggle('big');
         xOffset = 0;
         yOffset = 0;
@@ -74,16 +69,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Minimize functionality
     document.querySelector('.action--min').addEventListener('click', function () {
         terminal.classList.remove('big');
-        terminal.classList.toggle('small');
-        if (terminal.classList.contains('small')) {
-            // Reset to original position
-            terminal.style.transform = `translate3d(${initialPosition.x}px, ${initialPosition.y}px, 0)`;
-            terminal.style.width = `${initialPosition.width / 2}px`;  // Optional: scale down the width
-            terminal.style.height = `${initialPosition.height / 2}px`; // Optional: scale down the height
-        } else {
-            setTranslate(currentX, currentY, terminal);
-            terminal.style.width = `${initialPosition.width}px`;  // Restore original width
-            terminal.style.height = `${initialPosition.height}px`; // Restore original height
+        terminal.classList.toggle('minimized');
+        if (!terminal.classList.contains('minimized')) {
+            setTranslate(0, 0, terminal);
         }
     });
 
@@ -143,7 +131,7 @@ async function showInitialIntro(terminalBody) {
 
     // Add and type the output
     terminalBody.appendChild(outputElement);
-    await typeText(outputElement, 'Abraham is an interdisciplinary designer, creative technologist, and founder of <a href="https://wrkhrs.co">Workhorse</a>.', 20);
+    await typeText(outputElement, 'Abraham is an interdisciplinary designer, creative technologist, and founder of <a href="https://wrkhrs.co">Workhorse</a>.', 10);
 }
 
 async function showPromptAndAwaitInput(terminalBody) {
@@ -156,7 +144,9 @@ async function showPromptAndAwaitInput(terminalBody) {
     inputElement.className = 'terminal__input';
     inputElement.contentEditable = true;
     promptElement.appendChild(inputElement);
-    inputElement.focus();
+
+    // Remove automatic focus
+    // inputElement.focus();
 
     inputElement.addEventListener('keydown', async function (e) {
         if (e.key === 'Enter') {
@@ -170,6 +160,13 @@ async function showPromptAndAwaitInput(terminalBody) {
             e.preventDefault(); // Prevent backspace from navigating back
         }
     });
+
+    // Prevent focus on terminal input when clicking outside
+    document.addEventListener('click', function (e) {
+        if (!terminal.contains(e.target)) {
+            inputElement.blur();
+        }
+    });
 }
 
 async function processCommand(command, terminalBody) {
@@ -181,7 +178,7 @@ async function processCommand(command, terminalBody) {
             await typeText(outputElement, 'Available commands: help, bio, clear', 20);
             break;
         case 'bio':
-            await typeText(outputElement, 'Abraham is a highly experienced interdisciplinary designer, creative technologist, and award-winning studio founder.', 20);
+            await typeText(outputElement, 'Abraham is a highly experienced interdisciplinary designer, creative technologist, and award-winning studio founder.', 10);
             break;
         case 'clear':
             terminalBody.innerHTML = '';

@@ -12,8 +12,16 @@
                                         <a href="{{ site.baseurl }}/categories/#{{ category | slugify }}" class="tag mb-0 is-transparent is-rounded is-capitalized">{{ category }}</a>
                                     {% endfor %}
                                 </div>
-                                <h3 class="is-size-4 pt-0 pb-0">{{ note_items.title }}</h3>
-                                <h4 class="is-size-6 pt-0 mt-0">{{ note_items.date | date: "%Y" }}</h4>
+                                <h3 class="title is-size-4 pt-0 pb-0">
+                                    {%- if note_items.external_link -%}
+                                    <a href="{{ note_items.external_link }}" class="p-0" target="_blank">
+                                    {%- else -%}
+                                    <a href="{{ site.baseurl }}{{ note_items.url }}" class="p-0">
+                                    {%- endif -%}
+                                    {{ note_items.title }}
+                                    </a>
+                                </h3>
+                                <h4 class="subtitle is-size-6 pt-0 mt-0">{{ note_items.date | date: "%Y" }}</h4>
                                 <p class="mb-4">{{ note_items.content | strip_html | strip | remove: "[[" | remove: "]]" | remove: "-" | escape | truncate: 200 }}</p>
                             </div>
                             <div>
@@ -25,7 +33,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="column is-7-widescreen is-6-desktop is-8-tablet is-12-mobile">
+                <div class="column is-7-widescreen is-6-desktop is-8-tablet is-12-mobile">
                         <figure class="image">
                             {%- if note_items.external_link -%}
                                 <a href="{{ note_items.external_link }}" target="_blank">

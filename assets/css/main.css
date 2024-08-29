@@ -301,7 +301,18 @@ button:focus {
   right: 0;
   top: 0; }
 
-.button, .input, .textarea {
+
+/* Bulma Utilities */
+.button,
+.input,
+.textarea,
+.select select,
+.file-cta,
+.file-name,
+.pagination-previous,
+.pagination-next,
+.pagination-link,
+.pagination-ellipsis {
   -moz-appearance: none;
   -webkit-appearance: none;
   align-items: center;
@@ -313,15 +324,13 @@ button:focus {
   height: 2.5em;
   justify-content: flex-start;
   line-height: 1.5;
+  padding-bottom: calc(0.5em - 1px);
+  padding-left: calc(0.75em - 1px);
+  padding-right: calc(0.75em - 1px);
+  padding-top: calc(0.5em - 1px);
   position: relative;
-  vertical-align: top; }
-  .button:focus, .input:focus, .textarea:focus, .is-focused.button, .is-focused.input, .is-focused.textarea, .button:active, .input:active, .textarea:active, .is-active.button, .is-active.input, .is-active.textarea {
-    outline: none; }
-  .button[disabled], .input[disabled], .textarea[disabled],
-  fieldset[disabled] .button,
-  fieldset[disabled] .input,
-  fieldset[disabled] .textarea {
-    cursor: not-allowed; }
+  vertical-align: top;
+}
 
 /*! minireset.css v0.0.6 | MIT License | github.com/jgthms/minireset.css */
 html,
@@ -1218,7 +1227,7 @@ a.box-feed:active {
   justify-content: flex-start; }
   .buttons .button {
     margin-bottom: 0.3rem;
-    padding: 1rem 1rem 1rem 0rem; }
+    padding: 1rem 1rem 1rem 1rem; }
     .buttons .button:not(:last-child):not(.is-fullwidth) {
       margin-right: 0.5rem; }
   .buttons:last-child {
@@ -6615,8 +6624,9 @@ print {
 }
 
 .footer {
-  background-color: #fafafa;
-  padding: 3rem 1.5rem 6rem; }
+  background-color: var(--color-bg-footer);
+  color: var(--color-text-main);
+  padding: 3rem 1.5rem; }
 
 .box-feed {
   cursor: pointer;
@@ -9734,8 +9744,7 @@ a.tag:hover {
         }
     
         .footer {
-          background-color: #fafafa;
-          padding: 3rem 1.5rem 6rem;
+          padding: 3rem 1.5rem;
         }
     
         /*# sourceMappingURL=bulma.css.map */
