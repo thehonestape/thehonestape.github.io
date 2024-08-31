@@ -3,7 +3,7 @@ featured-image: https://cdn-images-1.medium.com/max/3600/0*Zg-JF4LT685A8BtJ.jpg
 categories: [Writing, Design]
 feed: show
 date : 31-03-2020
-featured: true
+featured: false
 source: https://medium.com/workhorse/the-future-is-now-workhorse-4a78b7997b8d
 author: Abraham Garcia Flores
 ---

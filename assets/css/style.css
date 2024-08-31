@@ -7,8 +7,8 @@ layout: Stylesheet
 html {
     --color-brown-dark: #010001;
     --color-brown-light: #be7f51;
-    --workhorse-yellow: #fed100;
-    --color-bg-footer: var(--workhorse-yellow);
+    --color-workhorse-yellow: #fed100;
+    --color-bg-footer: var(--color-workhorse-yellow);
     --font-family-sans: "Inter",
         BlinkMacSystemFont,
         -apple-system,
@@ -226,6 +226,11 @@ main {
     min-height: 300px;
 }
 
+.has-background-yellow {
+    background-color: var(--color-workhorse-yellow);
+    color: var(--color-text-main);
+}
+
 
 .box {
     background-color: transparent;
@@ -417,12 +422,6 @@ border-bottom: 1px solid var(--color-border);
 .list-feed a:hover {
     transition: padding 0.25s ease-in-out;
 }
-
-
-.home-feed {
-    border-top: 1px solid var(--color-border);
-}
-
 
 /* 08. Figures, Images, Code, Blockquotes, Tables */
 
@@ -1054,7 +1053,7 @@ hr {
     text-decoration: none;
 }
 
-.content a:hover {
+.content a:not(.button):hover {
     text-decoration: underline;
 }
 
@@ -1710,8 +1709,7 @@ a[href^="http"] {
     text-align: left;
     border-radius: 5px;
     min-height: 1px;
-    overflow: vislble;
-    width: 80%;
+    width: 100%;
     margin: 0 auto;
     transition: max-height .25s .35s linear,
         max-width .25s linear,
@@ -1726,6 +1724,7 @@ a[href^="http"] {
 
 .terminal-wrapper {
     position: relative;
+    width: 100%;
 }
 
 .terminal-wrapper.headShake {
@@ -1909,11 +1908,5 @@ textarea {
     width: 100%;
 }
 
-@media only screen and (min-width: 100px) and (max-width: 500px) {
-    #terminal {
-        width: 85vw;
-        max-width: 85vw;
-    }
-}
 
 

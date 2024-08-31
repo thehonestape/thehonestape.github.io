@@ -126,8 +126,6 @@
                 hideSearch();
             } else {
                 showSearch();
-                window.scroll(0, -1);
-                setTimeout(function() { window.scroll(0, 0);}, 0);
             }
 
             if (input === currentInput) {

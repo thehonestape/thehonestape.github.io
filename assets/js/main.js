@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Close functionality (with shake animation)
     document.querySelector('.action--close').addEventListener('click', function () {
         shakeWrapper.classList.add('headShake');
-        setTimeout(() => shakeWrapper.classList.remove('headShake'), 500); // Duration should match your animation-duration
+        setTimeout(() => shakeWrapper.classList.remove('headShake'), 500);
     });
 
     // Terminal typing effect
@@ -86,13 +86,11 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 async function typeText(element, html, interval = 100) {
-    const contentArray = html.split(/(<[^>]+>)/g); // Split the HTML string into text and HTML tags
+    const contentArray = html.split(/(<[^>]+>)/g);
     for (let part of contentArray) {
         if (part.startsWith('<')) {
-            // Directly append HTML tags
             element.innerHTML += part;
         } else {
-            // Type out text character by character
             for (let char of part) {
                 element.innerHTML += char;
                 await new Promise(resolve => setTimeout(resolve, interval));
@@ -103,12 +101,9 @@ async function typeText(element, html, interval = 100) {
 
 async function initializeTerminal() {
     const terminalBody = document.querySelector('.terminal__body');
-    terminalBody.innerHTML = ''; // Clear initial text
+    terminalBody.innerHTML = '';
 
-    // Initial intro
     await showInitialIntro(terminalBody);
-
-    // Start interactive prompt
     await showPromptAndAwaitInput(terminalBody);
 }
 
@@ -120,18 +115,12 @@ async function showInitialIntro(terminalBody) {
     promptElement.textContent = 'abe@wrkhrs.co ~ % ';
     terminalBody.appendChild(promptElement);
 
-    // Pause before typing command
     await new Promise(resolve => setTimeout(resolve, 200));
-
-    // Type the command
-    await typeText(promptElement, 'bio', 50);
-
-    // Small pause after command
+    await typeText(promptElement, 'about', 50);
     await new Promise(resolve => setTimeout(resolve, 100));
 
-    // Add and type the output
     terminalBody.appendChild(outputElement);
-    await typeText(outputElement, 'Abraham is an interdisciplinary designer, creative technologist, and founder of <a href="https://wrkhrs.co">Workhorse</a>.', 10);
+    await typeText(outputElement, 'Words and images by Abraham Garcia, designer, brand expert, and storyteller. Designing for meaning, creating identities, and shaping worlds.', 10);
 }
 
 async function showPromptAndAwaitInput(terminalBody) {
@@ -145,8 +134,15 @@ async function showPromptAndAwaitInput(terminalBody) {
     inputElement.contentEditable = true;
     promptElement.appendChild(inputElement);
 
-    // Remove automatic focus
-    // inputElement.focus();
+    let isTerminalFocused = false;
+
+    inputElement.addEventListener('focus', () => {
+        isTerminalFocused = true;
+    });
+
+    inputElement.addEventListener('blur', () => {
+        isTerminalFocused = false;
+    });
 
     inputElement.addEventListener('keydown', async function (e) {
         if (e.key === 'Enter') {
@@ -157,7 +153,7 @@ async function showPromptAndAwaitInput(terminalBody) {
             await processCommand(command, terminalBody);
             await showPromptAndAwaitInput(terminalBody);
         } else if (this.textContent.length === 0 && e.key === 'Backspace') {
-            e.preventDefault(); // Prevent backspace from navigating back
+            e.preventDefault();
         }
     });
 
@@ -167,6 +163,29 @@ async function showPromptAndAwaitInput(terminalBody) {
             inputElement.blur();
         }
     });
+
+    // Prevent automatic focus on page load
+    window.addEventListener('load', () => {
+        inputElement.blur();
+    });
+
+    // Handle focus only when clicking directly on the terminal
+    terminal.addEventListener('mousedown', (e) => {
+        if (e.target === inputElement || inputElement.contains(e.target)) {
+            isTerminalFocused = true;
+        } else {
+            isTerminalFocused = false;
+            inputElement.blur();
+        }
+    });
+
+    // Prevent scrolling to the terminal when typing elsewhere
+    document.addEventListener('focus', (e) => {
+        if (!isTerminalFocused && e.target !== inputElement) {
+            e.preventDefault();
+            e.target.focus();
+        }
+    }, true);
 }
 
 async function processCommand(command, terminalBody) {
@@ -175,17 +194,15 @@ async function processCommand(command, terminalBody) {
 
     switch (command.toLowerCase().trim()) {
         case 'help':
-            await typeText(outputElement, 'Available commands: help, bio, clear', 20);
+            await typeText(outputElement, 'Available commands: help, about, clear', 20);
             break;
-        case 'bio':
+        case 'about':
             await typeText(outputElement, 'Abraham is a highly experienced interdisciplinary designer, creative technologist, and award-winning studio founder.', 10);
             break;
         case 'clear':
             terminalBody.innerHTML = '';
             break;
         default:
-            // Here you can implement your search functionality
             await typeText(outputElement, `Searching for: ${command}`, 20);
-        // Add your search logic here
     }
 }
