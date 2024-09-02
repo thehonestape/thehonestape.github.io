@@ -1,13 +1,13 @@
 {%- comment -%}
 {%- endcomment -%}
 
-<footer class="footer">
+<footer class="footer mt-6">
     <div class="container">
         <div class="columns is-mobile is-vcentered">
             <!-- Copyright Column -->
             <div class="column is-half has-text-centered has-text-dark">
                 {% if site.copyright.msg != nil and site.copyright.msg != empty and site.copyright.msg != null %}
-                    <p>
+                    <p  class="mb-0">
                         {{ site.copyright.year }} • {{ site.copyright.msg }}
                         Workhorse Collective, LLC
                     </p>

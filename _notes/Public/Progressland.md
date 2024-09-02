@@ -7,10 +7,6 @@ source: https://medium.com/workhorse/progressland-b192771b753
 author: Abraham Garcia Flores
 ---
 
-![“Come on in, The Water is Fine” by Abraham Garcia](https://cdn-images-1.medium.com/max/3840/1*YcXORBRtBKat91bBy3L0Bw.jpeg)
-
-## Progressland
-
 Progress was more than a promise in America’s post-World War II era — it was a vividly painted portrait of the future. Whether it was Westinghouse’s “Home of the Future,” Disney’s “Tomorrowland,” or the countless other future visions that emerged during this time, America was mesmerized by the promise of a brighter tomorrow.
 
 ![](https://cdn-images-1.medium.com/max/2560/1*2bUVT3T3L7ecpmJIHhjYOg.jpeg)

@@ -1,9 +1,9 @@
 ---
+Title: Hifi Lofi Wifi
 featured-image: /assets/img/thesis/exhibition01.jpeg
 featured: true
 categories: [Design]
 feed: show
-date : 08-01-2023
 author: Abraham Garcia Flores
 ---
 
@@ -17,7 +17,7 @@ The exhibition also included several sound reactive images displayed as individu
   {% assign counter = 1 %}
   {% for file in site.static_files %}
     {% if file.path contains 'img/thesis' and (file.extname == '.jpg' or file.extname == '.jpeg' or file.extname == '.png' or file.extname == '.gif' or file.extname == '.webp') %}
-      <img src="{{ file.path }}" alt="{{ page.title }} - Image {{ counter }}" />
+      <img src="{{ file.path }}" alt="{{ page.title }} - Image {{ counter }}"  class="is-fullwidth"/>
       {% assign counter = counter | plus: 1 %}
     {% endif %}
   {% endfor %}
