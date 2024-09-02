@@ -151,55 +151,79 @@
 
                         <!--- Notes Layout-->
                         {%- if page.content-type == "notes" -%}
-                            <div class="columns">
-                                <div class="column is-8-widescreen  is-8-desktop is-8-tablet is-12-mobile">
-                                    <div class="note-page-section">
-                                        <div>
-                                            {%- if site.preferences.homepage.enabled -%}
-                                                <a onclick="window.history.back();">
-                                                {%- else -%}
-                                                    <a onclick="window.location.assign('/');">
-                                                    {%- endif -%}
-                                                    <h5 class="meta-title">← BACK</h5>
-                                                </a>
-                                            </div>
-                                            <!--- List type Note Layout-->
-                                            {%- if page.format == "list" -%}
-                                                <style>
-                                                    li {
-                                                        border-bottom: 1px solid var(--color-border-light);
-                                                        list-style: none;
-                                                        padding: 0.4rem 0;
-                                                    }
-                                                    .content ul {
-                                                        padding-left: 0;
-                                                    }
-                                                    h3 {
-                                                        padding-top: 1rem;
-                                                        padding-bottom: 0;
-                                                    }
-                                                </style>
-                                            {%- endif -%}
-                                            {%- if page.featured-image -%}
-                                            <div class="content">
-                                                <figure>
-                                                    <img src="{{ page.featured-image | relative_url -}}" alt="" class="blog-roll-image">
-                                                </figure>
-                                            </div>
-                                            {%- else -%}
+                            <section class="section">
+                            <div class="container">
 
-                                            {%- endif -%}
-                                            <header class="post-header">
-                                            <h1 class="post-title" itemprop="name headline">{{ page.title }}</h1>
-                                            <p class="post-meta"><time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">{{ page.date | date: "%b %-d, %Y" }}</time>{% if page.author %} • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">{{ page.author }}</span></span>{% endif %}</p>
-                                            </header>
-                                            {%- include Content.html -%}
-                                            {%- include Backlinks.html -%}
-                                        </div>
-                                    </div>
-                                <div class="column 4-widescreen 4-desktop is-8-tablet is-12-mobile">
-                                    {%- include Feed.html -%}
+                                <!-- Full-Width Featured Image -->
+                                {%- if page.featured-image and page.featured-video == nil -%}
+                                <figure class="image" style="margin: 0;">
+                                    <img src="{{ page.featured-image | relative_url }}" alt="{{ page.title }}" style="width: 100%; height: auto;">
+                                </figure>
+                                {%- endif -%}
+                                <!-- Featured Video if Available -->
+                                {%- if page.featured-video -%}
+                                <div class="video-container">
+                                    <iframe src="{{ page.featured-video }}" frameborder="0" allowfullscreen></iframe>
                                 </div>
+                                {%- endif -%}
+
+                                
+                                <!-- Main Layout -->
+                                <div class="columns is-variable is-8 mt-4">
+                                
+                             
+
+                                <!-- Sidebar Column -->
+                                <div class="column is-4 mt-0">
+                                    
+                                    <!-- Additional Sidebar Content -->
+                                    <div class="box">
+                                        <h1 class="title pt-0 mb-1 pb-1 is-5">{{ page.title }}</h1>
+                                        <h3 class="title mb-0 pb-1 is-6">   
+                                            {% if page.author %}
+                                                <span>By {{ page.author }}</span>
+                                            {% endif %}
+                                        </h3>
+                                        <span class="subtitle is-6 mb-0">{{ page.date | date: "%B %d, %Y" }}</span>
+                                    </div>
+                                    <!-- Previous and Next Post Navigation -->
+                                    <nav class="pagination mt-4 is-align-self-flex-end" role="navigation" aria-label="pagination">
+                                        {%- if page.previous -%}
+                                        <a class="pagination-previous" href="{{ page.previous.url }}">← Previous</a>
+                                        {%- endif -%}
+
+                                        {%- if page.next -%}
+                                        <a class="pagination-next" href="{{ page.next.url }}">Next →</a>
+                                        {%- endif -%}
+                                    </nav>
+
+                                    
+
+                                    
+                                </div>
+                                   <!-- Main Content Column -->
+                                <div class="column">
+                                    <div class="content">
+                                        {%- if site.preferences.homepage.enabled -%}
+                                        <a onclick="window.history.back();">
+                                        {%- else -%}
+                                            <a onclick="window.location.assign('/');">
+                                            {%- endif -%}
+                                            <h5 class="meta-title">← BACK</h5>
+                                        </a>
+                                        <!-- Main Blog Content -->
+                                        <!-- Title Section -->
+                                        <h1 class="title is-1">{{ page.title }}</h1>
+                                        <p class="meta">
+                                     
+                                        </p>
+
+                                        {%- include Content.html -%}
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                            </section>
                             {%- endif -%}
 
                             <!--- Post Feed Layout-->

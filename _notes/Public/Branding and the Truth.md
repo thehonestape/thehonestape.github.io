@@ -7,9 +7,6 @@ source: https://medium.com/workhorse/progressland-b192771b753
 author: Abraham Garcia Flores
 ---
 
-![](https://cdn-images-1.medium.com/max/3840/1*wWUu_Yia16_laxYgoto4Ww.jpeg)
-
-## Branding and the Truth
 >  “Three things cannot be long hidden: the sun, the moon, and the truth.” — Buddha
 
 In the process of revising the Workhorse website, we’ve been doing some introspection on what it is we do around here. We are a design studio, so we design — of course! We are a branding studio, but what is that, exactly? We make logos, yes. We create brand guidelines, yep! We even make excellent websites where this brand hangs out and thrives. But, the real value we provide is we make people’s ideas into reality. We name them, give them a face, and give them a voice. We put legs on them and let them run. To do this successfully, we need to look for something often challenging to find: the truth.
