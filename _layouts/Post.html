@@ -151,8 +151,8 @@
 
                         <!--- Notes Layout-->
                         {%- if page.content-type == "notes" -%}
-                            <div class="columns is-centered">
-                                <div class="column is-6-widescreen  is-6-desktop is-8-tablet is-12-mobile">
+                            <div class="columns">
+                                <div class="column is-8-widescreen  is-8-desktop is-8-tablet is-12-mobile">
                                     <div class="note-page-section">
                                         <div>
                                             {%- if site.preferences.homepage.enabled -%}
@@ -180,14 +180,25 @@
                                                     }
                                                 </style>
                                             {%- endif -%}
-                                              <header class="post-header">
-    <h1 class="post-title" itemprop="name headline">{{ page.title }}</h1>
-    <p class="post-meta"><time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">{{ page.date | date: "%b %-d, %Y" }}</time>{% if page.author %} • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">{{ page.author }}</span></span>{% endif %}</p>
-  </header>
+                                            {%- if page.featured-image -%}
+                                            <div class="content">
+                                                <figure>
+                                                    <img src="{{ page.featured-image | relative_url -}}" alt="" class="blog-roll-image">
+                                                </figure>
+                                            </div>
+                                            {%- else -%}
+
+                                            {%- endif -%}
+                                            <header class="post-header">
+                                            <h1 class="post-title" itemprop="name headline">{{ page.title }}</h1>
+                                            <p class="post-meta"><time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">{{ page.date | date: "%b %-d, %Y" }}</time>{% if page.author %} • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">{{ page.author }}</span></span>{% endif %}</p>
+                                            </header>
                                             {%- include Content.html -%}
                                             {%- include Backlinks.html -%}
                                         </div>
                                     </div>
+                                <div class="column 4-widescreen 4-desktop is-8-tablet is-12-mobile">
+                                    {%- include Feed.html -%}
                                 </div>
                             {%- endif -%}
 

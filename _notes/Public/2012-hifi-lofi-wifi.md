@@ -1,5 +1,6 @@
 ---
 featured-image: /assets/img/thesis/hilowi-9.jpg
+featured: true
 categories: [Design]
 feed: show
 date : 08-01-2023
