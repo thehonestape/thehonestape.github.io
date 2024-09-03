@@ -120,7 +120,7 @@ async function showInitialIntro(terminalBody) {
     await new Promise(resolve => setTimeout(resolve, 100));
 
     terminalBody.appendChild(outputElement);
-    await typeText(outputElement, 'Words and images by Abraham Garcia, designer, brand expert, and storyteller. Designing for meaning, creating identities, and shaping worlds.', 10);
+    await typeText(outputElement, 'These are the words and images of Abraham Garcia. Designing for meaning, creating identities, and shaping worlds.', 10);
 }
 
 async function showPromptAndAwaitInput(terminalBody) {
@@ -197,7 +197,7 @@ async function processCommand(command, terminalBody) {
             await typeText(outputElement, 'Available commands: help, about, clear', 20);
             break;
         case 'about':
-            await typeText(outputElement, 'Abraham is a highly experienced interdisciplinary designer, creative technologist, and award-winning studio founder.', 10);
+            await typeText(outputElement, 'Abraham is an interdisciplinary designer, creative technologist, and the co-founder of Workhorse.', 10);
             break;
         case 'clear':
             terminalBody.innerHTML = '';

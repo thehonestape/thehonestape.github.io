@@ -1,13 +1,11 @@
 ---
-categories: [writing]
+categories: [writing, illustration]
 tags: []
 feed: show
 featured-image: https://wrkhrs.co/wp-content/uploads/2020/03/astro-remote.jpg
 source: https://wrkhrs.co/studio-insights/working-remotely/
 author: Abraham Garcia Flores
 ---
-
-[Working Remotely](https://wrkhrs.co/wp-content/uploads/2020/03/astro-remote.jpg)
 
 It’s been interesting to see people that have never worked remotely be thrust into remote work all of a sudden because of the current health situation. I’ve been remote since 2016 and I can say, for sure, that it is not the same as working in-person. However, with some trial and error, we’ve found success, not only for me, a partner in the agency, in building a system that has helped our team collaborate with other designers, developers, clients, and friends from all over the world.
 

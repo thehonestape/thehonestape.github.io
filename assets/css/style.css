@@ -115,6 +115,10 @@ html[data-theme="dark"] {
   border-radius: var(--border-radius, 0);
 }
 
+.no-border {
+  border: none !important
+}
+
 /* Dynamic Utility Classes */
 .has-border-dark { --border-color: var(--border-color-dark); }
 .has-border-light { --border-color: var(--border-color-light); }
@@ -126,6 +130,8 @@ html[data-theme="dark"] {
 .has-border-radius-small { --border-radius: var(--border-radius-small); }
 .has-border-radius-medium { --border-radius: var(--border-radius-medium); }
 .has-border-radius-large { --border-radius: var(--border-radius-large); }
+
+
 
 /* 02. Typography */
 
@@ -269,9 +275,57 @@ main {
     padding: 1.75rem;
     border: 1px solid var(--color-border-light);
 }
-.article-content {
-    padding: 4rem;
-}
+
+
+ @media screen and (max-width: 768px) {
+     .p-responsive {
+         padding:2rem !important;
+     }
+ }
+
+ @media screen and (min-width: 769px),
+ print {
+    .p-responsive {
+            padding: 2rem !important;
+        }
+ }
+
+ @media screen and (min-width: 769px) and (max-width: 1023px) {
+    .p-responsive {
+            padding: 2rem !important;
+        }
+ }
+
+ @media screen and (max-width: 1023px) {
+    .p-responsive {
+            padding: 2rem !important;
+        }
+ }
+
+ @media screen and (min-width: 1024px) {
+    .p-responsive {
+            padding: 2rem !important;
+        }
+ }
+
+ @media screen and (min-width: 1024px) and (max-width: 1215px) {
+    .p-responsive {
+            padding: 3rem !important;
+        }
+ }
+
+ @media screen and (min-width: 1216px) {
+.p-responsive {
+        padding: 3rem !important;
+    }
+ }
+
+
+ @media screen and (min-width: 1408px) {
+    .p-responsive {
+            padding: 3rem;
+        }
+ }
 
 
 a.box:hover,
@@ -1667,6 +1721,21 @@ a[href^="http"] {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
         grid-gap: 1rem 2rem;
+}
+
+.tags {
+    text-transform: uppercase;
+}
+.card .tags {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    opacity: 0;
+    transition: opacity 0.25s ease-in-out;
+}
+
+.card:hover .tags {
+    opacity: 1;
 }
 
 .card.is-fullheight {

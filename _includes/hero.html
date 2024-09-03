@@ -1,5 +1,10 @@
 <section class="hero">
     <div class="columns is-vcentered">
-        {%- include intro-text.html -%}    
+        {%- if page.permalink == "/about" -%}
+                {%- include about-text.html -%}  
+            {%- else -%}
+               {%- include intro-text.html -%}  
+            {%- endif -%}
+          
     </div>
 </section>

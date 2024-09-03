@@ -1,16 +1,21 @@
 <div id="featured-notes" class="container is-fluid">
-    <div class="container">
-        <h4>Notes</h4>
-        {%- if site.preferences.search.enabled -%}
-            <!-- search bar -->
-            <div class="block">
-                <input class="input is-medium" type="text" placeholder="Search notes.." id="search-input" autocomplete="off">
-                <div id="search-results" class="search-results"></div>
-            </div>
-            <script type="text/javascript" src="{{ site.baseurl }}/assets/js/vendor/lunr.min.js"></script>
-            <script src="{{ site.baseurl }}/assets/js/Search.js"></script>
-        {%- endif -%}
-    </div>
+    
+
+    <div class="columns is-mobile is-centered">
+  <div class="column is-11">
+        <h4 class="is-4">Search Notes</h4>
+       {%- if site.preferences.search.enabled -%}
+        <!-- search bar -->
+        <div class="block">
+            <input class="input is-medium" type="text" placeholder="Search notes.." id="search-input" autocomplete="off">
+            <div id="search-results" class="search-results"></div>
+        </div>
+        <script type="text/javascript" src="{{ site.baseurl }}/assets/js/vendor/lunr.min.js"></script>
+        <script src="{{ site.baseurl }}/assets/js/Search.js"></script>
+    {%- endif -%}
+  </div>
+</div>
+ 
 
     {% assign note_items = site.notes | sort: "date" | reverse %}
     {% for note_items in note_items %}
@@ -18,11 +23,11 @@
             <article class="list-feed">
                 <div class="columns is-variable is-8">
                     <div class="column is-5-widescreen is-6-desktop is-8-tablet is-12-mobile">
-                        <div class="article-content is-flex is-flex-direction-column is-justify-content-space-between" style="height: 100%;">
+                        <div class="p-responsive is-flex is-flex-direction-column is-justify-content-space-between" style="height: 100%;">
                             <div>
                                 <div class="tags" style="margin-left:-10px;">
                                     {% for category in note_items.categories %}
-                                        <a href="{{ site.baseurl }}/categories/#{{ category | slugify }}" class="tag mb-0 is-transparent is-rounded is-capitalized">{{ category }}</a>
+                                        <a href="{{ site.baseurl }}/categories/#{{ category | slugify }}" class="tag mb-0 is-transparent is-rounded">{{ category }}</a>
                                     {% endfor %}
                                 </div>
                                 <h3 class="title is-size-4 pt-0 pb-0">
@@ -39,9 +44,9 @@
                             </div>
                             <div>
                                 {%- if note_items.external_link -%}
-                                    <a href="{{ note_items.external_link }}" target="_blank" class="button is-outlined">Read More</a>
+                                    <a href="{{ note_items.external_link }}" target="_blank" class="button is-outlined"><span>Read More</span> <span class="icon"><i class="far fa-sm fa-external-link"></i></span></a>
                                 {%- else -%}
-                                    <a href="{{ site.baseurl }}{{ note_items.url }}" class="button is-outlined">Read More</a>
+                                    <a href="{{ site.baseurl }}{{ note_items.url }}" class="button is-outlined"><span>Read More</span> <span class="icon"><i class="far fa-sm fa-external-link"></i></span></a>
                                 {%- endif -%}
                             </div>
                         </div>

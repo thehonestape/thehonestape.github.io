@@ -120,9 +120,11 @@
                 </figure>
               </div>
               <div class="is-overlay is-flex is-justify-content-flex-start" style="pointer-events: none;">
-                {% for category in note_items.categories %}
-                  <span class="tag is-primary is-rounded m-2">{{ category }}</span>
-                {% endfor %}
+                <div class="tags">
+                  {% for category in note_items.categories %}
+                    <span class="tag is-primary is-rounded m-2">{{ category }}</span>
+                  {% endfor %}
+                </div>
               </div>
             {%- endif -%}
             <div class="card-content is-flex-grow-1 is-flex is-flex-direction-column is-justify-content-flex-end">

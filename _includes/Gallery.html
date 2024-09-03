@@ -1,0 +1,27 @@
+{% comment %}
+  Gallery include file using Bulma's grid system with correct path handling.
+{% endcomment %}
+
+{% assign gallery_path = include.path %}
+{% assign counter = 1 %}
+</div>
+</div>
+
+</div>
+</div>
+<div class="columns is-multiline gallery mt-6">
+  {% for file in site.static_files %}
+    {% if file.path contains gallery_path %}
+      {% assign file_ext = file.extname | downcase %}
+      {% if file_ext == '.jpg' or file_ext == '.jpeg' or file_ext == '.png' or file_ext == '.gif' or file_ext == '.webp' %}
+        <div class="column is-half-desktop is-half-tablet is-full-mobile">
+          <figure class="image p-0 m-0">
+            <!-- Use site.baseurl to ensure the correct path -->
+            <img src="{{ site.baseurl }}{{ file.path }}" alt="Image {{ counter }}" class="has-ratio"/>
+          </figure>
+        </div>
+        {% assign counter = counter | plus: 1 %}
+      {% endif %}
+    {% endif %}
+  {% endfor %}
+</div>
