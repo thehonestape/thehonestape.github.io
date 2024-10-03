@@ -2011,12 +2011,14 @@ textarea {
     width: 100%;
 }
 
+
 #lightbox #prev,
 #lightbox #next {
     position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 15%;
+    top: 50% !important;
+    width: 300px;
+    height: 300px;
+    text-align:center;
     /* Increased width for larger clickable area */
     display: flex;
     align-items: center;
@@ -2025,7 +2027,7 @@ textarea {
     font-size: 3em;
     /* Increased font size */
     text-decoration: none;
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.0);
     /* Slight background for visibility */
     transition: background 0.3s ease;
 }
@@ -2060,3 +2062,38 @@ textarea {
     /* Changed from 'block' to 'flex' */
 }
 
+#lightbox .img {
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+#lightbox .current .img,
+#lightbox .img.current {
+    opacity: 1;
+}
+
+#lightbox #close {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    color: white;
+    font-size: 2em;
+    text-decoration: none;
+    background: rgba(0, 0, 0, 0.5);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+}
+
+#lightbox #close:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+#lightbox #close::before {
+    content: '×';
+    /* Use a multiplication sign for the X */
+}

@@ -55,15 +55,15 @@ function setGallery(element) {
     var prevButton = document.getElementById('prev');
     var nextButton = document.getElementById('next');
 
-    prevButton.style.display = 'block';
-    nextButton.style.display = 'block';
+    prevButton.style.display = 'flex';
+    nextButton.style.display = 'flex';
 
-    prevButton.onclick = function (e) {
+    prevButton.onclick = function(e) {
         e.stopPropagation();
         navigate(-1);
     };
 
-    nextButton.onclick = function (e) {
+    nextButton.onclick = function(e) {
         e.stopPropagation();
         navigate(1);
     };
@@ -77,7 +77,7 @@ function openLightbox(element, type = 'image') {
             <a id="close"></a>
             <a id="next"></a>
             <a id="prev"></a>
-            <div class="img" style="background: url('${element.href}') center center / contain no-repeat;" title="${element.title}">
+            <div class="img" style="background: url('${element.href}') center center / contain no-repeat;">
                 <img src="${element.href}" alt="${element.title}" />
             </div>
             <span>${element.title}</span>
@@ -85,8 +85,6 @@ function openLightbox(element, type = 'image') {
     } else if (type === 'vimeo') {
         lightbox.innerHTML = `
             <a id="close"></a>
-            <a id="next"></a>
-            <a id="prev"></a>
             <div class="videoWrapperContainer">
                 <div class="videoWrapper">
                     <iframe src="https://player.vimeo.com/video/${element.getAttribute('data-id')}/?autoplay=1&byline=0&title=0&portrait=0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
@@ -96,8 +94,6 @@ function openLightbox(element, type = 'image') {
     } else if (type === 'youtube') {
         lightbox.innerHTML = `
             <a id="close"></a>
-            <a id="next"></a>
-            <a id="prev"></a>
             <div class="videoWrapperContainer">
                 <div class="videoWrapper">
                     <iframe src="https://www.youtube.com/embed/${element.getAttribute('data-id')}?autoplay=1&showinfo=0&rel=0" allowfullscreen></iframe>
@@ -106,7 +102,17 @@ function openLightbox(element, type = 'image') {
         `;
     }
 
-    lightbox.style.display = 'block';
+    lightbox.style.display = 'flex';
+
+    // Set initial opacity to 0 and trigger reflow
+    var imgElement = lightbox.querySelector('.img');
+    if (imgElement) {
+        imgElement.style.opacity = 0;
+        void imgElement.offsetWidth;
+
+        // Fade in the image
+        imgElement.style.opacity = 1;
+    }
 
     // Re-attach event listeners
     var closeButton = lightbox.querySelector('#close');
@@ -123,7 +129,7 @@ function openLightbox(element, type = 'image') {
         }
     };
 
-    // Re-attach gallery navigation for images
+    // Set up gallery navigation for images
     if (type === 'image') {
         setGallery(element);
     }
@@ -152,7 +158,7 @@ function closeLightbox() {
     lightbox.style.display = 'none';
     lightbox.innerHTML = '';
     lightbox.classList.remove('gallery');
-
+    
     // Remove keyboard event listener when closing lightbox
     document.removeEventListener('keydown', keyboardNavigation);
 }
@@ -200,6 +206,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 });
+
 
 function createLightboxElement() {
     var lightbox = document.createElement("div");
