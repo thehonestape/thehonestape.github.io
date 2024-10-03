@@ -2011,5 +2011,52 @@ textarea {
     width: 100%;
 }
 
+#lightbox #prev,
+#lightbox #next {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 15%;
+    /* Increased width for larger clickable area */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 3em;
+    /* Increased font size */
+    text-decoration: none;
+    background: rgba(0, 0, 0, 0.1);
+    /* Slight background for visibility */
+    transition: background 0.3s ease;
+}
 
+#lightbox #prev {
+    left: 0;
+}
+
+#lightbox #next {
+    right: 0;
+}
+
+#lightbox #prev:hover,
+#lightbox #next:hover {
+    background: rgba(0, 0, 0, 0.5);
+    /* Darker background on hover */
+}
+
+#lightbox #prev::before {
+    content: '\2039';
+    /* Left-pointing angle quotation mark */
+}
+
+#lightbox #next::before {
+    content: '\203A';
+    /* Right-pointing angle quotation mark */
+}
+
+#lightbox.gallery #prev,
+#lightbox.gallery #next {
+    display: flex;
+    /* Changed from 'block' to 'flex' */
+}
 
