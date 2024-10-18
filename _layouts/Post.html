@@ -136,24 +136,23 @@
                         {%- endif -%}
 
                         <!--- Notes Layout-->
-                        {%- if page.content-type == "notes" -%}
-                            <section class="section">
-                            <div class="container">
-
-                                <!-- Full-Width Featured Image -->
-                                {%- if page.featured-image and page.featured-video == nil -%}
-                                <figure class="image" style="margin: 0;">
-                                    <a href="{{ site.baseurl }}{{ file.path }}" class="lightbox-image">
-                                        <img src="{{ page.featured-image | relative_url }}" alt="{{ page.title }}" style="width: 100%; height: auto;">
-                                    </a>
-                                </figure>
-                                {%- endif -%}
-                                <!-- Featured Video if Available -->
-                                {%- if page.featured-video -%}
-                                <div class="video-container">
-                                    <iframe src="{{ page.featured-video }}" frameborder="0" allowfullscreen></iframe>
-                                </div>
-                                {%- endif -%}
+   {%- if page.content-type == "notes" -%}
+<section class="section section">
+  <div class="container">
+    {%- if page.featured-image and page.featured-video == nil -%}
+    <div class="featured-image-container">
+      <figure class="image" style="margin: 0;">
+        <a href="{{ page.featured-image | relative_url }}" class="lightbox-image" data-gallery="post-gallery">
+          <img src="{{ page.featured-image | relative_url }}" style="width: 100%; height: auto;" alt="{{ page.title }}" />
+          {% if page.gallery_path %}
+          <div class="gallery-count">
+            <span>{{ site.static_files | where_exp: "file", "file.path contains page.gallery_path" | size | plus: 1 }}</span>
+          </div>
+          {% endif %}
+        </a>
+      </figure>
+    </div>
+    {%- endif -%}
 
                                 
                                 <!-- Main Layout -->
@@ -215,9 +214,9 @@
                                         <h1 class="title is-1">{{ page.title }}</h1>
 
                                         {%- include Content.html -%}
-                                        {% if page.gallery_path %}
-                                            {% include gallery.html path=page.gallery_path %}
-                                        {% endif %}
+                  {% if page.gallery_path %}
+    {% include gallery.html path=page.gallery_path %}
+    {% endif %}
                                     </div>
                                 </div>
                                 </div>

@@ -2097,3 +2097,18 @@ textarea {
     content: '×';
     /* Use a multiplication sign for the X */
 }
+
+.featured-image-container {
+    position: relative;
+}
+
+.gallery-count {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 14px;
+}

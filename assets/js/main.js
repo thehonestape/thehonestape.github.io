@@ -83,7 +83,41 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Terminal typing effect
     initializeTerminal();
+
+    // Initialize lightbox
+    initializeLightbox();
 });
+
+function initializeLightbox() {
+    // Initialize GLightbox
+    const lightbox = GLightbox({
+        selector: '.lightbox-image',
+        touchNavigation: true,
+        loop: true
+    });
+
+    // Get all gallery images, including the featured image
+    const galleryImages = document.querySelectorAll('.lightbox-image[data-gallery="post-gallery"]');
+
+    // Get the featured image
+    const featuredImage = document.querySelector('.featured-image-container .lightbox-image');
+
+    if (featuredImage) {
+        featuredImage.addEventListener('click', (e) => {
+            e.preventDefault();
+
+            // Create an array of all gallery images
+            const images = Array.from(galleryImages).map(img => ({
+                href: img.href,
+                type: 'image'
+            }));
+
+            // Set the elements and open the lightbox
+            lightbox.setElements(images);
+            lightbox.open();
+        });
+    }
+}
 
 async function typeText(element, html, interval = 100) {
     const contentArray = html.split(/(<[^>]+>)/g);

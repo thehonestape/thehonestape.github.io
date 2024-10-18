@@ -3,7 +3,7 @@ Gallery that uses Frontmatter path
 {% endcomment %}
 
 {% assign gallery_path = include.path %}
-{% assign counter = 1 %}
+{% assign featured_image = include.featured_image %}
 </div>
 </div>
 
@@ -14,17 +14,13 @@ Gallery that uses Frontmatter path
     {% if file.path contains gallery_path %}
       {% assign file_ext = file.extname | downcase %}
       {% if file_ext == '.jpg' or file_ext == '.jpeg' or file_ext == '.png' or file_ext == '.gif' or file_ext == '.webp' %}
-        <div class="column is-half-desktop is-half-tablet is-full-mobile">
-          <figure class="image p-0 m-0">
-            <!-- Use site.baseurl to ensure the correct path -->
-            <a href="{{ site.baseurl }}{{ file.path }}" class="lightbox-image">
-
-              <img src="{{ site.baseurl }}{{ file.path }}" class="has-ratio" alt="{{ file.name | split: '.' | first }}" />             
-            </a>  
-          </figure>
-         
-        </div>
-        {% assign counter = counter | plus: 1 %}
+      <div class="column is-half-desktop is-half-tablet is-full-mobile">
+        <figure class="image p-0 m-0">
+          <a href="{{ site.baseurl }}{{ file.path }}" class="lightbox-image" data-gallery="post-gallery">
+            <img src="{{ site.baseurl }}{{ file.path }}" class="has-ratio" alt="{{ file.name | split: '.' | first }}" />
+          </a>
+        </figure>
+      </div>
       {% endif %}
     {% endif %}
   {% endfor %}
