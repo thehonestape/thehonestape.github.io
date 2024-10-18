@@ -8,10 +8,6 @@ source: https://medium.com/workhorse/the-future-is-now-workhorse-4a78b7997b8d
 author: Abraham Garcia Flores
 ---
 
-![](https://cdn-images-1.medium.com/max/3600/0*Zg-JF4LT685A8BtJ.jpg)
-
-## The Future Is Now
-
 As the world collapses around us, my thoughts regarding technology, capitalism, and design have come more into focus, so I wanted to share some interesting reads and opinions for you all to think about. The global pandemic of 2020 will be the defining moment of a generation. The future is, in fact, NOW.
 
 ## The Remote Revolution

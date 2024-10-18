@@ -19,7 +19,7 @@
 
     {% assign note_items = site.notes | sort: "date" | reverse %}
     {% for note_items in note_items %}
-        {% if note_items.featured %}
+        {% if note_items.featured & note_items.category == "Design" %}
             <article class="list-feed">
                 <div class="columns is-variable is-8">
                     <div class="column is-5-widescreen is-6-desktop is-8-tablet is-12-mobile">
