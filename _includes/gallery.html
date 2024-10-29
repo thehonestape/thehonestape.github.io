@@ -14,13 +14,15 @@ Gallery that uses Frontmatter path
     {% if file.path contains gallery_path %}
       {% assign file_ext = file.extname | downcase %}
       {% if file_ext == '.jpg' or file_ext == '.jpeg' or file_ext == '.png' or file_ext == '.gif' or file_ext == '.webp' %}
-      <div class="column is-half-desktop is-half-tablet is-full-mobile">
-        <figure class="image p-0 m-0">
-          <a href="{{ site.baseurl }}{{ file.path }}" class="lightbox-image" data-gallery="post-gallery">
-            <img src="{{ site.baseurl }}{{ file.path }}" class="has-ratio" alt="{{ file.name | split: '.' | first }}" />
-          </a>
-        </figure>
-      </div>
+        {% if file.path != page.featured-image %}
+        <div class="column is-half-desktop is-half-tablet is-full-mobile">
+          <figure class="image p-0 m-0">
+            <a href="{{ file.path | relative_url }}" class="lightbox-image" data-gallery="post-gallery">
+              <img src="{{ file.path | relative_url }}" class="has-ratio" alt="{{ file.name | split: '.' | first }}" />
+            </a>
+          </figure>
+        </div>
+        {% endif %}
       {% endif %}
     {% endif %}
   {% endfor %}

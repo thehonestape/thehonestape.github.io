@@ -38,35 +38,52 @@ function is_vimeolink(url, el) {
 }
 
 function setGallery(element) {
-    var galleryContainer = element.closest('.columns.is-multiline.gallery');
-    if (!galleryContainer) return;
+    // Get featured image
+    var featuredImage = document.querySelector('.featured-image-container .lightbox-image');
+    var featuredImageUrl = featuredImage ? featuredImage.href : null;
 
-    var galleryImages = Array.from(galleryContainer.querySelectorAll('a.lightbox-image'));
-    var currentIndex = galleryImages.indexOf(element);
+    // Get gallery images, excluding any that match the featured image URL
+    var galleryContainer = document.querySelector('.columns.is-multiline.gallery');
+    var galleryImages = galleryContainer ?
+        Array.from(galleryContainer.querySelectorAll('a.lightbox-image'))
+            .filter(img => img.href !== featuredImageUrl) : [];
+
+    // Combine featured image and filtered gallery images
+    var allImages = featuredImage ? [featuredImage, ...galleryImages] : galleryImages;
+
+    if (allImages.length === 0) return;
+
+    var currentIndex = allImages.indexOf(element);
 
     var lightbox = document.getElementById('lightbox');
     lightbox.classList.add('gallery');
 
-    function navigate(delta) {
-        currentIndex = (currentIndex + delta + galleryImages.length) % galleryImages.length;
-        openLightbox(galleryImages[currentIndex]);
-    }
-
+    // Only show navigation if there's more than one image
     var prevButton = document.getElementById('prev');
     var nextButton = document.getElementById('next');
 
-    prevButton.style.display = 'flex';
-    nextButton.style.display = 'flex';
+    if (allImages.length > 1) {
+        prevButton.style.display = 'flex';
+        nextButton.style.display = 'flex';
 
-    prevButton.onclick = function(e) {
-        e.stopPropagation();
-        navigate(-1);
-    };
+        prevButton.onclick = function (e) {
+            e.stopPropagation();
+            navigate(-1);
+        };
 
-    nextButton.onclick = function(e) {
-        e.stopPropagation();
-        navigate(1);
-    };
+        nextButton.onclick = function (e) {
+            e.stopPropagation();
+            navigate(1);
+        };
+
+        function navigate(delta) {
+            currentIndex = (currentIndex + delta + allImages.length) % allImages.length;
+            openLightbox(allImages[currentIndex]);
+        }
+    } else {
+        prevButton.style.display = 'none';
+        nextButton.style.display = 'none';
+    }
 }
 
 function openLightbox(element, type = 'image') {

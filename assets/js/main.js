@@ -1,21 +1,22 @@
 document.addEventListener('DOMContentLoaded', () => {
     const terminal = document.getElementById('terminal');
-    const shakeWrapper = document.querySelector('.terminal-wrapper');
-    let isDragging = false;
-    let currentX;
-    let currentY;
-    let initialX;
-    let initialY;
-    let xOffset = 0;
-    let yOffset = 0;
+    if (terminal) {
+        const shakeWrapper = document.querySelector('.terminal-wrapper');
+        let isDragging = false;
+        let currentX;
+        let currentY;
+        let initialX;
+        let initialY;
+        let xOffset = 0;
+        let yOffset = 0;
 
-    // Store the initial position and size
-    const initialPosition = {
-        x: terminal.getBoundingClientRect().left,
-        y: terminal.getBoundingClientRect().top,
-        width: terminal.offsetWidth,
-        height: terminal.offsetHeight,
-    };
+        // Store the initial position and size
+        const initialPosition = {
+            x: terminal.getBoundingClientRect().left,
+            y: terminal.getBoundingClientRect().top,
+            width: terminal.offsetWidth,
+            height: terminal.offsetHeight,
+        };
 
     // Drag functionality
     const header = terminal.querySelector('.terminal__header');
@@ -83,41 +84,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Terminal typing effect
     initializeTerminal();
+    }
 
-    // Initialize lightbox
-    initializeLightbox();
+    // Lightbox initialization - separate from terminal code
+    console.log('Starting lightbox initialization');
+    const featuredImage = document.querySelector('.featured-image-container .lightbox-image');
+    console.log('Featured image:', featuredImage);
+
+    const galleryImages = document.querySelectorAll('.gallery .lightbox-image');
+    console.log('Gallery images:', galleryImages);
+
+    const allImages = [featuredImage, ...Array.from(galleryImages)].filter(Boolean);
+    console.log('All images:', allImages);
+
+    if (allImages.length > 0) {
+        // Clear any existing GLightbox instances
+        if (typeof GLightbox !== 'undefined') {
+            GLightbox.destroy();
+        }
+
+        const lightbox = GLightbox({
+            selector: '.lightbox-image[data-gallery="post-gallery"]',
+            touchNavigation: true,
+            loop: true
+        });
+
+        console.log('Lightbox initialized:', lightbox);
+    }
 });
 
-function initializeLightbox() {
-    // Initialize GLightbox
-    const lightbox = GLightbox({
-        selector: '.lightbox-image',
-        touchNavigation: true,
-        loop: true
-    });
 
-    // Get all gallery images, including the featured image
-    const galleryImages = document.querySelectorAll('.lightbox-image[data-gallery="post-gallery"]');
-
-    // Get the featured image
-    const featuredImage = document.querySelector('.featured-image-container .lightbox-image');
-
-    if (featuredImage) {
-        featuredImage.addEventListener('click', (e) => {
-            e.preventDefault();
-
-            // Create an array of all gallery images
-            const images = Array.from(galleryImages).map(img => ({
-                href: img.href,
-                type: 'image'
-            }));
-
-            // Set the elements and open the lightbox
-            lightbox.setElements(images);
-            lightbox.open();
-        });
-    }
-}
 
 async function typeText(element, html, interval = 100) {
     const contentArray = html.split(/(<[^>]+>)/g);
