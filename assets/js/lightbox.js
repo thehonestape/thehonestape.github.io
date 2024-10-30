@@ -42,7 +42,7 @@ function setGallery(element) {
     var featuredImage = document.querySelector('.featured-image-container .lightbox-image');
     var featuredImageUrl = featuredImage ? featuredImage.href : null;
 
-    // Get gallery images, excluding any that match the featured image URL
+    // Get gallery images, filtering out any that match the featured image URL
     var galleryContainer = document.querySelector('.columns.is-multiline.gallery');
     var galleryImages = galleryContainer ?
         Array.from(galleryContainer.querySelectorAll('a.lightbox-image'))
@@ -66,6 +66,11 @@ function setGallery(element) {
         prevButton.style.display = 'flex';
         nextButton.style.display = 'flex';
 
+        function navigate(delta) {
+            currentIndex = (currentIndex + delta + allImages.length) % allImages.length;
+            openLightbox(allImages[currentIndex]);
+        }
+
         prevButton.onclick = function (e) {
             e.stopPropagation();
             navigate(-1);
@@ -76,10 +81,30 @@ function setGallery(element) {
             navigate(1);
         };
 
-        function navigate(delta) {
-            currentIndex = (currentIndex + delta + allImages.length) % allImages.length;
-            openLightbox(allImages[currentIndex]);
-        }
+        // Add touch events
+        let touchStartX;
+
+        lightbox.addEventListener('touchstart', e => {
+            touchStartX = e.touches[0].clientX;
+        });
+
+        lightbox.addEventListener('touchend', e => {
+            if (!touchStartX) return;
+
+            const touchEndX = e.changedTouches[0].clientX;
+            const diff = touchStartX - touchEndX;
+
+            if (Math.abs(diff) > 50) { // minimum swipe distance
+                if (diff > 0) {
+                    // Swiped left, go next
+                    navigate(1);
+                } else {
+                    // Swiped right, go previous
+                    navigate(-1);
+                }
+            }
+            touchStartX = null;
+        });
     } else {
         prevButton.style.display = 'none';
         nextButton.style.display = 'none';

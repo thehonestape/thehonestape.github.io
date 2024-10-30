@@ -2011,21 +2011,34 @@ textarea {
     width: 100%;
 }
 
+#lightbox .img img {
+    opacity: 0;
+    pointer-events: none;
+    width: auto;
+}
+
+@media screen and (min-width: 1200px) {
+    #lightbox .img {
+        max-width: 90%;
+    }
+}
+
 
 #lightbox #prev,
 #lightbox #next {
+    font: var(--fa-font-light);
     position: absolute;
     top: 50% !important;
-    width: 300px;
-    height: 300px;
+    width: 200px;
+    height: 200px !important;
+    border-radius: 100%;
     text-align:center;
     /* Increased width for larger clickable area */
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
-    font-size: 3em;
-    /* Increased font size */
+    font-size: 2em !important;
     text-decoration: none;
     background: rgba(0, 0, 0, 0.0);
     /* Slight background for visibility */
@@ -2047,12 +2060,12 @@ textarea {
 }
 
 #lightbox #prev::before {
-    content: '\2039';
+    content: '\f177';
     /* Left-pointing angle quotation mark */
 }
 
 #lightbox #next::before {
-    content: '\203A';
+    content: '\f178';
     /* Right-pointing angle quotation mark */
 }
 
