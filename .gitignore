@@ -1,14 +1,23 @@
-_site
-.jekyll-cache
-pages/.DS_Store
+# Jekyll
+_site/
+.jekyll-cache/
+
+# Node
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+.npm
+package-lock.json
+
+# Mac OS
+.DS_Store
+**/.DS_Store
+
+# Obsidian
+_notes/.obsidian/
+_notes/Public/.obsidian/
+
+# Other
 pages/tags.md
-_notes/.obsidian
-_notes/Public/.obsidian
-.DS_Store
-.DS_Store
-assets/.DS_Store
-.DS_Store
-_notes/.DS_Store
-_notes/.DS_Store
-.DS_Store
 .DS_Store
