@@ -86,31 +86,6 @@ document.addEventListener('DOMContentLoaded', () => {
     initializeTerminal();
     }
 
-    // Lightbox initialization - separate from terminal code
-    console.log('Starting lightbox initialization');
-    const featuredImage = document.querySelector('.featured-image-container .lightbox-image');
-    console.log('Featured image:', featuredImage);
-
-    const galleryImages = document.querySelectorAll('.gallery .lightbox-image');
-    console.log('Gallery images:', galleryImages);
-
-    const allImages = [featuredImage, ...Array.from(galleryImages)].filter(Boolean);
-    console.log('All images:', allImages);
-
-    if (allImages.length > 0) {
-        // Clear any existing GLightbox instances
-        if (typeof GLightbox !== 'undefined') {
-            GLightbox.destroy();
-        }
-
-        const lightbox = GLightbox({
-            selector: '.lightbox-image[data-gallery="post-gallery"]',
-            touchNavigation: true,
-            loop: true
-        });
-
-        console.log('Lightbox initialized:', lightbox);
-    }
 });
 
 

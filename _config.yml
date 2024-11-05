@@ -82,6 +82,14 @@ kramdown:
 sass:
   style: compressed
 
+# Swiper and asset configuration
+assets:
+  sources:
+    - node_modules      
+    - node_modules/swiper
+    - assets/css
+    - assets/js
+
 defaults:
   - scope:
       path: ""
@@ -115,7 +123,6 @@ exclude:
 #   - gemfiles/
 #   - Gemfile
 #   - Gemfile.lock
-#   - node_modules/
 #   - vendor/bundle/
 #   - vendor/cache/
 #   - vendor/gems/

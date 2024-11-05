@@ -1,258 +1,141 @@
-function is_youtubelink(url) {
-    var p = /^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
-    return (url.match(p)) ? RegExp.$1 : false;
-}
+document.addEventListener("DOMContentLoaded", function () {
+    let swiper = null;
 
-function is_imagelink(url) {
-    var p = /([a-z\-_0-9\/\:\.]*\.(jpg|jpeg|png|gif))/i;
-    return (url.match(p)) ? true : false;
-}
+    function createLightbox() {
+        const lightbox = document.createElement('div');
+        lightbox.className = 'swiper-lightbox';
+        lightbox.innerHTML = `
+             <div class="swiper-container">
+            <div class="swiper-wrapper"></div>
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-prev">
+                <i class="fa-sharp fa-2xl fa-light fa-arrow-left-long"></i>
+            </div>
+            <div class="swiper-button-next">
+                <i class="fa-sharp fa-2xl fa-light fa-arrow-right-long"></i>
+            </div>
+            <button class="swiper-close"></button>
+        </div>
+        `;
+        document.body.appendChild(lightbox);
+        return lightbox;
+    }
 
-function is_vimeolink(url, el) {
-    var id = false;
-    var xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = function () {
-        if (xmlhttp.readyState == XMLHttpRequest.DONE) {
-            if (xmlhttp.status == 200) {
-                var response = JSON.parse(xmlhttp.responseText);
-                id = response.video_id;
-                console.log(id);
-                el.classList.add('lightbox-vimeo');
-                el.setAttribute('data-id', id);
-
-                el.addEventListener("click", function (event) {
-                    event.preventDefault();
-                    openLightbox(this, 'vimeo');
-                });
-            }
-            else if (xmlhttp.status == 400) {
-                console.error('There was an error 400');
-            }
-            else {
-                console.error('Something other than 200 was returned');
-            }
+    function closeLightbox() {
+        const lightbox = document.querySelector('.swiper-lightbox');
+        if (lightbox) {
+            lightbox.classList.remove('is-active');
+            setTimeout(() => {
+                lightbox.style.display = 'none';
+                if (swiper) {
+                    swiper.destroy(true, true);
+                    swiper = null;
+                }
+            }, 300);
         }
-    };
-    xmlhttp.open("GET", 'https://vimeo.com/api/oembed.json?url=' + url, true);
-    xmlhttp.send();
-}
+    }
 
-function setGallery(element) {
-    // Get featured image
-    var featuredImage = document.querySelector('.featured-image-container .lightbox-image');
-    var featuredImageUrl = featuredImage ? featuredImage.href : null;
+    function initializeSwiper(images, startIndex) {
+        const lightbox = document.querySelector('.swiper-lightbox') || createLightbox();
+        const swiperWrapper = lightbox.querySelector('.swiper-wrapper');
 
-    // Get gallery images, filtering out any that match the featured image URL
-    var galleryContainer = document.querySelector('.columns.is-multiline.gallery');
-    var galleryImages = galleryContainer ?
-        Array.from(galleryContainer.querySelectorAll('a.lightbox-image'))
-            .filter(img => img.href !== featuredImageUrl) : [];
-
-    // Combine featured image and filtered gallery images
-    var allImages = featuredImage ? [featuredImage, ...galleryImages] : galleryImages;
-
-    if (allImages.length === 0) return;
-
-    var currentIndex = allImages.indexOf(element);
-
-    var lightbox = document.getElementById('lightbox');
-    lightbox.classList.add('gallery');
-
-    // Only show navigation if there's more than one image
-    var prevButton = document.getElementById('prev');
-    var nextButton = document.getElementById('next');
-
-    if (allImages.length > 1) {
-        prevButton.style.display = 'flex';
-        nextButton.style.display = 'flex';
-
-        function navigate(delta) {
-            currentIndex = (currentIndex + delta + allImages.length) % allImages.length;
-            openLightbox(allImages[currentIndex]);
+        // Destroy old Swiper instance if it exists
+        if (swiper) {
+            swiper.destroy(true, true);
+            swiper = null;
         }
 
-        prevButton.onclick = function (e) {
-            e.stopPropagation();
-            navigate(-1);
-        };
+        // Clear existing slides
+        swiperWrapper.innerHTML = '';
 
-        nextButton.onclick = function (e) {
-            e.stopPropagation();
-            navigate(1);
-        };
-
-        // Add touch events
-        let touchStartX;
-
-        lightbox.addEventListener('touchstart', e => {
-            touchStartX = e.touches[0].clientX;
+        // Add all images as slides
+        images.forEach(img => {
+            const slide = document.createElement('div');
+            slide.className = 'swiper-slide';
+            slide.innerHTML = `
+                <div class="swiper-zoom-container">
+                    <img src="${img.href}" alt="${img.title || ''}">
+                </div>
+            `;
+            swiperWrapper.appendChild(slide);
         });
 
-        lightbox.addEventListener('touchend', e => {
-            if (!touchStartX) return;
+        // Show lightbox with transition
+        lightbox.style.display = 'block';
+        // Force a reflow
+        void lightbox.offsetWidth;
+        lightbox.classList.add('is-active');
 
-            const touchEndX = e.changedTouches[0].clientX;
-            const diff = touchStartX - touchEndX;
-
-            if (Math.abs(diff) > 50) { // minimum swipe distance
-                if (diff > 0) {
-                    // Swiped left, go next
-                    navigate(1);
-                } else {
-                    // Swiped right, go previous
-                    navigate(-1);
+        // Initialize new Swiper
+        swiper = new Swiper(lightbox.querySelector('.swiper-container'), {
+            slidesPerView: 1.5,
+            centeredSlides: true,
+            spaceBetween: 30,
+            initialSlide: startIndex,
+            loop: true,
+            zoom: {
+                maxRatio: 3,
+                minRatio: 1,
+                toggle: true,
+            },
+            keyboard: {
+                enabled: true,
+                onlyInViewport: false,
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+                hideOnClick: true
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                type: 'progressbar'
+            },
+            effect: 'slide',
+            speed: 400,
+            watchSlidesProgress: true,
+            grabCursor: true,
+            breakpoints: {
+                320: {
+                    slidesPerView: 1.2,
+                    spaceBetween: 10
+                },
+                640: {
+                    slidesPerView: 1.5,
+                    spaceBetween: 20
                 }
             }
-            touchStartX = null;
         });
-    } else {
-        prevButton.style.display = 'none';
-        nextButton.style.display = 'none';
-    }
-}
 
-function openLightbox(element, type = 'image') {
-    var lightbox = document.getElementById('lightbox');
-
-    if (type === 'image') {
-        lightbox.innerHTML = `
-            <a id="close"></a>
-            <a id="next"></a>
-            <a id="prev"></a>
-            <div class="img" style="background: url('${element.href}') center center / contain no-repeat;">
-                <img src="${element.href}" alt="${element.title}" />
-            </div>
-            <span>${element.title}</span>
-        `;
-    } else if (type === 'vimeo') {
-        lightbox.innerHTML = `
-            <a id="close"></a>
-            <div class="videoWrapperContainer">
-                <div class="videoWrapper">
-                    <iframe src="https://player.vimeo.com/video/${element.getAttribute('data-id')}/?autoplay=1&byline=0&title=0&portrait=0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-                </div>
-            </div>
-        `;
-    } else if (type === 'youtube') {
-        lightbox.innerHTML = `
-            <a id="close"></a>
-            <div class="videoWrapperContainer">
-                <div class="videoWrapper">
-                    <iframe src="https://www.youtube.com/embed/${element.getAttribute('data-id')}?autoplay=1&showinfo=0&rel=0" allowfullscreen></iframe>
-                </div>
-            </div>
-        `;
-    }
-
-    lightbox.style.display = 'flex';
-
-    // Set initial opacity to 0 and trigger reflow
-    var imgElement = lightbox.querySelector('.img');
-    if (imgElement) {
-        imgElement.style.opacity = 0;
-        void imgElement.offsetWidth;
-
-        // Fade in the image
-        imgElement.style.opacity = 1;
-    }
-
-    // Re-attach event listeners
-    var closeButton = lightbox.querySelector('#close');
-    if (closeButton) {
-        closeButton.onclick = function (e) {
-            e.stopPropagation();
-            closeLightbox();
-        };
-    }
-
-    lightbox.onclick = function (e) {
-        if (e.target.id === 'lightbox') {
-            closeLightbox();
-        }
-    };
-
-    // Set up gallery navigation for images
-    if (type === 'image') {
-        setGallery(element);
-    }
-
-    // Add keyboard navigation
-    document.addEventListener('keydown', keyboardNavigation);
-}
-
-function keyboardNavigation(e) {
-    if (document.getElementById('lightbox').style.display === 'block') {
-        if (e.key === 'ArrowLeft') {
-            e.preventDefault();
-            document.getElementById('prev').click();
-        } else if (e.key === 'ArrowRight') {
-            e.preventDefault();
-            document.getElementById('next').click();
-        } else if (e.key === 'Escape') {
-            e.preventDefault();
-            closeLightbox();
+        // Add close button handler
+        const closeButton = lightbox.querySelector('.swiper-close');
+        if (closeButton) {
+            closeButton.onclick = closeLightbox;
         }
     }
-}
 
-function closeLightbox() {
-    var lightbox = document.getElementById('lightbox');
-    lightbox.style.display = 'none';
-    lightbox.innerHTML = '';
-    lightbox.classList.remove('gallery');
-    
-    // Remove keyboard event listener when closing lightbox
-    document.removeEventListener('keydown', keyboardNavigation);
-}
+    // Handle clicks on lightbox images
+    document.addEventListener('click', function (e) {
+        const clickedImage = e.target.closest('a.lightbox-image');
+        if (!clickedImage) return;
 
-document.addEventListener("DOMContentLoaded", function () {
-    var lightbox = document.getElementById('lightbox') || createLightboxElement();
+        e.preventDefault();
 
-    var elements = document.querySelectorAll('a');
-    elements.forEach(element => {
-        var url = element.getAttribute('href');
-        if (url) {
-            if (url.indexOf('vimeo') !== -1 && !element.classList.contains('no-lightbox')) {
-                is_vimeolink(url, element);
-            }
-            if (is_youtubelink(url) && !element.classList.contains('no-lightbox')) {
-                element.classList.add('lightbox-youtube');
-                element.setAttribute('data-id', is_youtubelink(url));
-            }
-            if (is_imagelink(url) && !element.classList.contains('no-lightbox')) {
-                element.classList.add('lightbox-image');
-                var href = element.getAttribute('href');
-                var filename = href.split('/').pop();
-                var split = filename.split(".");
-                var name = split[0];
-                element.setAttribute('title', name);
-            }
-        }
+        // Get featured image and gallery images
+        const featuredImage = document.querySelector('.featured-image-container .lightbox-image');
+        const galleryImages = Array.from(document.querySelectorAll('a.lightbox-image'))
+            .filter(img => img !== featuredImage);
+
+        const allImages = featuredImage ? [featuredImage, ...galleryImages] : galleryImages;
+        const startIndex = allImages.indexOf(clickedImage);
+
+        initializeSwiper(allImages, startIndex);
     });
 
-    // Add the youtube lightbox on click
-    var youtubeElements = document.querySelectorAll('a.lightbox-youtube');
-    youtubeElements.forEach(element => {
-        element.addEventListener("click", function (event) {
-            event.preventDefault();
-            openLightbox(this, 'youtube');
-        });
-    });
-
-    // Add the image lightbox on click
-    var imageElements = document.querySelectorAll('a.lightbox-image');
-    imageElements.forEach((element, index) => {
-        element.addEventListener("click", function (event) {
-            event.preventDefault();
-            openLightbox(this, 'image');
-        });
+    // Close on escape key
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') {
+            closeLightbox();
+        }
     });
 });
-
-
-function createLightboxElement() {
-    var lightbox = document.createElement("div");
-    lightbox.setAttribute('id', "lightbox");
-    document.body.appendChild(lightbox);
-    return lightbox;
-}

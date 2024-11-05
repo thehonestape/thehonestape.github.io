@@ -43,37 +43,13 @@ html[data-theme="dark"] {
     --color-bg-sub: #1f1613;
     --color-text-main: #FAFAFC;
     --color-text-sub: #FFFEFF;
-    --color-text-link: var(--color-brown-light);
+    --color-text-link: var(--color-workhorse-yellow);
     --color-border-dark: #E6E6E6;
     --color-border: var(--color-brown-dark);
     --color-border-light: #281a16;
 }
 
-@media (prefers-color-scheme: dark) {
 
-    html,
-    html[data-theme="dark"] {
-        --color-bg-main:var(--color-brown-dark);
-        --color-bg-sub: #1f1613;
-        --color-text-main: #FAFAFC;
-        --color-text-sub: #FFFEFF;
-        --color-text-link: var(--color-brown-light);
-        --color-border-dark: #E6E6E6;
-        --color-border: var(--color-brown-light);
-        --color-border-light: #74797f;
-    }
-
-    html[data-theme="light"] {
-        --color-bg-main: #e9edf6;
-        --color-bg-sub: #ffffff;
-        --color-text-main: var(--color-brown-dark);
-        --color-text-sub: #5D5D67;
-        --color-text-link: var(--color-brown-light);
-        --color-border-dark: #393939;
-        --color-border: var(--color-brown-light);
-        --color-border-light: #8797be;
-    }
-}
 
 :root {
     --text-xs: clamp(0.70rem, calc(0.79rem + -0.06vw), 0.78rem);
@@ -93,6 +69,7 @@ html[data-theme="dark"] {
     --padding-normal: 1.2rem;
     --padding-broad: 2rem;
     --padding-thin: 0.8rem;
+    --swiper-pagination-color: var(--color-text-link);
 }
 
 :root {
@@ -2021,6 +1998,101 @@ textarea {
     #lightbox .img {
         max-width: 90%;
     }
+}
+
+.swiper {
+    width: 600px !important;
+    height: 300px !important;
+}
+.swiper-container {
+    width: 100%;
+    height: 90vh;
+    margin: 0 auto;
+}
+
+.swiper-lightbox {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 9999999;
+    line-height: 0;
+    cursor: pointer;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease, background 0.3s ease;
+    z-index: 1000;
+}
+
+.swiper-lightbox.is-active {
+    opacity: 1;
+    background: rgba(0, 0, 0, 0.9);
+}
+
+.swiper-slide {
+    background: black;
+    opacity: 0.4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transition: opacity 0.25s ease-in-out;
+}
+
+.swiper-slide-active {
+    opacity: 1;
+}
+
+.swiper-zoom-container {
+width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.swiper-zoom-container img {
+    max-width: 100%;
+    max-height: 90vh;
+    object-fit: contain;
+}
+
+
+.swiper-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 30px;
+    height: 30px;
+    color: white;
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 1001;
+}
+
+.swiper-close::before {
+    content: "×";
+    font-size: 30px;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+    color: #fff !important;
+    transition: all 0.2s ease-in-out;
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+    color: #fed100 !important;
+}
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+    display: none;
+    /* Hide default Swiper arrows */
 }
 
 

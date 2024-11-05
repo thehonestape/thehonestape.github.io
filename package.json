@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/thehonestape/thehonestape.github.io/issues"
   },
-  "homepage": "https://github.com/thehonestape/thehonestape.github.io#readme"
+  "homepage": "https://github.com/thehonestape/thehonestape.github.io#readme",
+  "dependencies": {
+    "swiper": "^11.1.14"
+  }
 }
