@@ -5,15 +5,11 @@ document.addEventListener("DOMContentLoaded", function () {
         const lightbox = document.createElement('div');
         lightbox.className = 'swiper-lightbox';
         lightbox.innerHTML = `
-             <div class="swiper-container">
+                <div class="swiper-container">
             <div class="swiper-wrapper"></div>
             <div class="swiper-pagination"></div>
-            <div class="swiper-button-prev">
-                <i class="fa-sharp fa-2xl fa-light fa-arrow-left-long"></i>
-            </div>
-            <div class="swiper-button-next">
-                <i class="fa-sharp fa-2xl fa-light fa-arrow-right-long"></i>
-            </div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
             <button class="swiper-close"></button>
         </div>
         `;
@@ -91,6 +87,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 el: '.swiper-pagination',
                 type: 'progressbar'
             },
+            navigationSize: 88, // Default is 22, larger number = bigger arrows
             effect: 'slide',
             speed: 400,
             watchSlidesProgress: true,
