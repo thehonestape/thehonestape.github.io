@@ -29,10 +29,6 @@
       <lastmod>2012-04-05T00:00:00-04:00</lastmod>
     </url>
     <url>
-      <loc>http://0.0.0.0:4000/note/First-Things-First-2000-at-20</loc>
-      <lastmod>2024-11-06T01:42:33-05:00</lastmod>
-    </url>
-    <url>
       <loc>http://0.0.0.0:4000/note/state-your-purpose</loc>
       <lastmod>2017-10-31T00:00:00-04:00</lastmod>
     </url>
@@ -85,8 +81,20 @@
       <lastmod>2023-03-01T00:00:00-05:00</lastmod>
     </url>
     <url>
+      <loc>http://0.0.0.0:4000/note/First-Things-First-2000-at-20</loc>
+      <lastmod>2024-11-08T12:49:16-05:00</lastmod>
+    </url>
+    <url>
       <loc>http://0.0.0.0:4000/note/Progressland</loc>
       <lastmod>2023-08-16T00:00:00-04:00</lastmod>
+    </url>
+    <url>
+      <loc>http://0.0.0.0:4000/category/design/</loc>
+      <lastmod>2024-11-08T12:49:16-05:00</lastmod>
+    </url>
+    <url>
+      <loc>http://0.0.0.0:4000/category/writing/</loc>
+      <lastmod>2024-11-08T12:49:16-05:00</lastmod>
     </url>
     <url>
       <loc>http://0.0.0.0:4000/post/features</loc>

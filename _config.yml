@@ -62,6 +62,17 @@ plugins:
   - jekyll-feed 
   - jekyll-sitemap 
   - jekyll-tidy
+
+navigation:
+  categories:
+    enabled: true
+    links:
+      - title: Design
+        category: design
+        url: /category/design
+      - title: Writing
+        category: writing
+        url: /category/writing
     
 ## Enable Collections
 ## Suggested collects are "notes" "lists" and "blog"
@@ -69,6 +80,9 @@ collections:
     notes:
       output: true
       permalink: /note/:title
+    categories:
+      output: true
+      permalink: /category/:name
 
 markdown: kramdown
 
@@ -102,6 +116,13 @@ defaults:
       path: ""
       type: notes
     values:
+      layout: Post
+      content-type: notes
+  - scope:
+      path: ""
+      type: categories
+    values:
+      layout: Post  # Changed from Category to Post since we're using the existing layout
       layout: Post
       content-type: notes
 

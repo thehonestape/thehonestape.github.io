@@ -86,8 +86,8 @@
 
         <link href="{{ site.baseurl }}/assets/css/vendor/Katex.css" rel="stylesheet" media="all" class="default"/>
 
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+        <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
         <!--[if IE]>
         <link href="/assets/css/ie-target.css" rel="stylesheet" type="text/css"/>
@@ -130,173 +130,136 @@
             {%- endif -%}
 
             <!--- Notes Feed Layout-->
-            {%- if page.feedformat =="card"-%}
-                <div class="columns is-centered ">
-                    <div class="column is-10-widescreen  is-8-desktop is-8-tablet is-12-mobile">
-                        <h5 class="meta-title">
-                            <a href="/">← Home</a>
-                        </h5>
-                        <div class="jumbo">{{page.title}}</div>
-                        {%- include Content.html -%}
-                        {%- include Feed.html -%}
-                    </div>
-                {%- endif -%}
+{%- if page.feedformat =="card" -%}
+    <div class="columns is-centered">
+        <div class="column is-10-widescreen is-8-desktop is-8-tablet is-12-mobile">
+            <h5 class="meta-title">
+                <a href="/">← Home</a>
+            </h5>
+            <div class="jumbo">{{page.title}}</div>
+            {%- include Content.html -%}
+            <div class="related-wrapper">
+                {% assign sorted_notes = site.notes | sort: "date" | reverse %}
+                {% for note in sorted_notes %}
+                    {% if page.category %}
+                        {% if note.categories contains page.category and note.feed == "show" %}
+                            <div class="card notelist-feed">
+                                <a href="{{ site.baseurl }}{{note.url}}">
+                                    {% if note.featured-image %}
+                                        <div class="card-image">
+                                            {% for category in note.categories %}
+                                                <span class="tag is-primary is-rounded" style="text-transform: capitalize;">{{ category }}</span>
+                                            {% endfor %}
+                                            <figure class="home-image ml-0 mt-0 mb-0 pt-0">
+                                                <img src="{{- note.featured-image | relative_url -}}" class="blog-roll-image"/>
+                                            </figure>
+                                        </div>
+                                    {% endif %}
+                                    <div class="card-content">
+                                        <h5 class="title mb-0">{{ note.title }}</h5>
+                                        <p class="excerpt">
+                                            {{ note.content | strip_html | strip | remove: "[[" | remove: "]]" | remove: "-" | escape | truncate: 200 }}
+                                        </p>
+                                    </div>
+                                </a>
+                            </div>
+                        {% endif %}
+                    {% else %}
+                        {% if note.feed == "show" %}
+                            <div class="card notelist-feed">
+                                <!-- Same card content as above -->
+                                <a href="{{ site.baseurl }}{{note.url}}">
+                                    {% if note.featured-image %}
+                                        <div class="card-image">
+                                            {% for category in note.categories %}
+                                                <span class="tag is-primary is-rounded" style="text-transform: capitalize;">{{ category }}</span>
+                                            {% endfor %}
+                                            <figure class="home-image ml-0 mt-0 mb-0 pt-0">
+                                                <img src="{{- note.featured-image | relative_url -}}" class="blog-roll-image"/>
+                                            </figure>
+                                        </div>
+                                    {% endif %}
+                                    <div class="card-content">
+                                        <h5 class="title mb-0">{{ note.title }}</h5>
+                                        <p class="excerpt">
+                                            {{ note.content | strip_html | strip | remove: "[[" | remove: "]]" | remove: "-" | escape | truncate: 200 }}
+                                        </p>
+                                    </div>
+                                </a>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{%- endif -%}
 
-                <!--- Notes Layout-->
-                {%- if page.content-type == "notes" -%}
-                    <section class="section">
-                        <div class="container">
-                            {%- if page.featured-image and page.featured-video == nil -%}
-                                <div class="featured-image-container">
-                                    <figure class="image" style="margin: 0;">
-                                        <a href="{{ page.featured-image | relative_url }}" class="lightbox-image" data-gallery="post-gallery">
-                                            <img src="{{ page.featured-image | relative_url }}" style="width: 100%; height: auto;" alt="{{ page.title }}"/>
-                                            {% if page.gallery_path %}
-                                                <div class="gallery-count is-size-7	">
-                                                    <i class="fa-light fa-image-polaroid"></i> <span> <span>{{ site.static_files | where_exp: "file", "file.path contains page.gallery_path" | size | plus: 1 }}</span>
-                                                </div>
-                                            {% endif %}
-                                        </a>
-                                    </figure>
+                        <!--- Post Feed Layout-->
+                        {%- if page.permalink == "/posts" -%}
+                            <div class="columns ">
+
+                                <div class="column is-6-widescreen  is-6-desktop is-8-tablet is-12-mobile">
+                                    <h5 class="meta-title">
+                                        <a href="/">← Home</a>
+                                    </h5>
+                                    <div class="jumbo">{{page.title}}</div>
+                                    {%- include Content.html -%}
+                                    {% for post in site.posts %}
+                                        <div class="list-feed">
+                                            <a href="{{ site.baseurl }}{{post.url}}" style="text-decoration: none;display: flex;justify-content: space-between;flex-direction: row;width: 100%;">
+                                                <div class="writinglist-title">{{post.title }}</div>
+                                            </a>
+                                        </div>
+                                    {%- endfor -%}
                                 </div>
+
+                                <ul></div>
+
                             {%- endif -%}
 
-                            <!-- Main Layout -->
-                            <div class="columns is-variable is-8 mt-4">
-
-                                <!-- Sidebar Column -->
-                                <div class="column is-4 mt-0">
-
-                                    <!-- Additional Sidebar Content -->
-                                    <div class="box">
-                                        <div class="tags" style="margin-left:-10px;">
-                                            {% for category in page.categories %}
-                                                <span class="tag no-border mb-0 is-transparent is-rounded">{{ category }}</span>
-                                            {% endfor %}
+                            <!--- Post Layout-->
+                            {%- if page.content-type == "post"  -%}
+                                <div class="columns">
+                                    <div class="column is-8-widescreen  is-8-desktop is-8-tablet is-12-mobile">
+                                        <div class="note-page-section">
+                                            <div>
+                                                {%- if site.preferences.homepage.enabled -%}
+                                                    <a onclick="window.history.back();">
+                                                    {%- else -%}
+                                                        <a onclick="window.location.assign('/');">
+                                                        {%- endif -%}
+                                                        <h5 class="meta-title">← BACK</h5>
+                                                    </a>
+                                                </div>
+                                                <h1>{{page.title}}</h1>
+                                                {%- include Content.html -%}
+                                                {%- include Backlinks.html -%}
+                                            </div>
                                         </div>
-                                        <h1 class="title pt-0 mb-1 pb-1 is-5">{{ page.title }}</h1>
-                                        <p class="meta mb-1 pb-1 is-size-6">
-                                            {% if page.author %}
-                                                <span>By {{ page.author }}</span>
-                                            {% endif %}
-
-                                        </p>
-                                        <p class="meta is-size-6 mb-1 pb-1">{{ page.date | date: "%B %d, %Y" }}</p>
-                                        {%- if page.external_link -%}
-                                            <a class="button p-0 is-ghost mt-1" href="{{ page.external_link }}" target="_blank" rel_"canonical">
-                                                <span>Read More </span>
-                                                <span class="icon">
-                                                    <i class="far fa-external-link"></i></span></a>
-                                        {%- else if page.source -%}
-                                            <a class="button p-0 is-ghost mt-1 is-small" href="{{ page.source }}" target="_blank" rel_"canonical">
-                                                <span>Source </span>
-                                                <span class="icon">
-                                                    <i class="far fa-external-link"></i></span></a>
-                                        {%- endif -%}
                                     </div>
-                                    <!-- Previous and Next Post Navigation -->
-                                    <nav class="pagination mt-4 is-align-self-flex-end" role="navigation" aria-label="pagination">
-                                        {%- if page.previous -%}
-                                            <a class="pagination-previous" href="{{ page.previous.url }}">← Previous</a>
-                                        {%- endif -%}
+                                {%- endif -%}
 
-                                        {%- if page.next -%}
-                                            <a class="pagination-next" href="{{ page.next.url }}">Next →</a>
-                                        {%- endif -%}
-                                    </nav>
-                                    {%- include Feed.html -%}
+                                <!--- Static Page Layout-->
+                                {%- if page.content-type == "static" -%}
+                                    <div class="columns ">
 
-                                </div>
-                                <!-- Main Content Column -->
-                                <div class="column">
-                                    <div class="content">
-                                        {%- if site.preferences.homepage.enabled -%}
-                                            <a onclick="window.history.back();">
-                                            {%- else -%}
-                                                <a onclick="window.location.assign('/');">
-                                                {%- endif -%}
-                                                <h5 class="meta-title">← BACK</h5>
-                                            </a>
-                                            <!-- Main Blog Content -->
-                                            <!-- Title Section -->
-                                            <h1 class="title is-1">{{ page.title }}</h1>
-
+                                        <div class="column is-8-widescreen  is-6-desktop is-8-tablet is-12-mobile">
+                                            <div class="jumbo">{{page.title}}</div>
                                             {%- include Content.html -%}
-                                            {% if page.gallery_path %}
-                                                {% include gallery.html path = page.gallery_path %}
-                                            {% endif %}
+
                                         </div>
                                     </div>
-                                </div>
+                                {%- endif -%}
                             </div>
                         </section>
-                    {%- endif -%}
+                        {%- include Footer.html -%}
+                    </main>
+                </body>
+                <script src="{{ site.baseurl }}/assets/js/main.js"></script>
+                <script src="{{ site.baseurl }}/assets/js/lightbox.js"></script>
+                <script src="{{ site.baseurl }}/assets/js/lightbox-swiper.js"></script>
 
-                    <!--- Post Feed Layout-->
-                    {%- if page.permalink == "/posts" -%}
-                        <div class="columns ">
+                <link rel="stylesheet" href="/assets/css/lightbox.css">
 
-                            <div class="column is-6-widescreen  is-6-desktop is-8-tablet is-12-mobile">
-                                <h5 class="meta-title">
-                                    <a href="/">← Home</a>
-                                </h5>
-                                <div class="jumbo">{{page.title}}</div>
-                                {%- include Content.html -%}
-                                {% for post in site.posts %}
-                                    <div class="list-feed">
-                                        <a href="{{ site.baseurl }}{{post.url}}" style="text-decoration: none;display: flex;justify-content: space-between;flex-direction: row;width: 100%;">
-                                            <div class="writinglist-title">{{post.title }}</div>
-                                        </a>
-                                    </div>
-                                {%- endfor -%}
-                            </div>
-
-                            <ul></div>
-
-                        {%- endif -%}
-
-                        <!--- Post Layout-->
-                        {%- if page.content-type == "post"  -%}
-                            <div class="columns">
-                                <div class="column is-8-widescreen  is-8-desktop is-8-tablet is-12-mobile">
-                                    <div class="note-page-section">
-                                        <div>
-                                            {%- if site.preferences.homepage.enabled -%}
-                                                <a onclick="window.history.back();">
-                                                {%- else -%}
-                                                    <a onclick="window.location.assign('/');">
-                                                    {%- endif -%}
-                                                    <h5 class="meta-title">← BACK</h5>
-                                                </a>
-                                            </div>
-                                            <h1>{{page.title}}</h1>
-                                            {%- include Content.html -%}
-                                            {%- include Backlinks.html -%}
-                                        </div>
-                                    </div>
-                                </div>
-                            {%- endif -%}
-
-                            <!--- Static Page Layout-->
-                            {%- if page.content-type == "static" -%}
-                                <div class="columns ">
-
-                                    <div class="column is-8-widescreen  is-6-desktop is-8-tablet is-12-mobile">
-                                        <div class="jumbo">{{page.title}}</div>
-                                        {%- include Content.html -%}
-
-                                    </div>
-                                </div>
-                            {%- endif -%}
-                        </div>
-                    </section>
-                    {%- include Footer.html -%}
-                </main>
-            </body>
-            <script src="{{ site.baseurl }}/assets/js/main.js"></script>
-            <script src="{{ site.baseurl }}/assets/js/lightbox.js"></script>
-                        <script src="{{ site.baseurl }}/assets/js/lightbox-swiper.js"></script>
-
-            <link rel="stylesheet" href="/assets/css/lightbox.css">
-
-        </html>
+            </html>
