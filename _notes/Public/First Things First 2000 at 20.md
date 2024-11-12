@@ -1,6 +1,6 @@
 ---
 created: 2024-02-16T00:16:22 (UTC -05:00)
-categories: [writing]
+categories: [Writing]
 tags: []
 source: https://wrkhrs.co/culture/first-things-first-2000-at-20/
 featured-image: https://wrkhrs.co/wp-content/uploads/2019/09/first-things-first-emigre.jpg

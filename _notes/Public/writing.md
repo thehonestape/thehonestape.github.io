@@ -4,5 +4,3 @@ category: Writing
 feedformat: card
 permalink: /category/writing/
 ---
-
-asdfasdfasdf

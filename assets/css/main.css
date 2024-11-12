@@ -1837,8 +1837,8 @@ fieldset[disabled] .button.is-dark.is-inverted.is-outlined {
 
 .container.is-fluid {
   max-width: none !important;
-  padding-left: 32px;
-  padding-right: 32px;
+  padding-left: 20px;
+  padding-right: 20px;
   width: 100%;
 }
 
@@ -3472,8 +3472,8 @@ fieldset[disabled] .select select:hover {
   color: #f14668;
 }
 
-.field:not(:last-child) {
-  margin-bottom: 0.75rem;
+.field {
+  --bulma-block-spacing: var(--bulma-field-block-spacing);
 }
 
 .field.has-addons {
@@ -3482,7 +3482,7 @@ fieldset[disabled] .select select:hover {
 }
 
 .field.has-addons .control:not(:last-child) {
-  margin-right: -1px;
+  margin-inline-end: -1px;
 }
 
 .field.has-addons .control:not(:first-child):not(:last-child) .button,
@@ -3494,18 +3494,19 @@ fieldset[disabled] .select select:hover {
 .field.has-addons .control:first-child:not(:only-child) .button,
 .field.has-addons .control:first-child:not(:only-child) .input,
 .field.has-addons .control:first-child:not(:only-child) .select select {
-  border-bottom-right-radius: 0;
-  border-top-right-radius: 0;
+  border-start-end-radius: 0;
+  border-end-end-radius: 0;
 }
 
 .field.has-addons .control:last-child:not(:only-child) .button,
 .field.has-addons .control:last-child:not(:only-child) .input,
 .field.has-addons .control:last-child:not(:only-child) .select select {
-  border-bottom-left-radius: 0;
-  border-top-left-radius: 0;
+  border-start-start-radius: 0;
+  border-end-start-radius: 0;
 }
 
-.field.has-addons .control .button:not([disabled]):hover, .field.has-addons .control .button:not([disabled]).is-hovered,
+.field.has-addons .control .button:not([disabled]):hover,
+.field.has-addons .control .button:not([disabled]).is-hovered,
 .field.has-addons .control .input:not([disabled]):hover,
 .field.has-addons .control .input:not([disabled]).is-hovered,
 .field.has-addons .control .select select:not([disabled]):hover,
@@ -3513,7 +3514,10 @@ fieldset[disabled] .select select:hover {
   z-index: 2;
 }
 
-.field.has-addons .control .button:not([disabled]):focus, .field.has-addons .control .button:not([disabled]).is-focused, .field.has-addons .control .button:not([disabled]):active, .field.has-addons .control .button:not([disabled]).is-active,
+.field.has-addons .control .button:not([disabled]):focus,
+.field.has-addons .control .button:not([disabled]).is-focused,
+.field.has-addons .control .button:not([disabled]):active,
+.field.has-addons .control .button:not([disabled]).is-active,
 .field.has-addons .control .input:not([disabled]):focus,
 .field.has-addons .control .input:not([disabled]).is-focused,
 .field.has-addons .control .input:not([disabled]):active,
@@ -3525,7 +3529,10 @@ fieldset[disabled] .select select:hover {
   z-index: 3;
 }
 
-.field.has-addons .control .button:not([disabled]):focus:hover, .field.has-addons .control .button:not([disabled]).is-focused:hover, .field.has-addons .control .button:not([disabled]):active:hover, .field.has-addons .control .button:not([disabled]).is-active:hover,
+.field.has-addons .control .button:not([disabled]):focus:hover,
+.field.has-addons .control .button:not([disabled]).is-focused:hover,
+.field.has-addons .control .button:not([disabled]):active:hover,
+.field.has-addons .control .button:not([disabled]).is-active:hover,
 .field.has-addons .control .input:not([disabled]):focus:hover,
 .field.has-addons .control .input:not([disabled]).is-focused:hover,
 .field.has-addons .control .input:not([disabled]):active:hover,
@@ -3557,19 +3564,15 @@ fieldset[disabled] .select select:hover {
 
 .field.is-grouped {
   display: flex;
+  gap: 0.75rem;
   justify-content: flex-start;
 }
 
-.field.is-grouped > .control {
+.field.is-grouped>.control {
   flex-shrink: 0;
 }
 
-.field.is-grouped > .control:not(:last-child) {
-  margin-bottom: 0;
-  margin-right: 0.75rem;
-}
-
-.field.is-grouped > .control.is-expanded {
+.field.is-grouped>.control.is-expanded {
   flex-grow: 1;
   flex-shrink: 1;
 }
@@ -3586,19 +3589,8 @@ fieldset[disabled] .select select:hover {
   flex-wrap: wrap;
 }
 
-.field.is-grouped.is-grouped-multiline > .control:last-child, .field.is-grouped.is-grouped-multiline > .control:not(:last-child) {
-  margin-bottom: 0.75rem;
-}
-
-.field.is-grouped.is-grouped-multiline:last-child {
-  margin-bottom: -0.75rem;
-}
-
-.field.is-grouped.is-grouped-multiline:not(:last-child) {
-  margin-bottom: 0;
-}
-
-@media screen and (min-width: 769px), print {
+@media screen and (min-width: 769px),
+print {
   .field.is-horizontal {
     display: flex;
   }
@@ -3614,27 +3606,32 @@ fieldset[disabled] .select select:hover {
   }
 }
 
-@media screen and (min-width: 769px), print {
+@media screen and (min-width: 769px),
+print {
   .field-label {
     flex-basis: 0;
     flex-grow: 1;
     flex-shrink: 0;
-    margin-right: 1.5rem;
+    margin-inline-end: 1.5rem;
     text-align: right;
   }
+
   .field-label.is-small {
-    font-size: 0.75rem;
+    font-size: var(--bulma-size-small);
     padding-top: 0.375em;
   }
+
   .field-label.is-normal {
     padding-top: 0.375em;
   }
+
   .field-label.is-medium {
-    font-size: 1.25rem;
+    font-size: var(--bulma-size-medium);
     padding-top: 0.375em;
   }
+
   .field-label.is-large {
-    font-size: 1.5rem;
+    font-size: var(--bulma-size-large);
     padding-top: 0.375em;
   }
 }
@@ -3643,24 +3640,29 @@ fieldset[disabled] .select select:hover {
   margin-bottom: 0;
 }
 
-@media screen and (min-width: 769px), print {
+@media screen and (min-width: 769px),
+print {
   .field-body {
     display: flex;
     flex-basis: 0;
     flex-grow: 5;
     flex-shrink: 1;
   }
+
   .field-body .field {
     margin-bottom: 0;
   }
-  .field-body > .field {
+
+  .field-body>.field {
     flex-shrink: 1;
   }
-  .field-body > .field:not(.is-narrow) {
+
+  .field-body>.field:not(.is-narrow) {
     flex-grow: 1;
   }
-  .field-body > .field:not(:last-child) {
-    margin-right: 0.75rem;
+
+  .field-body>.field:not(:last-child) {
+    margin-inline-end: 0.75rem;
   }
 }
 
@@ -3834,14 +3836,6 @@ fieldset[disabled] .select select:hover {
 .breadcrumb.has-succeeds-separator li + li::before {
   content: "\0227B";
 }
-/* .card:hover {
-    box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1), 0 0px 0 1px rgba(10, 10, 10, 0.02);
-    border: 1px solid var(--color-text-link);
-} */
-.card:hover .card-image .tag {
-  background: var(--color-bg-main) !important;
-  color: var(--color-text-main) !important;
-}
 
 .card:hover .card-content {
   border-top: 1px solid var(--color-brown-light);
@@ -3852,8 +3846,9 @@ fieldset[disabled] .select select:hover {
   color: var(--color-text-main);
   border: 1px solid var(--color-border-light);
   max-width: 100%;
-  position: relative; }
-
+  position: relative; 
+overflow: hidden;
+}
 
 .card-header {
   background-color: transparent;
@@ -3887,23 +3882,49 @@ fieldset[disabled] .select select:hover {
 .card-image figure, .card-image figure img {
   margin: 0px;
 }
-.card-image .tag {
-  color: var(--color-text-main) !important;
-  position: absolute;
-  top: 1rem;
-  left: 1rem;
-  z-index: 2;
-  background: rgba(38, 32, 32, 0.3) !important;  
-      backdrop-filter: blur(12px) saturate(200%);
-        -webkit-backdrop-filter: blur(12px) saturate(200%);
-  transition: all 0.25s ease-in-out;
 
+.card-image .image .is-overlay .tags {
+  position: absolute; 
+  top: 1.5rem;
+  left: 1.5rem;
+  z-index: 600;
+}
+.card-image .is-overlay .field .control .tag {
+  opacity: 0;
+  color: var(--color-text-main) !important;
+  z-index: 2;
+  background-color: rgba(74, 74, 74, 0.25) !important;
+  background: rgba(74, 74, 74, 0.25);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  transition: opacity 0.25s cubic-bezier(1, 0, 0, 1);
+}
+.card:hover .card-image .is-overlay .field .control .tag {
+  opacity: 1;
+}
+.card:hover .card-content {
+  opacity: 1;
+  bottom: 0;
+  transform: translateY(0px);
+  background: rgba(74, 74, 74, 0.6);
 }
 .card-content {
-  background-color: transparent;
+  position: absolute;
+  width: 100%;
+  left: 0;
+  bottom: 0;
+  transform: translateY(200px);
+  opacity: 0;
   padding: 1rem; 
   border-top: 1px solid var(--color-border-light);
-  transition: border-top 0.3s ease;
+  transition: border-top .125s .3s ease-in-out, background .25s .125s ease-in-out, opacity 0.25s cubic-bezier(1, 0, 0, 1), transform 0.3s cubic-bezier(1, 0, 0, 1);
+  z-index: 900;
+background: rgba(74, 74, 74, 0.25);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
 .card-footer {
@@ -5961,6 +5982,13 @@ label.panel-block:hover {
   flex-grow: 1;
   flex-shrink: 1;
   padding: 0.75rem;
+}
+
+@media screen and (max-width: 768px) {
+  .reverse-row-order{
+ flex-direction:column-reverse;
+ display: flex;
+}
 }
 
 .columns.is-mobile>.column.is-narrow {

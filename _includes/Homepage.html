@@ -3,8 +3,9 @@
 
     <div class="columns is-mobile is-centered">
   <div class="column is-11">
-        <h4 class="is-4">Search Notes</h4>
        {%- if site.preferences.search.enabled -%}
+        <h4 class="is-4">Search Notes</h4>
+
         <!-- search bar -->
         <div class="block">
             <input class="input is-medium" type="text" placeholder="Search notes.." id="search-input" autocomplete="off">
@@ -15,62 +16,93 @@
     {%- endif -%}
   </div>
 </div>
- 
 
-    {% assign note_items = site.notes | sort: "date" | reverse %}
-    {% for note_items in note_items %}
-        {% if note_items.featured & note_items.category == "Design" %}
-            <article class="list-feed">
-                <div class="columns is-variable is-8">
-                    <div class="column is-5-widescreen is-6-desktop is-8-tablet is-12-mobile">
-                        <div class="p-responsive is-flex is-flex-direction-column is-justify-content-space-between" style="height: 100%;">
-                            <div>
-                                <div class="tags" style="margin-left:-10px;">
-                                    {% for category in note_items.categories %}
-                                        <a href="{{ site.baseurl }}/categories/#{{ category | slugify }}" class="tag mb-0 is-transparent is-rounded">{{ category }}</a>
-                                    {% endfor %}
-                                </div>
-                                <h3 class="title is-size-4 pt-0 pb-0">
-                                    {%- if note_items.external_link -%}
-                                    <a href="{{ note_items.external_link }}" class="p-0" target="_blank">
-                                    {%- else -%}
-                                    <a href="{{ site.baseurl }}{{ note_items.url }}" class="p-0">
-                                    {%- endif -%}
-                                    {{ note_items.title }}
+<section class="section p-0">
+{% assign note_items = site.notes | sort: "date" | reverse %}
+{% for note_items in note_items %}
+    {% if note_items.featured & note_items.category == "Design" %}
+        <article class="list-feed">
+            <div class="columns is-variable is-0 is-multiline is-vcentered m-0 reverse-row-order">
+                <!-- Content Column -->
+                <div class="column is-5-widescreen is-6-desktop is-12-mobile p-5 ">
+                    <div class="is-flex is-flex-direction-column" style="gap: 1.5rem;">
+                        <!-- Top Content Group -->
+                        <div class="is-flex is-flex-direction-column" style="gap: .5rem;">
+                            <!-- Tags -->
+                            <div class="tags are-medium">
+                                {% for category in note_items.categories %}
+                                    <a href="{{ site.baseurl }}/categories/#{{ category | slugify }}" 
+                                       class="tag is-transparent is-rounded">
+                                        {{ category }}
                                     </a>
-                                </h3>
-                                <h4 class="subtitle is-size-6 pt-0 mt-0">{{ note_items.date | date: "%Y" }}</h4>
-                                <p class="mb-4">{{ note_items.content | strip_html | strip | remove: "[[" | remove: "]]" | remove: "-" | escape | truncate: 200 }}</p>
+                                {% endfor %}
                             </div>
-                            <div>
-                                {%- if note_items.external_link -%}
-                                    <a href="{{ note_items.external_link }}" target="_blank" class="button is-outlined"><span>Read More</span> <span class="icon"><i class="far fa-sm fa-external-link"></i></span></a>
-                                {%- else -%}
-                                    <a href="{{ site.baseurl }}{{ note_items.url }}" class="button is-outlined"><span>Read More</span></a>
-                                {%- endif -%}
+                            
+                            <!-- Title & Date Group -->
+                            <div class="is-flex is-flex-direction-column" style="gap: 0.5rem;">
+                                <h3 class="title is-4 mb-0">
+                                    {%- if note_items.external_link -%}
+                                        <a href="{{ note_items.external_link }}" target="_blank">
+                                    {%- else -%}
+                                        <a href="{{ site.baseurl }}{{ note_items.url }}">
+                                    {%- endif -%}
+                                        {{ note_items.title }}
+                                        </a>
+                                </h3>
+                                <h4 class="subtitle is-6 has-text-grey mb-0">{{ note_items.date | date: "%Y" }}</h4>
+                            </div>
+                            
+                            <!-- Excerpt -->
+                            <div class="content has-text-grey">
+                                {{ note_items.content | strip_html | strip | remove: "[[" | remove: "]]" | remove: "-" | escape | truncate: 200 }}
                             </div>
                         </div>
-                    </div>
-                    <div class="column is-7-widescreen is-6-desktop is-8-tablet is-12-mobile">
-                        <figure class="image">
+
+                        <!-- Button -->
+                        <div>
                             {%- if note_items.external_link -%}
-                                <a href="{{ note_items.external_link }}" target="_blank">
+                                <a href="{{ note_items.external_link }}" target="_blank" class="button is-outlined is-rounded">
+                                    <span>Read More</span>
+                                    <span class="icon">
+                                        <i class="far fa-sm fa-external-link"></i>
+                                    </span>
+                                </a>
                             {%- else -%}
-                                <a href="{{ site.baseurl }}{{ note_items.url }}">
+                                <a href="{{ site.baseurl }}{{ note_items.url }}" class="button is-outlined is-rounded">
+                                    <span>Read More</span>
+                                </a>
                             {%- endif -%}
-                                {%- if note_items.featured-image -%}
-                                    <img src="{{ note_items.featured-image | relative_url }}" alt="{{ note_items.title }}" class="blog-roll-image">
-                                {%- else -%}
-                                    <img src="{{ '/assets/img/truth-wide.jpg' | relative_url }}" alt="{{ note_items.title }}" class="blog-roll-image">
-                                {%- endif -%}
-                            </a>
-                        </figure>
+                        </div>
                     </div>
                 </div>
-            </article>
-        {% endif %}
-    {% endfor %}
-</div>
+
+                <!-- Image Column -->
+                <div class="column is-7-widescreen is-6-desktop is-12-mobile  order-1-mobile p-0">
+                    <figure class="image is-3by2 m-0">
+                        {%- if note_items.external_link -%}
+                            <a href="{{ note_items.external_link }}" target="_blank">
+                        {%- else -%}
+                            <a href="{{ site.baseurl }}{{ note_items.url }}">
+                        {%- endif -%}
+                            {%- if note_items.featured-image -%}
+                                <img src="{{ note_items.featured-image | relative_url }}" 
+                                     alt="{{ note_items.title }}" 
+                                     class="blog-roll-image"
+                                     style="object-fit: cover; height: 100%;">
+                            {%- else -%}
+                                <img src="{{ '/assets/img/truth-wide.jpg' | relative_url }}" 
+                                     alt="{{ note_items.title }}" 
+                                     class="blog-roll-image"
+                                     style="object-fit: cover; height: 100%;">
+                            {%- endif -%}
+                        </a>
+                    </figure>
+                </div>
+            </div>
+        </article>
+    {% endif %}
+{% endfor %}
+</section>
 
 <div class="container pt-5 is-fluid home-feed">
     <div class="columns">

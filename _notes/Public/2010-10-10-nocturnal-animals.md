@@ -3,7 +3,7 @@ featured-image: /assets/img/nocturnal-animals/nocturnal-animals-thumbnail.jpg
 categories: [Design]
 feed: show
 author: Abraham Garcia Flores
-gallery_path: /img/medium
+gallery_path: /img/nocturnal-animals
 ---
 
 Medium was a publication project, completed in Advanced Publications Design in graduate school. 
