@@ -3837,14 +3837,9 @@ print {
   content: "\0227B";
 }
 
-.card:hover .card-content {
-  border-top: 1px solid var(--color-brown-light);
-}
-
 .card {
   background-color: transparent;
   color: var(--color-text-main);
-  border: 1px solid var(--color-border-light);
   max-width: 100%;
   position: relative; 
 overflow: hidden;
@@ -3907,24 +3902,15 @@ overflow: hidden;
   opacity: 1;
   bottom: 0;
   transform: translateY(0px);
-  background: rgba(74, 74, 74, 0.6);
 }
 .card-content {
-  position: absolute;
-  width: 100%;
-  left: 0;
-  bottom: 0;
-  transform: translateY(200px);
-  opacity: 0;
-  padding: 1rem; 
-  border-top: 1px solid var(--color-border-light);
+  padding: 0.75rem; 
+  border-top: 1px solid transparent;
   transition: border-top .125s .3s ease-in-out, background .25s .125s ease-in-out, opacity 0.25s cubic-bezier(1, 0, 0, 1), transform 0.3s cubic-bezier(1, 0, 0, 1);
   z-index: 900;
-background: rgba(74, 74, 74, 0.25);
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
 .card-footer {
@@ -11323,7 +11309,7 @@ a.tag:hover {
         .section {
           --bulma-section-padding: 3rem 1.5rem;
           --bulma-section-padding-mobile: 2rem .5rem;
-          --bulma-section-padding-desktop: 3rem 3rem;
+          --bulma-section-padding-desktop: 1.5rem 1.5rem;
           --bulma-section-padding-medium: 9rem 4.5rem;
           --bulma-section-padding-large: 18rem 6rem;
           padding: var(--bulma-section-padding);

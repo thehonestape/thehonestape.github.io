@@ -1,4 +1,39 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Custom cursor initialization - ADD THIS FIRST
+    if (!document.querySelector('.custom-cursor')) {
+        const cursor = document.createElement('div');
+        cursor.className = 'custom-cursor';
+
+        const svgContent = `<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50">
+            <path d="M25 0C11.19 0 0 11.19 0 25s11.19 25 25 25 25-11.19 25-25S38.81 0 25 0m11 27.01c0 .52-.43.95-.95.95s-.95-.43-.95-.95v-9.78L15.61 35.72a.948.948 0 0 1-1.34-1.34l18.49-18.49h-9.78c-.52 0-.95-.43-.95-.95s.43-.95.95-.95h12.06c.52 0 .95.43.95.95V27Z"/>
+        </svg>`;
+
+        cursor.innerHTML = svgContent;
+        document.body.appendChild(cursor);
+
+        document.addEventListener('mousemove', (e) => {
+            requestAnimationFrame(() => {
+                cursor.style.left = e.clientX + 'px';
+                cursor.style.top = e.clientY + 'px';
+            });
+        });
+
+        const links = document.querySelectorAll('a:has(.blog-roll-image)');
+        links.forEach(link => {
+            link.addEventListener('mouseenter', () => {
+                cursor.style.opacity = '1';
+                cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+            });
+
+            link.addEventListener('mouseleave', () => {
+                cursor.style.opacity = '0';
+                cursor.style.transform = 'translate(-50%, -50%) scale(0.5)';
+            });
+        });
+    }
+
+
+    
     const terminal = document.getElementById('terminal');
     if (terminal) {
         const shakeWrapper = document.querySelector('.terminal-wrapper');
@@ -17,6 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
             width: terminal.offsetWidth,
             height: terminal.offsetHeight,
         };
+        
 
     // Drag functionality
     const header = terminal.querySelector('.terminal__header');

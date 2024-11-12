@@ -267,6 +267,48 @@ main {
     color: var(--color-text-main);
 }
 
+.custom-cursor {
+    position: fixed;
+    pointer-events: none;
+    width: 50px;
+    height: 50px;
+    z-index: 9999;
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.5);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.list-feed .blog-roll-image {
+    border-radius: var(--border-radius-medium);
+}
+
+a:has(.blog-roll-image) {
+    cursor: none;
+}
+
+a:has(.blog-roll-image):hover~.custom-cursor {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.custom-cursor svg path {
+    animation: fillChange 0.3s forwards;
+}
+
+@keyframes fillChange {
+    0% {
+        fill: #000000;
+    }
+
+    50% {
+        fill: #666666;
+    }
+
+    100% {
+        fill: #ffffff;
+    }
+}
+
 
 .box {
     background-color: transparent;
@@ -515,6 +557,7 @@ padding: 1rem 0 1rem 0;
 .list-feed a:hover {
     transition: padding 0.25s ease-in-out;
 }
+
 
 /* 08. Figures, Images, Code, Blockquotes, Tables */
 
@@ -1719,6 +1762,17 @@ a[href^="http"] {
         grid-template-columns: repeat(4, 1fr);
         grid-gap: 1rem 2rem;
 }
+.card {
+    border: 1px solid;
+    border-color: transparent;
+    border-radius: var(--border-radius-medium);    
+    transition: border-color 0.25s ease-in-out;
+}
+.card:hover {
+    border: 1px solid;
+    border-color: var(--color-border-light);
+}
+
 .card .tags {
     position: absolute;
     top: 10px;
