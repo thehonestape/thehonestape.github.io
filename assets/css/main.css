@@ -3886,7 +3886,6 @@ overflow: hidden;
 }
 .card-image .is-overlay .field .control .tag {
   opacity: 0;
-  color: var(--color-text-main) !important;
   z-index: 2;
   background-color: rgba(74, 74, 74, 0.25) !important;
   background: rgba(74, 74, 74, 0.25);
