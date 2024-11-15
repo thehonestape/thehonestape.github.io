@@ -3,134 +3,120 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function createLightbox() {
         const lightbox = document.createElement('div');
+        lightbox.id = 'lightbox';
         lightbox.className = 'swiper-lightbox';
+        lightbox.style.display = 'none';
         lightbox.innerHTML = `
             <div class="swiper-container">
                 <div class="swiper-wrapper"></div>
-                <div class="swiper-pagination"></div>
                 <div class="swiper-button-prev"></div>
                 <div class="swiper-button-next"></div>
-                <button class="swiper-close"></button>
+                <div class="swiper-pagination"></div>
+                <a id="close"></a>
             </div>
         `;
         document.body.appendChild(lightbox);
         return lightbox;
     }
 
-    function initializeSwiper(images, startIndex) {
-        const lightbox = document.querySelector('.swiper-lightbox') || createLightbox();
-        const swiperWrapper = lightbox.querySelector('.swiper-wrapper');
+    // Initial setup - create lightbox and add click handlers
+    const lightbox = createLightbox();
 
-        if (swiper) {
-            swiper.destroy(true, true);
-            swiper = null;
+    // Add click handlers to all lightbox images
+    function setupGallery() {
+        const imageElements = document.querySelectorAll('a.lightbox-image');
+        imageElements.forEach(element => {
+            element.addEventListener("click", function (event) {
+                event.preventDefault();
+                openLightbox(this);
+            });
+        });
+    }
+
+    function openLightbox(clickedElement) {
+        // Get featured image and gallery images
+        const featuredImage = document.querySelector('.featured-image-container .lightbox-image');
+        const galleryImages = Array.from(document.querySelectorAll('.gallery .lightbox-image'));
+
+        // Combine images, filter out nulls
+        const allImages = [featuredImage, ...galleryImages].filter(Boolean);
+        const currentIndex = allImages.indexOf(clickedElement);
+
+        // Initialize Swiper if not already done
+        if (!swiper) {
+            initializeSwiper(allImages);
         }
 
+        // Show lightbox and go to correct slide
+        lightbox.style.display = 'flex';
+        swiper.slideTo(currentIndex, 0);
+
+        // Add keyboard event listener
+        document.addEventListener('keydown', keyboardNavigation);
+    }
+
+    function initializeSwiper(images) {
+        // Clear and populate swiper wrapper
+        const swiperWrapper = lightbox.querySelector('.swiper-wrapper');
         swiperWrapper.innerHTML = '';
 
         images.forEach(img => {
             const slide = document.createElement('div');
             slide.className = 'swiper-slide';
             slide.innerHTML = `
-                <div class="carousel-wrapper">
-                    <div class="swiper-zoom-container">
-                        <img src="${img.href}" alt="${img.title || ''}">
-                    </div>
-                    <div class="carousel-caption">${img.title || ''}</div>
+                <div class="swiper-zoom-container">
+                    <img src="${img.href}" alt="${img.title || ''}" />
                 </div>
             `;
             swiperWrapper.appendChild(slide);
         });
 
-        lightbox.style.display = 'block';
-        void lightbox.offsetWidth;
-        lightbox.classList.add('is-active');
-
+        // Initialize Swiper
         swiper = new Swiper(lightbox.querySelector('.swiper-container'), {
-            slidesPerView: 'auto',
-            centeredSlides: true,
-            spaceBetween: 30,
-            initialSlide: startIndex,
             loop: true,
             zoom: {
-                maxRatio: 3,
-                minRatio: 1,
-                toggle: true
+                maxRatio: 2,
             },
-            keyboard: { enabled: true },
+            keyboard: {
+                enabled: true,
+                onlyInViewport: false,
+            },
             navigation: {
-                nextEl: '.swiper-button-prev',
-                prevEl: '.swiper-button-next'
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
             },
             pagination: {
                 el: '.swiper-pagination',
-                type: 'progressbar'
-            },
-            speed: 600,
-            grabCursor: true,
-            breakpoints: {
-                320: {
-                    slidesPerView: 1.2,
-                    spaceBetween: 10
-                },
-                640: {
-                    slidesPerView: 1.5,
-                    spaceBetween: 20
-                }
-            },
-            on: {
-                setTranslate: function () {
-                    const slides = this.slides;
-                    for (let i = 0; i < slides.length; i++) {
-                        const slide = slides[i];
-                        const progress = slide.progress;
-                        const scale = 1 - Math.min(Math.abs(progress * 0.15), 1);
-
-                        slide.style.transform = `scale(${scale})`;
-                        slide.style.zIndex = slides.length - Math.abs(Math.round(progress));
-                    }
-                },
-                setTransition: function (speed) {
-                    const slides = this.slides;
-                    for (let i = 0; i < slides.length; i++) {
-                        slides[i].style.transition = `${speed}ms`;
-                    }
-                }
+                type: 'fraction',
             }
         });
-
-        lightbox.querySelector('.swiper-close').onclick = closeLightbox;
     }
 
-    function closeLightbox() {
-        const lightbox = document.querySelector('.swiper-lightbox');
-        if (lightbox) {
-            lightbox.classList.remove('is-active');
-            setTimeout(() => {
-                lightbox.style.display = 'none';
-                if (swiper) {
-                    swiper.destroy(true, true);
-                    swiper = null;
-                }
-            }, 300);
+    function keyboardNavigation(e) {
+        if (lightbox.style.display === 'flex') {
+            if (e.key === 'ArrowLeft') {
+                swiper.slidePrev();
+            } else if (e.key === 'ArrowRight') {
+                swiper.slideNext();
+            } else if (e.key === 'Escape') {
+                closeLightbox();
+            }
         }
     }
 
-    document.addEventListener('click', function (e) {
-        const clickedImage = e.target.closest('a.lightbox-image');
-        if (!clickedImage) return;
+    function closeLightbox() {
+        lightbox.style.display = 'none';
+        document.removeEventListener('keydown', keyboardNavigation);
+    }
 
-        e.preventDefault();
-        const featuredImage = document.querySelector('.featured-image-container .lightbox-image');
-        const galleryImages = Array.from(document.querySelectorAll('a.lightbox-image'))
-            .filter(img => img !== featuredImage);
-        const allImages = featuredImage ? [featuredImage, ...galleryImages] : galleryImages;
-        const startIndex = allImages.indexOf(clickedImage);
-
-        initializeSwiper(allImages, startIndex);
+    // Close lightbox when clicking close button or outside
+    lightbox.querySelector('#close').addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', function (e) {
+        if (e.target === lightbox) {
+            closeLightbox();
+        }
     });
 
-    document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape') closeLightbox();
-    });
+    // Set up initial gallery
+    setupGallery();
 });

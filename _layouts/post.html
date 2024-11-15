@@ -44,7 +44,18 @@
         {% endif %}
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+            <!-- Add this polyfill right at the start of head, before any other scripts -->
+    <script>
+        if (typeof caches === 'undefined') {
+            window.caches = {
+                open() { return Promise.resolve(null); },
+                match() { return Promise.resolve(null); },
+                keys() { return Promise.resolve([]); },
+                delete() { return Promise.resolve(false); }
+            };
+        }
+    </script>
+       
 
         {%- if page.title -%}
             <meta content="{{ page.title }}" property="og:title">
@@ -73,6 +84,7 @@
             ga('create', 'UA-2664442-3', 'auto');
             ga('send', 'pageview');
         </script>
+
 
         <title>{{page.title}} - {{site.heading}}</title>
         <script src="https://kit.fontawesome.com/5fa5a33765.js" crossorigin="anonymous"></script>
@@ -103,9 +115,10 @@
     </div>
 
     <body>
+         {%- include Nav.html -%}
 
-        <main>
-            {%- include Nav.html -%}
+        <main id="swup" class="transition-fade">
+           
 
             <!-- Homepage Layout-->
             {%- if page.permalink == "/" -%}
@@ -151,7 +164,7 @@
                             {%- if page.featured-image and page.featured-video == nil -%}
                                 <div class="featured-image-container">
                                     <figure class="image" style="margin: 0;">
-                                        <a href="{{ page.featured-image | relative_url }}" class="lightbox-image" data-gallery="post-gallery">
+                                        <a href="{{ page.featured-image | relative_url }}" class="lightbox-image" data-gallery="post-gallery" data-no-swup>
                                             <img src="{{ page.featured-image | relative_url }}" style="width: 100%; height: auto;" alt="{{ page.title }}"/>
                                             {% if page.gallery_path %}
                                                 <div class="gallery-count is-size-7	">
@@ -295,10 +308,20 @@
                     {%- include Footer.html -%}
                 </main>
             </body>
+           
+            <!-- First: Swup and its plugins -->
+            <script src="{{ site.baseurl }}/assets/js/vendor/swup/swup.umd.js"></script>
+            <script src="{{ site.baseurl }}/assets/js/vendor/swup/head-plugin.umd.js"></script>
+            <script src="{{ site.baseurl }}/assets/js/vendor/swup/progress-plugin.umd.js"></script>
+
+            <!-- Second: Swup integration (marked as module) -->
+            <script type="module" src="{{ site.baseurl }}/assets/js/swup-integration.js"></script>
+
+            <!-- Third: Your site components -->
             <script src="{{ site.baseurl }}/assets/js/main.js"></script>
             <script src="{{ site.baseurl }}/assets/js/lightbox.js"></script>
-                        <script src="{{ site.baseurl }}/assets/js/lightbox-swiper.js"></script>
 
+            <!-- Finally: CSS -->
             <link rel="stylesheet" href="/assets/css/lightbox.css">
 
         </html>

@@ -233,7 +233,32 @@ header {
 }
 
 main {
-    min-height: 300px;
+padding-top: 0;
+    /* Remove default padding */
+    min-height: 100vh;
+}
+
+/* Swup transitions */
+.transition-fade {
+    transition: opacity 0.4s;
+    opacity: 1;
+}
+
+html.is-animating .transition-fade {
+    opacity: 0;
+}
+
+/* Progress bar using Bulma colors */
+.swup-progress-bar {
+    height: 3px;
+    background-color: var(--color-text-link);
+}
+
+
+/* Progress bar styling matching your theme */
+.swup-progress-bar {
+    height: 2px;
+    background-color: var(--color-text-link);
 }
 
 .has-background-yellow {
@@ -358,6 +383,13 @@ a.box:active {
 
 .buttons.for-back-home:not(:last-child) {
     margin-left: 0;
+}
+
+.navbar.is-fixed-top {
+    background-color: var(--color-bg-main);
+    backdrop-filter: blur(12px) saturate(200%);
+    -webkit-backdrop-filter: blur(12px) saturate(200%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.125);
 }
 
 .navbar-item.navbar-dark-mode__mobile {
@@ -1737,13 +1769,15 @@ a[href^="http"] {
         grid-gap: 1rem 2rem;
 }
 .card {
+    background-color: transparent;
     background: transparent;
+    box-shadow: none;
     border: 1px solid transparent;
     border-radius: var(--border-radius-medium);    
     transition: border 0.25s ease-in-out, background 0.25s ease-in-out, box-shadow 1.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .card:hover {
-    background: rgba(168, 168, 168, 0.08);
+    background-color: rgba(168, 168, 168, 0.08);
     backdrop-filter: blur(15.4px);
     -webkit-backdrop-filter: blur(15.4px);
     border: 1px solid rgba(93, 93, 93, 0.8);
@@ -2157,9 +2191,10 @@ width: 100%;
 }
 
 .swiper-zoom-container img {
+    width: 100%;
     max-width: 100%;
     max-height: 90vh;
-    object-fit: contain;
+    object-fit: cover;
 }
 
 

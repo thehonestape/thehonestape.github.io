@@ -17,6 +17,9 @@
   },
   "homepage": "https://github.com/thehonestape/thehonestape.github.io#readme",
   "dependencies": {
-    "swiper": "^11.1.14"
+    "@swup/head-plugin": "^2.3.0",
+    "@swup/progress-plugin": "^3.2.0",
+    "swiper": "^11.1.14",
+    "swup": "^4.8.1"
   }
 }
