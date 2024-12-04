@@ -1,13 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Only handle cursor on initial load
+    initializeCursor();
     initializeSwup();
 });
 
 function initializeSwup() {
     try {
-        if (typeof window.Swup === 'undefined') {
-            console.warn('Swup not loaded');
-            return;
-        }
+        if (typeof window.Swup === 'undefined') return;
 
         const swup = new window.Swup({
             containers: ['#swup'],
@@ -23,42 +22,27 @@ function initializeSwup() {
             ]
         });
 
+        swup.hooks.on('visit:start', () => {
+            const cursor = document.querySelector('.custom-cursor');
+            if (cursor) cursor.remove();
+        });
 
-        // After content is replaced
         swup.hooks.on('content:replace', () => {
             cleanup();
-            initializeComponents();
 
-            // Reinitialize search
-            if (typeof window.searchInit === 'function') {
-                searchInit();
-            }
-            if (typeof window.searchInitListener === 'function') {
-                searchInitListener();
-            }
+            if (typeof window.searchInit === 'function') searchInit();
+            if (typeof window.searchInitListener === 'function') searchInitListener();
 
-            // Check if we're on homepage and reinitialize terminal
             const isHomePage = window.location.pathname === '/' ||
                 window.location.pathname === '/index.html';
 
-            if (isHomePage) {
-                initializeTerminalComponents();
-            }
+            if (isHomePage) initializeTerminalComponents();
+            initializeCursor();
         });
 
     } catch (error) {
         console.warn('Error initializing Swup:', error);
     }
-}
-
-function initializeComponents() {
-    const isHomePage = window.location.pathname === '/' ||
-        window.location.pathname === '/index.html';
-
-    if (isHomePage) {
-        initializeTerminalComponents();
-    }
-    initializeCursor();
 }
 
 function initializeTerminalComponents() {
