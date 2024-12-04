@@ -200,8 +200,10 @@ async function showPromptAndAwaitInput(terminalBody) {
 
     // Prevent focus on terminal input when clicking outside
     document.addEventListener('click', function (e) {
-        if (!terminal.contains(e.target)) {
-            inputElement.blur();
+        const terminal = document.getElementById('terminal');
+        if (terminal && !terminal.contains(e.target)) {
+            const inputElement = terminal.querySelector('.terminal__input');
+            if (inputElement) inputElement.blur();
         }
     });
 

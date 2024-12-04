@@ -4574,6 +4574,9 @@ print {
   .navbar-brand:hover svg {
     fill: var(--color-brown-light) !important;
   }
+  a.navbar-item {
+    transition: background-color 0.25s ease-in-out; 
+  }
   .navbar.is-white {
     background-color: var(--color-bg-sub);
     color: #0a0a0a; }

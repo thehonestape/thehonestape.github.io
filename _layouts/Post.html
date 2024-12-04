@@ -106,6 +106,8 @@
     <![endif]-->
         <!--<link href="/assets/css/prism.css" rel="stylesheet" />-->
         <link rel="alternate" type="application/rss+xml" href="{{ site.url }}/feed.xml">
+                    <script type="text/javascript" src="{{ site.baseurl }}/assets/js/vendor/lunr.min.js"></script>
+            <script src="{{ site.baseurl }}/assets/js/Search.js"></script>
     </head>
 
     <div id="jekyll-info" style="display: none;"
@@ -167,8 +169,8 @@
                                         <a href="{{ page.featured-image | relative_url }}" class="lightbox-image" data-gallery="post-gallery" data-no-swup>
                                             <img src="{{ page.featured-image | relative_url }}" style="width: 100%; height: auto;" alt="{{ page.title }}"/>
                                             {% if page.gallery_path %}
-                                                <div class="gallery-count is-size-7	">
-                                                    <i class="fa-light fa-image-polaroid"></i> <span> <span>{{ site.static_files | where_exp: "file", "file.path contains page.gallery_path" | size | plus: 1 }}</span>
+                                                <div class="gallery-count tag is-size-7	">
+                                                    <i class="mr-2 fa-light fa-image-polaroid"></i> <span>{{ site.static_files | where_exp: "file", "file.path contains page.gallery_path" | size | plus: 1 }}</span>
                                                 </div>
                                             {% endif %}
                                         </a>
@@ -308,11 +310,18 @@
                     {%- include Footer.html -%}
                 </main>
             </body>
+
+
            
             <!-- First: Swup and its plugins -->
             <script src="{{ site.baseurl }}/assets/js/vendor/swup/swup.umd.js"></script>
+            <script src="https://unpkg.com/@swup/slide-theme@2"></script>
             <script src="{{ site.baseurl }}/assets/js/vendor/swup/head-plugin.umd.js"></script>
             <script src="{{ site.baseurl }}/assets/js/vendor/swup/progress-plugin.umd.js"></script>
+            <script src="{{ site.baseurl }}/assets/js/vendor/swup/preload-plugin.umd.js"></script>
+
+
+
 
             <!-- Second: Swup integration (marked as module) -->
             <script type="module" src="{{ site.baseurl }}/assets/js/swup-integration.js"></script>

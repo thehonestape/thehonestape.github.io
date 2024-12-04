@@ -3,6 +3,7 @@ layout: Stylesheet
 --- 
 @import "fruity.css";
 
+
 html {
     --color-brown-dark: #010001;
     --color-brown-light: #be7f51;
@@ -47,6 +48,12 @@ html[data-theme="light"] {
     --color-border-dark: #393939;
     --color-border: var(--color-brown-light);
     --color-border-light: #8797be;
+}
+
+body {
+    --swup-slide-theme-translate: -200px;
+    --swup-slide-theme-duration-fade: .25s;
+    --swup-slide-theme-duration-slide: .4s;
 }
 
 :root {
@@ -105,6 +112,7 @@ html[data-theme="light"] {
 .has-border-radius-small { --border-radius: var(--border-radius-small); }
 .has-border-radius-medium { --border-radius: var(--border-radius-medium); }
 .has-border-radius-large { --border-radius: var(--border-radius-large); }
+
 
 
 
@@ -239,13 +247,43 @@ padding-top: 0;
 }
 
 /* Swup transitions */
+
+/* Base transition styles */ 
+.slide-in,
+.slide-out {
+    transition: transform 0.3s ease-out;
+}
+
+/* Slide left animations */
+/* Base transition styles */
+.slide-in,
+.slide-out {
+    transition: transform 0.3s ease-out;
+}
+
+/* Reset position */
+.slide-in.is-active,
+.slide-out.is-active {
+    transform: translateY(0);
+}
+
 .transition-fade {
-    transition: opacity 0.4s;
+    transition: 300ms;
+    transition-property: transform, opacity;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     opacity: 1;
+    transform: translateX(0);
+    will-change: transform, opacity;
 }
 
 html.is-animating .transition-fade {
     opacity: 0;
+    transform: translateY(20px);
+}
+
+html.is-leaving .transition-fade {
+    opacity: 0;
+    transform: translateY(-20px);
 }
 
 /* Progress bar using Bulma colors */

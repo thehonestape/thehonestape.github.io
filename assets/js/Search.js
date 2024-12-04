@@ -73,7 +73,6 @@
 
     function searchInit() {
         var dataUrl = "/SearchData.json";  
-        
         getSearchData(dataUrl)
             .then(function(responseText) {
             var docs = JSON.parse(responseText);
@@ -455,7 +454,11 @@
         searchInitListener();
         searchInit();
     });
-})(window.sj = window.sj || {});
 
+     // Make functions globally available after they're defined
+     window.searchInit = searchInit;
+     window.searchInitListener = searchInitListener;
+
+ })(window.sj = window.sj || {});
 
 

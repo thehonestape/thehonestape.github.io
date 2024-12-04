@@ -17,8 +17,11 @@
   },
   "homepage": "https://github.com/thehonestape/thehonestape.github.io#readme",
   "dependencies": {
+    "@swup/fade-theme": "^2.0.1",
     "@swup/head-plugin": "^2.3.0",
+    "@swup/preload-plugin": "^3.2.11",
     "@swup/progress-plugin": "^3.2.0",
+    "@swup/slide-theme": "^2.0.1",
     "swiper": "^11.1.14",
     "swup": "^4.8.1"
   }
