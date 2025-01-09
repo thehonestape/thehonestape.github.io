@@ -22,6 +22,8 @@
     "@swup/preload-plugin": "^3.2.11",
     "@swup/progress-plugin": "^3.2.0",
     "@swup/slide-theme": "^2.0.1",
+    "gsap": "^3.12.5",
+    "mouse-follower": "^1.1.2",
     "swiper": "^11.1.14",
     "swup": "^4.8.1"
   }

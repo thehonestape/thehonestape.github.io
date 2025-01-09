@@ -1,12 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Only handle cursor on initial load
-    initializeCursor();
     initializeSwup();
 });
 
 function initializeSwup() {
     try {
-        if (typeof window.Swup === 'undefined') return;
+        if (typeof window.Swup === 'undefined') {
+            console.warn('Swup not loaded');
+            return;
+        }
 
         const swup = new window.Swup({
             containers: ['#swup'],
@@ -22,22 +23,39 @@ function initializeSwup() {
             ]
         });
 
+        // Clean up cursor before transition starts
         swup.hooks.on('visit:start', () => {
-            const cursor = document.querySelector('.custom-cursor');
-            if (cursor) cursor.remove();
+            if (window.cursor) {
+                window.cursor.destroy();
+                window.cursor = null;
+            }
         });
 
+        // Initial load
+        const isInitialHomePage = window.location.pathname === '/' ||
+            window.location.pathname === '/index.html';
+        if (isInitialHomePage && window.terminalManager) {
+            window.terminalManager.initialize();
+        }
+        initializeMouseFollower();
+
+        // After content is replaced
         swup.hooks.on('content:replace', () => {
             cleanup();
 
-            if (typeof window.searchInit === 'function') searchInit();
-            if (typeof window.searchInitListener === 'function') searchInitListener();
+            if (typeof window.searchInit === 'function') {
+                searchInit();
+            }
+            if (typeof window.searchInitListener === 'function') {
+                searchInitListener();
+            }
 
             const isHomePage = window.location.pathname === '/' ||
                 window.location.pathname === '/index.html';
-
-            if (isHomePage) initializeTerminalComponents();
-            initializeCursor();
+            if (isHomePage && window.terminalManager) {
+                window.terminalManager.initialize();
+            }
+            initializeMouseFollower();
         });
 
     } catch (error) {
@@ -45,136 +63,151 @@ function initializeSwup() {
     }
 }
 
-function initializeTerminalComponents() {
-    const terminal = document.getElementById('terminal');
-    if (!terminal) return;
-
+function initializeMouseFollower() {
+    if (typeof MouseFollower === 'undefined' || window.cursor) return;
     try {
-        const shakeWrapper = terminal.querySelector('.terminal-wrapper');
-        let isDragging = false;
-        let currentX;
-        let currentY;
-        let initialX;
-        let initialY;
-        let xOffset = 0;
-        let yOffset = 0;
+        // Add styles that work with MouseFollower's classes
+        const style = document.createElement('style');
+        style.textContent = `
+            .mf-cursor {
+                position: fixed;
+                top: 0;
+                left: 0;
+                z-index: 9999;
+                contain: layout style size;
+                pointer-events: none;
+                will-change: transform;
+                mix-blend-mode: lighten;
+                visibility: visible !important;
+                opacity: 1 !important;
+            }
 
-        // Initialize drag functionality
-        const header = terminal.querySelector('.terminal__header');
-        if (header) {
-            header.addEventListener('mousedown', dragStart);
-            document.addEventListener('mousemove', drag);
-            document.addEventListener('mouseup', dragEnd);
-        }
+            .mf-cursor::before {
+                content: "";
+                position: absolute;
+                top: -50px;
+                left: -50px;
+                display: block;
+                width: 100px;
+                height: 100px;
+                transform: scale(0.2);
+                background: rgba(255, 255, 255, 1);
+                border-radius: 50%;
+                transition: transform 0.25s ease-in-out, background 0.25s ease-in-out;
+                border: 1px solid var(--color-border-light);
 
-        // Initialize buttons
-        const maxButton = terminal.querySelector('.action--max');
-        const minButton = terminal.querySelector('.action--min');
-        const closeButton = terminal.querySelector('.action--close');
 
-        if (maxButton) {
-            maxButton.addEventListener('click', () => {
-                terminal.classList.remove('minimized');
-                terminal.classList.toggle('big');
-                xOffset = 0;
-                yOffset = 0;
-                setTranslate(0, 0, terminal);
-            });
-        }
+            }
 
-        if (minButton) {
-            minButton.addEventListener('click', () => {
-                terminal.classList.remove('big');
-                terminal.classList.toggle('minimized');
-                if (!terminal.classList.contains('minimized')) {
-                    setTranslate(0, 0, terminal);
+            .mf-cursor.-active::before {
+                background: rgba(255, 255, 255, 0.1);
+                border: 1px solid var(--color-border-light);
+                transform: scale(1);
+
+            }
+
+            .mf-cursor.-mousedown::before {
+                transform: scale(0.7);
+                transition-duration: 0.1s;
+            }
+
+            .mf-cursor.-loading::before {
+                animation: cursorLoad 0.8s ease-in-out infinite !important;
+            }
+
+            @keyframes cursorLoad {
+                0% { transform: scale(0.2); }
+                50% { transform: scale(1); }
+                100% { transform: scale(0.2); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Store last known position
+        let lastX = 0;
+        let lastY = 0;
+
+        // Update position tracker
+        document.addEventListener('mousemove', (e) => {
+            lastX = e.clientX;
+            lastY = e.clientY;
+        });
+
+        // Initialize with GSAP override
+        gsap.config({
+            force3D: true,
+            nullTargetWarn: false,
+        });
+
+        window.cursor = new MouseFollower({
+            container: document.body,
+            speed: 0.55,
+            ease: 'expo.out',
+            hideNativeCursor: false,
+            stateDetection: {
+                '-active': 'a,button'
+            },
+            overwrite: true
+        });
+
+        // Handle mousedown/up states
+        document.addEventListener('mousedown', (e) => {
+            if (e.target.closest('a,button') && window.cursor) {
+                window.cursor.el.classList.add('-mousedown');
+                if (e.target.closest('[data-swup]')) {
+                    window.cursor.el.classList.add('-loading');
                 }
-            });
-        }
-
-        if (closeButton && shakeWrapper) {
-            closeButton.addEventListener('click', () => {
-                shakeWrapper.classList.add('headShake');
-                setTimeout(() => shakeWrapper.classList.remove('headShake'), 500);
-            });
-        }
-
-        // Initialize terminal content
-        initializeTerminal();
-
-        function dragStart(e) {
-            initialX = e.clientX - xOffset;
-            initialY = e.clientY - yOffset;
-
-            if (e.target === header) {
-                isDragging = true;
             }
-        }
+        });
 
-        function drag(e) {
-            if (isDragging) {
-                e.preventDefault();
-                currentX = e.clientX - initialX;
-                currentY = e.clientY - initialY;
-
-                xOffset = currentX;
-                yOffset = currentY;
-
-                setTranslate(currentX, currentY, terminal);
+        document.addEventListener('mouseup', () => {
+            if (window.cursor) {
+                window.cursor.el.classList.remove('-mousedown');
             }
-        }
+        });
 
-        function dragEnd() {
-            initialX = currentX;
-            initialY = currentY;
-            isDragging = false;
-        }
+        // Swup events
+        document.addEventListener('swup:animationOutStart', () => {
+            if (window.cursor?.el) {
+                window.cursor.el.classList.add('-loading');
+            }
+        });
 
-        function setTranslate(xPos, yPos, el) {
-            el.style.transform = `translate3d(${xPos}px, ${yPos}px, 0)`;
-        }
+        document.addEventListener('swup:animationOutDone', () => {
+            if (window.cursor?.el) {
+                const currentTransform = window.cursor.el.style.transform;
+                window.cursor.el.classList.add('-loading');
+                window.cursor.el.style.transform = currentTransform;
+                gsap.set(window.cursor.el, { clearProps: "none" });
+            }
+        });
+
+        document.addEventListener('swup:animationInDone', () => {
+            if (window.cursor?.el) {
+                window.cursor.el.classList.remove('-loading');
+                window.cursor.setPosition(lastX, lastY);
+            }
+        });
+
+        // Add loading class when navigation starts
+        document.addEventListener('click', (e) => {
+            const swupLink = e.target.closest('[data-swup]');
+            if (swupLink && window.cursor?.el) {
+                window.cursor.el.classList.add('-loading');
+            }
+        });
 
     } catch (error) {
-        console.warn('Error initializing terminal:', error);
-    }
-}
-
-function initializeCursor() {
-    // Only create cursor if it doesn't exist
-    if (!document.querySelector('.custom-cursor')) {
-        const cursor = document.createElement('div');
-        cursor.className = 'custom-cursor';
-        cursor.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50">
-            <path d="M25 0C11.19 0 0 11.19 0 25s11.19 25 25 25 25-11.19 25-25S38.81 0 25 0m11 27.01c0 .52-.43.95-.95.95s-.95-.43-.95-.95v-9.78L15.61 35.72a.948.948 0 0 1-1.34-1.34l18.49-18.49h-9.78c-.52 0-.95-.43-.95-.95s.43-.95.95-.95h12.06c.52 0 .95.43.95.95V27Z"/>
-        </svg>`;
-        document.body.appendChild(cursor);
-
-        document.addEventListener('mousemove', (e) => {
-            requestAnimationFrame(() => {
-                cursor.style.left = e.clientX + 'px';
-                cursor.style.top = e.clientY + 'px';
-            });
-        });
-    }
-
-    const links = document.querySelectorAll('a:has(.blog-roll-image)');
-    const cursor = document.querySelector('.custom-cursor');
-
-    if (cursor && links.length > 0) {
-        links.forEach(link => {
-            link.addEventListener('mouseenter', () => {
-                cursor.style.opacity = '1';
-                cursor.style.transform = 'translate(-50%, -50%) scale(1)';
-            });
-            link.addEventListener('mouseleave', () => {
-                cursor.style.opacity = '0';
-                cursor.style.transform = 'translate(-50%, -50%) scale(0.5)';
-            });
-        });
+        console.warn('Error initializing MouseFollower:', error);
     }
 }
 
 function cleanup() {
+    if (window.cursor) {
+        window.cursor.destroy();
+        window.cursor = null;
+    }
+
     const searchResults = document.getElementById('search-results');
     if (searchResults) {
         searchResults.innerHTML = '';
