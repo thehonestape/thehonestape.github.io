@@ -137,10 +137,10 @@ function initializeMouseFollower() {
                     display: block;
                     width: 100px;
                     height: 100px;
-                    transform: scale(0.2);
-                    background: rgba(255, 255, 255, 1);
+                    transform: scale(0.4);
+                    background: rgba(255, 255, 255, 0.1);
                     border-radius: 50%;
-                    border: 1px solid var(--color-border-light);
+                    border: 2px solid var(--color-border-dark);
                 }
 
                 .mf-cursor.-active::before {
