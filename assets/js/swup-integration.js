@@ -1,4 +1,14 @@
+// Initialize both Swup and initial page load
 document.addEventListener('DOMContentLoaded', () => {
+    // Handle initial page load first
+    const isHomePage = window.location.pathname === '/' ||
+        window.location.pathname === '/index.html';
+
+    if (isHomePage && window.terminalManager) {
+        window.terminalManager.initialize();
+    }
+
+    // Then initialize Swup
     initializeSwup();
 });
 
@@ -9,18 +19,25 @@ function initializeSwup() {
             return;
         }
 
-        // Initialize cursor first
-        if (!window.cursor) {
+        // Check if device is mobile
+        const isMobile = () => {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+                window.matchMedia("(max-width: 768px)").matches;
+        };
+
+        // Initialize cursor if not mobile
+        if (!isMobile()) {
             initializeMouseFollower();
         }
 
         const swup = new window.Swup({
             containers: ['#swup'],
             animateHistoryBrowsing: true,
+            cache: true,
             plugins: [
                 new window.SwupHeadPlugin({
                     persistAssets: true,
-                    persistTags: ['style', 'link[rel="stylesheet"]']
+                    persistTags: ['style', 'link[rel="stylesheet"]', 'script']
                 }),
                 new window.SwupProgressPlugin(),
                 new window.SwupPreloadPlugin(),
@@ -31,29 +48,23 @@ function initializeSwup() {
         // Force cursor reset on transition start
         swup.hooks.on('visit:start', () => {
             if (window.cursor) {
-                // Destroy and recreate cursor to force a clean state
                 window.cursor.destroy();
                 window.cursor = null;
-                initializeMouseFollower();
 
-                if (window.cursor?.el) {
-                    window.cursor.el.classList.add('-loading');
+                if (!isMobile()) {
+                    initializeMouseFollower();
+                    if (window.cursor?.el) {
+                        window.cursor.el.classList.add('-loading');
+                    }
                 }
             }
         });
 
-        // Clean up other components during content replacement
+        // Handle page content replacement
         swup.hooks.on('content:replace', () => {
-            const searchResults = document.getElementById('search-results');
-            if (searchResults) {
-                searchResults.innerHTML = '';
-            }
-            document.documentElement.classList.remove('search-active');
+            cleanup();
 
-            const lightbox = document.querySelector('.swiper-lightbox');
-            if (lightbox) lightbox.remove();
-
-            // Reinitialize other components
+            // Reinitialize components
             if (typeof window.searchInit === 'function') {
                 window.searchInit();
             }
@@ -70,12 +81,14 @@ function initializeSwup() {
 
         // Reset cursor after transition
         swup.hooks.on('visit:end', () => {
-            if (!window.cursor) {
-                initializeMouseFollower();
-            }
+            if (!isMobile()) {
+                if (!window.cursor) {
+                    initializeMouseFollower();
+                }
 
-            if (window.cursor?.el) {
-                window.cursor.el.classList.remove('-loading');
+                if (window.cursor?.el) {
+                    window.cursor.el.classList.remove('-loading');
+                }
             }
         });
 
@@ -89,21 +102,6 @@ function initializeMouseFollower() {
 
     try {
         // Add styles that work with MouseFollower's classes
-        // Check if device is mobile
-        const isMobile = () => {
-            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
-                window.matchMedia("(max-width: 768px)").matches;
-        };
-
-        // Don't initialize on mobile
-        if (isMobile()) {
-            if (window.cursor) {
-                window.cursor.destroy();
-                window.cursor = null;
-            }
-            return;
-        }
-
         if (!document.querySelector('#mouse-follower-styles')) {
             const style = document.createElement('style');
             style.id = 'mouse-follower-styles';
@@ -120,6 +118,7 @@ function initializeMouseFollower() {
                         display: none !important;
                     }
                 }
+                
                 .mf-cursor {
                     position: fixed;
                     top: 0;
@@ -204,4 +203,15 @@ function initializeMouseFollower() {
     } catch (error) {
         console.warn('Error initializing MouseFollower:', error);
     }
+}
+
+function cleanup() {
+    const searchResults = document.getElementById('search-results');
+    if (searchResults) {
+        searchResults.innerHTML = '';
+    }
+    document.documentElement.classList.remove('search-active');
+
+    const lightbox = document.querySelector('.swiper-lightbox');
+    if (lightbox) lightbox.remove();
 }
