@@ -9,6 +9,11 @@ function initializeSwup() {
             return;
         }
 
+        // Initialize cursor first
+        if (!window.cursor) {
+            initializeMouseFollower();
+        }
+
         const swup = new window.Swup({
             containers: ['#swup'],
             animateHistoryBrowsing: true,
@@ -23,31 +28,37 @@ function initializeSwup() {
             ]
         });
 
-        // Clean up cursor before transition starts
+        // Force cursor reset on transition start
         swup.hooks.on('visit:start', () => {
             if (window.cursor) {
+                // Destroy and recreate cursor to force a clean state
                 window.cursor.destroy();
                 window.cursor = null;
+                initializeMouseFollower();
+
+                if (window.cursor?.el) {
+                    window.cursor.el.classList.add('-loading');
+                }
             }
         });
 
-        // Initial load
-        const isInitialHomePage = window.location.pathname === '/' ||
-            window.location.pathname === '/index.html';
-        if (isInitialHomePage && window.terminalManager) {
-            window.terminalManager.initialize();
-        }
-        initializeMouseFollower();
-
-        // After content is replaced
+        // Clean up other components during content replacement
         swup.hooks.on('content:replace', () => {
-            cleanup();
+            const searchResults = document.getElementById('search-results');
+            if (searchResults) {
+                searchResults.innerHTML = '';
+            }
+            document.documentElement.classList.remove('search-active');
 
+            const lightbox = document.querySelector('.swiper-lightbox');
+            if (lightbox) lightbox.remove();
+
+            // Reinitialize other components
             if (typeof window.searchInit === 'function') {
-                searchInit();
+                window.searchInit();
             }
             if (typeof window.searchInitListener === 'function') {
-                searchInitListener();
+                window.searchInitListener();
             }
 
             const isHomePage = window.location.pathname === '/' ||
@@ -55,7 +66,17 @@ function initializeSwup() {
             if (isHomePage && window.terminalManager) {
                 window.terminalManager.initialize();
             }
-            initializeMouseFollower();
+        });
+
+        // Reset cursor after transition
+        swup.hooks.on('visit:end', () => {
+            if (!window.cursor) {
+                initializeMouseFollower();
+            }
+
+            if (window.cursor?.el) {
+                window.cursor.el.classList.remove('-loading');
+            }
         });
 
     } catch (error) {
@@ -64,156 +85,123 @@ function initializeSwup() {
 }
 
 function initializeMouseFollower() {
-    if (typeof MouseFollower === 'undefined' || window.cursor) return;
+    if (typeof MouseFollower === 'undefined') return;
+
     try {
         // Add styles that work with MouseFollower's classes
-        const style = document.createElement('style');
-        style.textContent = `
-            .mf-cursor {
-                position: fixed;
-                top: 0;
-                left: 0;
-                z-index: 9999;
-                contain: layout style size;
-                pointer-events: none;
-                will-change: transform;
-                mix-blend-mode: lighten;
-                visibility: visible !important;
-                opacity: 1 !important;
+        // Check if device is mobile
+        const isMobile = () => {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+                window.matchMedia("(max-width: 768px)").matches;
+        };
+
+        // Don't initialize on mobile
+        if (isMobile()) {
+            if (window.cursor) {
+                window.cursor.destroy();
+                window.cursor = null;
             }
+            return;
+        }
 
-            .mf-cursor::before {
-                content: "";
-                position: absolute;
-                top: -50px;
-                left: -50px;
-                display: block;
-                width: 100px;
-                height: 100px;
-                transform: scale(0.2);
-                background: rgba(255, 255, 255, 1);
-                border-radius: 50%;
-                transition: transform 0.25s ease-in-out, background 0.25s ease-in-out;
-                border: 1px solid var(--color-border-light);
+        if (!document.querySelector('#mouse-follower-styles')) {
+            const style = document.createElement('style');
+            style.id = 'mouse-follower-styles';
+            style.textContent = `
+                /* Hide cursor on mobile/touch devices */
+                @media (hover: none) and (pointer: coarse) {
+                    .mf-cursor {
+                        display: none !important;
+                    }
+                }
+                
+                @media (max-width: 768px) {
+                    .mf-cursor {
+                        display: none !important;
+                    }
+                }
+                .mf-cursor {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    z-index: 9999;
+                    contain: layout style size;
+                    pointer-events: none;
+                    will-change: transform;
+                }
 
+                .mf-cursor::before {
+                    content: "";
+                    position: absolute;
+                    top: -50px;
+                    left: -50px;
+                    display: block;
+                    width: 100px;
+                    height: 100px;
+                    transform: scale(0.2);
+                    background: rgba(255, 255, 255, 1);
+                    border-radius: 50%;
+                    border: 1px solid var(--color-border-light);
+                }
 
-            }
+                .mf-cursor.-active::before {
+                    background: rgba(255, 255, 255, 0);
+                    border: 2px solid var(--color-border-light);
+                    transform: scale(1);
+                }
 
-            .mf-cursor.-active::before {
-                background: rgba(255, 255, 255, 0.1);
-                border: 1px solid var(--color-border-light);
-                transform: scale(1);
+                .mf-cursor.-loading::before {
+                    animation: cursorLoad 1s ease-in-out infinite;
+                    background: rgba(255, 255, 255, 0);
+                    border: 2px solid var(--color-border-light);
+                }
 
-            }
+                @keyframes cursorLoad {
+                    0% { transform: scale(0.2); }
+                    50% { transform: scale(1); }
+                    100% { transform: scale(0.2); }
+                }
 
-            .mf-cursor.-mousedown::before {
-                transform: scale(0.7);
-                transition-duration: 0.1s;
-            }
+                html.is-changing .mf-cursor {
+                    opacity: 1 !important;
+                }
+            `;
+            document.head.appendChild(style);
+        }
 
-            .mf-cursor.-loading::before {
-                animation: cursorLoad 0.8s ease-in-out infinite !important;
-            }
+        // Destroy existing cursor if it exists
+        if (window.cursor) {
+            window.cursor.destroy();
+            window.cursor = null;
+        }
 
-            @keyframes cursorLoad {
-                0% { transform: scale(0.2); }
-                50% { transform: scale(1); }
-                100% { transform: scale(0.2); }
-            }
-        `;
-        document.head.appendChild(style);
-
-        // Store last known position
-        let lastX = 0;
-        let lastY = 0;
-
-        // Update position tracker
-        document.addEventListener('mousemove', (e) => {
-            lastX = e.clientX;
-            lastY = e.clientY;
-        });
-
-        // Initialize with GSAP override
-        gsap.config({
-            force3D: true,
-            nullTargetWarn: false,
-        });
-
+        // Initialize with basic settings
         window.cursor = new MouseFollower({
             container: document.body,
             speed: 0.55,
+            skewing: 0,
             ease: 'expo.out',
-            hideNativeCursor: false,
+            className: 'mf-cursor',
             stateDetection: {
-                '-active': 'a,button'
-            },
-            overwrite: true
+                '-active': 'a,button',
+                '-loading': '[data-loading]'
+            }
         });
 
-        // Handle mousedown/up states
-        document.addEventListener('mousedown', (e) => {
-            if (e.target.closest('a,button') && window.cursor) {
-                window.cursor.el.classList.add('-mousedown');
-                if (e.target.closest('[data-swup]')) {
-                    window.cursor.el.classList.add('-loading');
-                }
+        // Simple click handling
+        document.addEventListener('mousedown', () => {
+            if (window.cursor?.el) {
+                window.cursor.el.style.transform = 'scale(0.7)';
             }
         });
 
         document.addEventListener('mouseup', () => {
-            if (window.cursor) {
-                window.cursor.el.classList.remove('-mousedown');
-            }
-        });
-
-        // Swup events
-        document.addEventListener('swup:animationOutStart', () => {
             if (window.cursor?.el) {
-                window.cursor.el.classList.add('-loading');
-            }
-        });
-
-        document.addEventListener('swup:animationOutDone', () => {
-            if (window.cursor?.el) {
-                const currentTransform = window.cursor.el.style.transform;
-                window.cursor.el.classList.add('-loading');
-                window.cursor.el.style.transform = currentTransform;
-                gsap.set(window.cursor.el, { clearProps: "none" });
-            }
-        });
-
-        document.addEventListener('swup:animationInDone', () => {
-            if (window.cursor?.el) {
-                window.cursor.el.classList.remove('-loading');
-                window.cursor.setPosition(lastX, lastY);
-            }
-        });
-
-        // Add loading class when navigation starts
-        document.addEventListener('click', (e) => {
-            const swupLink = e.target.closest('[data-swup]');
-            if (swupLink && window.cursor?.el) {
-                window.cursor.el.classList.add('-loading');
+                window.cursor.el.style.transform = 'scale(1)';
             }
         });
 
     } catch (error) {
         console.warn('Error initializing MouseFollower:', error);
     }
-}
-
-function cleanup() {
-    if (window.cursor) {
-        window.cursor.destroy();
-        window.cursor = null;
-    }
-
-    const searchResults = document.getElementById('search-results');
-    if (searchResults) {
-        searchResults.innerHTML = '';
-    }
-    document.documentElement.classList.remove('search-active');
-
-    const lightbox = document.querySelector('.swiper-lightbox');
-    if (lightbox) lightbox.remove();
 }
