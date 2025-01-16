@@ -120,7 +120,6 @@
 
     <body>
          {%- include Nav.html -%}
-
         <main id="swup" class="transition-fade">
            
 
@@ -311,9 +310,6 @@
                     </section>
                     {%- include Footer.html -%}
                 </main>
-            </body>
-
-           
             <!-- First: Swup and its plugins -->
             <script src="{{ site.baseurl }}/assets/js/vendor/swup/swup.umd.js"></script>
             <script src="https://unpkg.com/@swup/slide-theme@2"></script>
@@ -330,8 +326,14 @@
             <!-- Third: Your site components -->
             <script src="{{ site.baseurl }}/assets/js/main.js"></script>
             <script src="{{ site.baseurl }}/assets/js/lightbox.js"></script>
+            <!-- GSAP and its plugins -->
             <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollSmoother.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/TextPlugin.min.js"></script>
+
             <script src="https://unpkg.com/mouse-follower@1/dist/mouse-follower.min.js"></script>
+
 
 
             <!-- Finally: CSS -->

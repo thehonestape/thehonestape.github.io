@@ -56,10 +56,6 @@ body {
     --swup-slide-theme-duration-slide: .4s;
 }
 
-.mf-cursor-text {
-    color: red;
-}
-
 :root {
     --text-xs: clamp(0.70rem, calc(0.79rem + -0.06vw), 0.78rem);
     --text-s: clamp(0.94rem, calc(0.94rem + 0.00vw), 0.94rem);
