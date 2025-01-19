@@ -42,6 +42,7 @@ function initializeSwup() {
                 }),
                 new window.SwupProgressPlugin(),
                 new window.SwupPreloadPlugin(),
+                new window.SwupSlideTheme()
             ]
         });
 
@@ -68,14 +69,7 @@ function setupSwupHooks(swup, isMobile) {
     // Before transition starts
     swup.hooks.on('visit:start', () => {
         const content = document.querySelector('#swup');
-
-        // Simple fade/diffuse out without movement
-        gsap.to(content, {
-            duration: 0.4,
-            opacity: 0,
-            filter: "blur(10px)",
-            ease: "power2.inOut"
-        });
+        content.style.opacity = '0';
 
         if (window.cursor) {
             window.cursor.destroy();
@@ -90,29 +84,30 @@ function setupSwupHooks(swup, isMobile) {
         }
     });
 
+    // When new content is ready
     swup.hooks.on('content:replace', () => {
         cleanup();
 
-        // Set scroll position immediately
-        window.scrollTo({
-            top: 0,
-            behavior: 'auto'
-        });
-
-        // Re-initialize GSAP and ScrollTrigger
+        // Re-initialize GSAP if it exists
         if (typeof gsap !== 'undefined') {
+            // Kill existing ScrollTriggers
             if (typeof ScrollTrigger !== 'undefined') {
                 ScrollTrigger.getAll().forEach(trigger => trigger.kill());
             }
             initializeGSAPAnimations();
         }
 
-        // Handle other reinitializations
+        // Initialize search if needed
         if (typeof window.searchInit === 'function') {
             window.searchInit();
         }
         if (typeof window.searchInitListener === 'function') {
             window.searchInitListener();
+        }
+
+        // Initialize lightbox (add this line)
+        if (window.initializeLightbox) {
+            window.initializeLightbox();
         }
 
         const isHomePage = window.location.pathname === '/' ||
@@ -125,20 +120,9 @@ function setupSwupHooks(swup, isMobile) {
     // After transition is complete
     swup.hooks.on('visit:end', () => {
         const content = document.querySelector('#swup');
-
-        gsap.fromTo(content,
-            {
-                opacity: 0,
-                filter: "blur(10px)"
-            },
-            {
-                duration: 0.5,
-                opacity: 1,
-                filter: "blur(0px)",
-                ease: "power2.out",
-                clearProps: "all"
-            }
-        );
+        setTimeout(() => {
+            content.style.opacity = '1';
+        }, 50);
 
         if (!isMobile()) {
             if (!window.cursor) {
@@ -162,6 +146,7 @@ function initializeGSAPAnimations() {
     }
 }
 
+// Add this new function
 function animateText(element) {
     if (!element) return;
 
@@ -200,109 +185,269 @@ function animateText(element) {
 }
 
 function initializeScrollAnimations() {
-    // Featured notes section
-    // In your initializeScrollAnimations function, adjust the featured articles section:
+    // Featured notes section animation
+    const featuredArticles = gsap.utils.toArray('#featured-notes .list-feed');
+    console.log('Found featured articles:', featuredArticles.length); // Debug line
 
-const featuredArticles = gsap.utils.toArray('#featured-notes .list-feed');
+    featuredArticles.forEach((article, index) => {
+        ScrollTrigger.create({
+            trigger: article,
+            start: "top 85%",
+            onEnter: () => {
+                const tl = gsap.timeline();
+                const elements = {
+                    container: article,
+                    image: article.querySelector('.blog-roll-image'),
+                    title: article.querySelector('.title'),
+                    content: article.querySelector('.content'),
+                    tags: article.querySelectorAll('.tag')
+                };
 
-featuredArticles.forEach(article => {
-    ScrollTrigger.create({
-        trigger: article,
-        // Adjust these values to control when the animation starts
-        start: "top center", // Changed from "top 85%" to "top center"
-        // Optional: add markers to help visualize the trigger point while developing
-        // markers: true, // Uncomment this to see trigger points
-        onEnter: () => {
-            const elements = {
-                container: article,
-                image: article.querySelector('.blog-roll-image'),
-                title: article.querySelector('.title'),
-                content: article.querySelector('.content'),
-                tags: article.querySelectorAll('.tag')
-            };
+                // Debug
+                console.log('Elements found:', {
+                    hasImage: !!elements.image,
+                    hasTitle: !!elements.title,
+                    hasContent: !!elements.content,
+                    tagsCount: elements.tags.length
+                });
 
-            // Initial states
-            gsap.set(elements.container, { 
-                visibility: 'visible'
-            });
-
-            const tl = gsap.timeline();
-
-            // Slightly adjusted timing
-            tl.fromTo(elements.container,
-                {
+                // Set initial states
+                gsap.set([elements.container], {
                     opacity: 0,
-                    y: 30
-                },
-                {
-                    duration: 0.4,
-                    opacity: 1,
-                    y: 0,
-                    ease: "back.out(1.2)"
+                    y: 30,
+                    visibility: 'visible'
+                });
+
+                if (elements.image) {
+                    gsap.set(elements.image, {
+                        opacity: 0,
+                        scale: 1.05,
+                        filter: "blur(15px) brightness(1.2)"
+                    });
                 }
-            )
-            .fromTo(elements.image,
-                {
-                    opacity: 0,
-                    scale: 1.05,
-                    filter: "blur(8px)"
-                },
-                {
-                    duration: 0.6, // Slightly longer
-                    opacity: 1,
-                    scale: 1,
-                    filter: "blur(0px)",
-                    ease: "power2.out"
-                },
-                "-=0.2"
-            )
-            .fromTo(elements.title,
-                {
-                    opacity: 0,
-                    y: 15,
-                    filter: "blur(5px)"
-                },
-                {
-                    duration: 0.5, // Slightly longer
+
+                // Animation sequence
+                tl.to(elements.container, {
+                    duration: 0.8,
                     opacity: 1,
                     y: 0,
-                    filter: "blur(0px)",
-                    ease: "power2.out"
-                },
-                "-=0.3" // Less overlap
-            );
+                    ease: "power3.out"
+                })
 
-            // Rest of your animation remains the same...
-        },
-        once: true
+                if (elements.image) {
+                    tl.to(elements.image, {
+                        duration: 1,
+                        opacity: 1,
+                        scale: 1,
+                        filter: "blur(0px) brightness(1)",
+                        ease: "power2.out"
+                    }, "-=0.4");
+                }
+
+                if (elements.title) {
+                    tl.to(elements.title, {
+                        duration: 0.6,
+                        opacity: 1,
+                        y: 0,
+                        ease: "power2.out"
+                    }, "-=0.6");
+                }
+
+                if (elements.tags.length) {
+                    tl.to(elements.tags, {
+                        duration: 0.4,
+                        opacity: 1,
+                        y: 0,
+                        stagger: 0.05,
+                        ease: "power2.out"
+                    }, "-=0.4");
+                }
+            },
+            once: true,
+            markers: true // Debug - remove in production
+        });
     });
-});
 
-    // Cards animation
+    // Project cards animation
     const cards = gsap.utils.toArray('.card');
     cards.forEach((card, index) => {
         ScrollTrigger.create({
             trigger: card,
             start: "top 85%",
             onEnter: () => {
-                gsap.fromTo(card,
-                    {
-                        opacity: 0,
-                        y: 20,
-                        visibility: 'visible'
-                    },
-                    {
+                const tl = gsap.timeline();
+                const elements = {
+                    container: card,
+                    image: card.querySelector('.card-image'),
+                    title: card.querySelector('.title'),
+                    tags: card.querySelectorAll('.tag')
+                };
+
+                // Set ALL initial states at once
+                gsap.set(card, { visibility: 'visible' }); // Ensure card is visible
+                gsap.set([elements.container, elements.image, elements.title, elements.tags], {
+                    opacity: 0
+                });
+                gsap.set(elements.image, {
+                    scale: 1.1,
+                    filter: "blur(15px) brightness(1.2)"
+                });
+
+                // Smoother animation sequence
+                tl.to(elements.container, {
+                    duration: 0.4,
+                    opacity: 1,
+                    ease: "power2.out"
+                })
+                    .to(elements.image, {
+                        duration: 1,
+                        opacity: 1,
+                        scale: 1,
+                        filter: "blur(0px) brightness(1)",
+                        ease: "power2.out"
+                    }, "-=0.2")
+                    .add(() => animateText(elements.title), "-=0.4")
+                    .to(elements.tags, {
                         duration: 0.4,
                         opacity: 1,
-                        y: 0,
-                        delay: index * 0.1,
-                        ease: "back.out(1.2)"
-                    }
-                );
+                        stagger: 0.05,
+                        ease: "power2.out"
+                    }, "-=0.2");
             },
             once: true
         });
     });
+}
+
+// Replace your existing animateArticleContent
+function animateArticleContent(article) {
+    const elements = {
+        tags: article.querySelectorAll('.tag'),
+        image: article.querySelector('.blog-roll-image'),
+        content: article.querySelector('.content'),
+        title: article.querySelector('.title')
+    };
+
+    // Tags subtle float up
+    gsap.fromTo(elements.tags,
+        {
+            opacity: 0,
+            y: 10
+        },
+        {
+            duration: 0.5,
+            opacity: 1,
+            y: 0,
+            stagger: 0.05,
+            ease: "power2.out"
+        }
+    );
+
+    // Image reveal with modern diffusion
+    if (elements.image) {
+        gsap.fromTo(elements.image,
+            {
+                opacity: 0,
+                scale: 1.05,
+                filter: "blur(15px) brightness(1.2)"
+            },
+            {
+                duration: 1.2,
+                opacity: 1,
+                scale: 1,
+                filter: "blur(0px) brightness(1)",
+                ease: "power2.out"
+            }
+        );
+    }
+
+    // Animate title with diffusion effect
+    if (elements.title) {
+        animateText(elements.title);
+    }
+
+    // Content fade up with slight diffusion
+    if (elements.content) {
+        const contentText = elements.content.textContent;
+        elements.content.textContent = '';
+
+        const words = contentText.split(' ');
+        words.forEach(word => {
+            const span = document.createElement('span');
+            span.textContent = word + ' ';
+            span.style.opacity = '0';
+            span.style.display = 'inline-block';
+            elements.content.appendChild(span);
+        });
+
+        gsap.to(elements.content.children, {
+            duration: 0.8,
+            opacity: 1,
+            y: 0,
+            filter: "blur(0px)",
+            stagger: {
+                amount: 0.5,
+                from: "start"
+            },
+            ease: "power2.out",
+            onStart: function () {
+                gsap.set(elements.content.children, {
+                    opacity: 0,
+                    y: 10,
+                    filter: "blur(5px)",
+                });
+            }
+        });
+    }
+}
+
+// Replace your existing animateCardContent
+function animateCardContent(card) {
+    const elements = {
+        image: card.querySelector('.card-image'),
+        tags: card.querySelectorAll('.tag'),
+        title: card.querySelector('.title')
+    };
+
+    // Image reveal with diffusion effect
+    if (elements.image) {
+        gsap.fromTo(elements.image,
+            {
+                opacity: 0,
+                scale: 1.1,
+                filter: "blur(15px) brightness(1.2)"
+            },
+            {
+                duration: 1,
+                opacity: 1,
+                scale: 1,
+                filter: "blur(0px) brightness(1)",
+                ease: "power2.out"
+            }
+        );
+    }
+
+    // Tags float up with stagger
+    gsap.fromTo(elements.tags,
+        {
+            opacity: 0,
+            y: 10,
+            filter: "blur(5px)"
+        },
+        {
+            duration: 0.4,
+            opacity: 1,
+            y: 0,
+            filter: "blur(0px)",
+            stagger: 0.05,
+            ease: "power2.out"
+        }
+    );
+
+    // Title with diffusion effect
+    if (elements.title) {
+        animateText(elements.title);
+    }
 }
 
 function initializeMouseFollower() {
@@ -319,7 +464,7 @@ function initializeMouseFollower() {
         window.cursor = new MouseFollower({
             container: document.body,
             speed: 0.55,
-            skewing: 0,
+            skewing: 1,
             ease: 'expo.out',
             className: 'mf-cursor',
             stateDetection: {
@@ -327,21 +472,52 @@ function initializeMouseFollower() {
                 '-loading': '[data-loading]'
             }
         });
+
+        // Simple click handling
+        document.addEventListener('mousedown', () => {
+            if (window.cursor?.el) {
+                window.cursor.el.style.transform = 'scale(0.7)';
+            }
+        });
+
+        document.addEventListener('mouseup', () => {
+            if (window.cursor?.el) {
+                window.cursor.el.style.transform = 'scale(1)';
+            }
+        });
+
     } catch (error) {
         console.warn('Error initializing MouseFollower:', error);
     }
 }
 
-// Simplified styles
 function addStyles() {
     if (!document.querySelector('#animation-styles')) {
         const style = document.createElement('style');
         style.id = 'animation-styles';
         style.textContent = `
+            /* Base Animation States */
             .card, .list-feed {
+                position: relative;
+                overflow: hidden;
                 visibility: hidden;
+                will-change: transform, opacity;
             }
 
+            .card *, .list-feed * {
+                backface-visibility: hidden;
+            }
+
+            /* Image and Content */
+            .blog-roll-image, .card-image {
+                will-change: transform, opacity, filter;
+            }
+
+            .title span, .content span {
+                will-change: transform, opacity, filter;
+            }
+
+            /* Mouse Follower */
             .mf-cursor {
                 position: fixed;
                 top: 0;
@@ -350,6 +526,8 @@ function addStyles() {
                 contain: layout style size;
                 pointer-events: none;
                 will-change: transform;
+                mix-blend-mode: difference;
+
             }
 
             .mf-cursor::before {
@@ -357,6 +535,7 @@ function addStyles() {
                 position: absolute;
                 top: -50px;
                 left: -50px;
+                display: block;
                 width: 100px;
                 height: 100px;
                 transform: scale(0.4);
@@ -371,25 +550,51 @@ function addStyles() {
                 transform: scale(1);
             }
 
+            .mf-cursor.-loading::before {
+                animation: cursorLoad 1s ease-in-out infinite;
+                background: transparent;
+                border: 2px solid var(--color-border-light);
+            }
+
+            /* Responsive Behavior */
             @media (hover: none) and (pointer: coarse), (max-width: 768px) {
                 .mf-cursor {
                     display: none !important;
                 }
             }
+
+            /* Animations */
+            @keyframes cursorLoad {
+                0% { transform: scale(0.2); }
+                50% { transform: scale(1); }
+                100% { transform: scale(0.2); }
+            }
+
+            /* Transitions */
+            .transition-fade {
+                transition: opacity 0.4s ease;
+                opacity: 1;
+            }
+
+            html.is-animating .transition-fade {
+                opacity: 0;
+            }
         `;
         document.head.appendChild(style);
     }
 }
-
 function cleanup() {
+    // Clean up search results if they exist
     const searchResults = document.getElementById('search-results');
     if (searchResults) {
         searchResults.innerHTML = '';
     }
+
+    // Remove search active class
     document.documentElement.classList.remove('search-active');
 
-    const lightbox = document.querySelector('.swiper-lightbox');
-    if (lightbox) {
-        lightbox.remove();
+    // Clean up lightbox (update this part)
+    if (window.lightboxCleanup) {
+        window.lightboxCleanup();
     }
 }

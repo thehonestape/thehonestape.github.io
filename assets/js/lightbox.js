@@ -62,7 +62,6 @@ document.addEventListener("DOMContentLoaded", function () {
         void lightbox.offsetWidth;
         lightbox.classList.add('is-active');
 
-        // Initialize new Swiper
         swiper = new Swiper(lightbox.querySelector('.swiper-container'), {
             slidesPerView: 1.5,
             centeredSlides: true,
@@ -78,20 +77,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 enabled: true,
                 onlyInViewport: false,
             },
-            navigation: {
-                nextEl: '.swiper-button-next',
-                prevEl: '.swiper-button-prev',
-                hideOnClick: true
-            },
-            pagination: {
-                el: '.swiper-pagination',
-                type: 'progressbar'
-            },
-            navigationSize: 88, // Default is 22, larger number = bigger arrows
-            effect: 'slide',
-            speed: 400,
             watchSlidesProgress: true,
             grabCursor: true,
+            speed: 400,
+            pagination: {
+                el: '.swiper-pagination',
+                type: 'fraction'
+            },
             breakpoints: {
                 320: {
                     slidesPerView: 1.2,
@@ -100,6 +92,25 @@ document.addEventListener("DOMContentLoaded", function () {
                 640: {
                     slidesPerView: 1.5,
                     spaceBetween: 20
+                }
+            },
+            on: {
+                slideChange: function () {
+                    const activeSlide = this.slides[this.activeIndex];
+                    gsap.fromTo(activeSlide,
+                        {
+                            opacity: 0.8,
+                            scale: 1.02,
+                            filter: "blur(5px)"
+                        },
+                        {
+                            duration: 0.4,
+                            opacity: 1,
+                            scale: 1,
+                            filter: "blur(0px)",
+                            ease: "power2.out"
+                        }
+                    );
                 }
             }
         });
