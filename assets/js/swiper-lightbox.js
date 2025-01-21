@@ -232,7 +232,7 @@ document.addEventListener("DOMContentLoaded", function () {
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.95);
-            z-index: 100;
+            z-index: 50;
             will-change: transform, opacity, filter;
         }
 

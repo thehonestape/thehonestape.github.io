@@ -368,7 +368,7 @@ function addStyles() {
                 display: block;
                 width: 100px;
                 height: 100px;
-                transform: scale(0.4);
+                transform: scale(0.3);
                 background: rgba(255, 255, 255, 0.1);
                 border-radius: 50%;
                 border: 2px solid var(--color-border-dark);
@@ -406,6 +406,15 @@ function addStyles() {
 
             html.is-animating .transition-fade {
                 opacity: 0;
+            }
+            @keyframes cursorLoad {
+                0% { transform: scale(0.2); }
+                50% { transform: scale(1); }
+                100% { transform: scale(0.2); }
+            }
+
+            html.is-changing .mf-cursor {
+                opacity: 1 !important;
             }
         `;
         document.head.appendChild(style);
