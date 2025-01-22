@@ -48,9 +48,12 @@ document.addEventListener("DOMContentLoaded", function () {
         const allImages = [featuredImage, ...galleryImages].filter(Boolean);
         const currentIndex = allImages.indexOf(clickedElement);
 
-        if (!swiper) {
-            initializeSwiper(allImages);
+        // Always reinitialize swiper for each new opening
+        if (swiper) {
+            swiper.destroy(true, true);
+            swiper = null;
         }
+        initializeSwiper(allImages);
 
         // First make the lightbox visible but fully transparent
         lightbox.style.display = 'flex';
@@ -95,6 +98,18 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
+        // Show/hide navigation elements based on image count
+        const navAreas = lightbox.querySelector('.nav-areas');
+        const closeButton = lightbox.querySelector('.close-button');
+
+        if (images.length <= 1) {
+            navAreas.style.display = 'none';
+            closeButton.style.right = '2rem';
+        } else {
+            navAreas.style.display = 'flex';
+            closeButton.style.right = '3rem';
+        }
+
         const swiperWrapper = lightbox.querySelector('.swiper-wrapper');
         swiperWrapper.innerHTML = '';
 
@@ -110,15 +125,15 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
         swiper = new Swiper(lightbox.querySelector('.swiper-container'), {
-            slidesPerView: 1.5,
-            centeredSlides: true,
-            loop: true,
-            loopedSlides: 3,  // Increased to ensure more visible slides
+            slidesPerView: images.length > 1 ? 1.1 : 1,
+            centeredSlides: images.length > 1,
+            loop: images.length > 1,
+            loopedSlides: images.length > 1 ? 3 : 0,
             watchSlidesProgress: true,
-            effect: 'creative',
+            effect: images.length > 1 ? 'creative' : 'fade',
             creativeEffect: {
-                limitProgress: 4,  // Show effect on more slides
-                progressMultiplier: 1,  // Make the effect more pronounced
+                limitProgress: 4,
+                progressMultiplier: 1,
                 prev: {
                     translate: ['-120%', 0, -800],
                     rotate: [0, 0, -10],
@@ -133,31 +148,29 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             },
             zoom: {
-                maxRatio: 3,
+                maxRatio: 2,
                 minRatio: 1,
                 toggle: true,
                 containerClass: 'swiper-zoom-container',
                 zoomedSlideClass: 'swiper-slide-zoomed'
             },
-            speed: 1000,
-            grabCursor: true,
+            speed: 500,
+            grabCursor: images.length > 1,
             keyboard: { enabled: true },
             preventInteractionOnTransition: false,
             observer: true,
             observeParents: true,
-            breakpoints: {
+            breakpoints: images.length > 1 ? {
                 320: { slidesPerView: 1.2 },
-                640: { slidesPerView: 1.5 }
-            },
+                640: { slidesPerView: 1.2 }
+            } : {},
             on: {
                 beforeInit(swiper) {
-                    // Make sure loop is created
                     if (swiper.params.loop) {
                         swiper.loopCreate();
                     }
                 },
                 afterInit(swiper) {
-                    // Force an immediate update
                     swiper.update();
                     swiper.updateSlides();
                     swiper.updateProgress();
@@ -253,6 +266,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 gsap.set(lightbox, { scale: 1, y: 0 });
                 if (activeSlide) {
                     gsap.set(activeSlide, { clearProps: "all" });
+                }
+                // Clean up swiper instance
+                if (swiper) {
+                    swiper.destroy(true, true);
+                    swiper = null;
                 }
                 document.removeEventListener('keydown', keyboardNavigation);
             }
