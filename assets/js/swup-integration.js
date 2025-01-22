@@ -290,24 +290,22 @@ function initializeMouseFollower() {
         window.cursor = new MouseFollower({
             container: document.body,
             speed: 0.55,
-            skewing: 1,
+            skewing: 0,           // Reduce skewing to prevent drift
             ease: 'expo.out',
             className: 'mf-cursor',
             stateDetection: {
                 '-active': 'a,button',
                 '-loading': '[data-loading]'
-            }
+            },
+            hideOnLeave: true,    // Hide when leaving window
+            hideOnStop: false,    // Don't hide when stopping
+            initTimeout: 1        // Quick initialization
         });
 
-        document.addEventListener('mousedown', () => {
-            if (window.cursor?.el) {
-                window.cursor.el.style.transform = 'scale(0.7)';
-            }
-        });
-
-        document.addEventListener('mouseup', () => {
-            if (window.cursor?.el) {
-                window.cursor.el.style.transform = 'scale(1)';
+        // Force cursor to follow mouse
+        document.addEventListener('mousemove', () => {
+            if (window.cursor?.el?.classList.contains('-loading')) {
+                window.cursor.el.style.opacity = '1';
             }
         });
 
@@ -315,6 +313,43 @@ function initializeMouseFollower() {
         console.warn('Error initializing MouseFollower:', error);
     }
 }
+
+// Update Swup hooks
+swup.hooks.on('visit:start', () => {
+    const content = document.querySelector('#swup');
+    gsap.to(content, {
+        duration: 0.4,
+        opacity: 0,
+        ease: "expo.in"
+    });
+
+    if (window.cursor?.el) {
+        window.cursor.el.classList.add('-loading');
+        // Force cursor visibility and centered position
+        window.cursor.el.style.opacity = '1';
+        window.cursor.el.style.transform = 'translate(-50%, -50%)';
+    }
+});
+
+swup.hooks.on('visit:end', () => {
+    const content = document.querySelector('#swup');
+    gsap.to(content, {
+        duration: 0.5,
+        opacity: 1,
+        ease: "expo.out",
+        delay: 0.1
+    });
+
+    if (window.cursor?.el) {
+        window.cursor.el.classList.remove('-loading');
+        // Reset cursor position to current mouse position
+        const event = new MouseEvent('mousemove', {
+            clientX: window.innerWidth / 2,
+            clientY: window.innerHeight / 2
+        });
+        document.dispatchEvent(event);
+    }
+});
 
 function isMobile() {
     return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
@@ -353,7 +388,7 @@ function addStyles() {
                 position: fixed;
                 top: 0;
                 left: 0;
-                z-index: 999999;
+                z-index: 100;
                 contain: layout style size;
                 pointer-events: none;
                 will-change: transform;
@@ -372,7 +407,6 @@ function addStyles() {
                 background: rgba(255, 255, 255, 0.1);
                 border-radius: 50%;
                 border: 2px solid var(--color-border-dark);
-                z-index: 999999;
             }
 
             .mf-cursor.-active::before {
@@ -385,6 +419,7 @@ function addStyles() {
                 animation: cursorLoad 1s ease-in-out infinite;
                 background: transparent;
                 border: 2px solid var(--color-border-light);
+                opacity: 1 !important;  // Force visibility during loading
             }
 
             @media (hover: none) and (pointer: coarse), (max-width: 768px) {
@@ -415,6 +450,7 @@ function addStyles() {
 
             html.is-changing .mf-cursor {
                 opacity: 1 !important;
+                pointer-events: none;
             }
         `;
         document.head.appendChild(style);
