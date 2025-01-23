@@ -3,21 +3,20 @@ Gallery with masonry layout
 {% endcomment %}
 
 {% assign gallery_path = include.path %}
-{% assign featured_image = include.featured_image %}
-</div>
-</div>
-</div>
-</div>
+{% assign featured_image = page.featured-image | relative_url %}
+
+</div></div></div></div>
 <div class="container-fluid">
   <div class="gallery-masonry gallery">
     {% for file in site.static_files %}
       {% if file.path contains gallery_path %}
         {% assign file_ext = file.extname | downcase %}
-        {% if file_ext == '.jpg' or file_ext == '.jpeg' or file_ext == '.png' or file_ext == '.gif' or file_ext == '.webp' %}
+        {% assign file_url = file.path | relative_url %}
+        {% if file_url != featured_image and (file_ext == '.jpg' or file_ext == '.jpeg' or file_ext == '.png' or file_ext == '.gif' or file_ext == '.webp') %}
           <div class="gallery-item">
             <figure class="image">
-              <a href="{{ file.path | relative_url }}" class="lightbox-image" data-gallery="post-gallery" data-no-swup>
-                <img src="{{ file.path | relative_url }}" 
+              <a href="{{ file_url }}" class="lightbox-image" data-gallery="post-gallery" data-no-swup>
+                <img src="{{ file_url }}" 
                      alt="{{ file.name | split: '.' | first }}" 
                      loading="lazy" />
               </a>

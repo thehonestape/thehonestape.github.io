@@ -125,12 +125,11 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
         swiper = new Swiper(lightbox.querySelector('.swiper-container'), {
-            slidesPerView: images.length > 1 ? 1.1 : 1,
-            centeredSlides: images.length > 1,
-            loop: images.length > 1,
-            loopedSlides: images.length > 1 ? 3 : 0,
+            slidesPerView: 1.1,
+            centeredSlides: true,
+            loop: false, // Disable loop mode completely
             watchSlidesProgress: true,
-            effect: images.length > 1 ? 'creative' : 'fade',
+            effect: 'creative',
             creativeEffect: {
                 limitProgress: 4,
                 progressMultiplier: 1,
@@ -155,27 +154,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 zoomedSlideClass: 'swiper-slide-zoomed'
             },
             speed: 500,
-            grabCursor: images.length > 1,
+            grabCursor: true,
             keyboard: { enabled: true },
             preventInteractionOnTransition: false,
             observer: true,
             observeParents: true,
-            breakpoints: images.length > 1 ? {
+            breakpoints: {
                 320: { slidesPerView: 1.2 },
                 640: { slidesPerView: 1.2 }
-            } : {},
-            on: {
-                beforeInit(swiper) {
-                    if (swiper.params.loop) {
-                        swiper.loopCreate();
-                    }
-                },
-                afterInit(swiper) {
-                    swiper.update();
-                    swiper.updateSlides();
-                    swiper.updateProgress();
-                    swiper.updateSlidesClasses();
-                }
             }
         });
 

@@ -1,11 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const isHomePage = window.location.pathname === '/' ||
-        window.location.pathname === '/index.html';
-
+    const isHomePage = window.location.pathname === '/' || window.location.pathname === '/index.html';
     if (isHomePage && window.terminalManager) {
         window.terminalManager.initialize();
     }
-
     initializeSwup();
 });
 
@@ -42,75 +39,91 @@ function initializeSwup() {
             initializeGSAPAnimations();
         }
 
-        setupSwupHooks(swup);
+        const initHeroCarousel = () => {
+            const swiper = new Swiper('.hero-carousel', {
+                effect: 'fade',
+                speed: 500,
+                autoplay: {
+                    delay: 3000
+                },
+                loop: true,
+                fadeEffect: {
+                    crossFade: true
+                },
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev'
+                }
+            });
+        };
+
+        swup.hooks.on('visit:start', () => {
+            const content = document.querySelector('#swup');
+            content.style.opacity = '0';
+
+            if (window.cursor) {
+                window.cursor.destroy();
+                window.cursor = null;
+
+                if (!isMobile()) {
+                    initializeMouseFollower();
+                    if (window.cursor?.el) {
+                        window.cursor.el.classList.add('-loading');
+                    }
+                }
+            }
+        });
+
+        swup.hooks.on('content:replace', () => {
+            cleanup();
+            initHeroCarousel();
+
+            if (typeof gsap !== 'undefined') {
+                if (typeof ScrollTrigger !== 'undefined') {
+                    ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+                }
+                initializeGSAPAnimations();
+            }
+
+            if (typeof window.searchInit === 'function') {
+                window.searchInit();
+            }
+            if (typeof window.searchInitListener === 'function') {
+                window.searchInitListener();
+            }
+
+            if (window.initializeLightbox) {
+                window.initializeLightbox();
+            }
+
+            const isHomePage = window.location.pathname === '/' || window.location.pathname === '/index.html';
+            if (isHomePage && window.terminalManager) {
+                window.terminalManager.initialize();
+            }
+        });
+
+        swup.hooks.on('visit:end', () => {
+            const content = document.querySelector('#swup');
+            setTimeout(() => {
+                content.style.opacity = '1';
+            }, 50);
+
+            if (!isMobile()) {
+                if (!window.cursor) {
+                    initializeMouseFollower();
+                }
+                if (window.cursor?.el) {
+                    window.cursor.el.classList.remove('-loading');
+                }
+            }
+        });
+
+        initHeroCarousel();
         addStyles();
 
     } catch (error) {
         console.warn('Error initializing Swup:', error);
     }
-}
-
-function setupSwupHooks(swup) {
-    swup.hooks.on('visit:start', () => {
-        const content = document.querySelector('#swup');
-        content.style.opacity = '0';
-
-        if (window.cursor) {
-            window.cursor.destroy();
-            window.cursor = null;
-
-            if (!isMobile()) {
-                initializeMouseFollower();
-                if (window.cursor?.el) {
-                    window.cursor.el.classList.add('-loading');
-                }
-            }
-        }
-    });
-
-    swup.hooks.on('content:replace', () => {
-        cleanup();
-
-        if (typeof gsap !== 'undefined') {
-            if (typeof ScrollTrigger !== 'undefined') {
-                ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-            }
-            initializeGSAPAnimations();
-        }
-
-        if (typeof window.searchInit === 'function') {
-            window.searchInit();
-        }
-        if (typeof window.searchInitListener === 'function') {
-            window.searchInitListener();
-        }
-
-        if (window.initializeLightbox) {
-            window.initializeLightbox();
-        }
-
-        const isHomePage = window.location.pathname === '/' ||
-            window.location.pathname === '/index.html';
-        if (isHomePage && window.terminalManager) {
-            window.terminalManager.initialize();
-        }
-    });
-
-    swup.hooks.on('visit:end', () => {
-        const content = document.querySelector('#swup');
-        setTimeout(() => {
-            content.style.opacity = '1';
-        }, 50);
-
-        if (!isMobile()) {
-            if (!window.cursor) {
-                initializeMouseFollower();
-            }
-            if (window.cursor?.el) {
-                window.cursor.el.classList.remove('-loading');
-            }
-        }
-    });
 }
 
 function initializeGSAPAnimations() {
@@ -149,7 +162,7 @@ function initializeScrollAnimations() {
                     gsap.set(elements.image, {
                         opacity: 0,
                         scale: 1.05,
-                        filter: "blur(15px) brightness(1.2)"
+                        filter: "blur(8px) brightness(1.2)"
                     });
                 }
 
@@ -199,7 +212,6 @@ function initializeScrollAnimations() {
             trigger: card,
             start: "top 85%",
             onEnter: () => {
-                const tl = gsap.timeline();
                 const elements = {
                     container: card,
                     image: card.querySelector('.card-image'),
@@ -208,33 +220,37 @@ function initializeScrollAnimations() {
                 };
 
                 gsap.set(card, { visibility: 'visible' });
-                gsap.set([elements.container, elements.image, elements.title, elements.tags], {
-                    opacity: 0
-                });
-                gsap.set(elements.image, {
-                    scale: 1.1,
-                    filter: "blur(15px) brightness(1.2)"
-                });
 
-                tl.to(elements.container, {
-                    duration: 0.4,
-                    opacity: 1,
-                    ease: "power2.out"
-                })
-                    .to(elements.image, {
-                        duration: 1,
+                const tl = gsap.timeline({ defaults: { duration: 0.3, ease: "power2.out" } });
+
+                tl.fromTo(elements.container,
+                    { opacity: 0, y: 15 },
+                    { opacity: 1, y: 0 }
+                );
+
+                if (elements.image) {
+                    tl.fromTo(elements.image,
+                        { opacity: 0, scale: 1.02 },
+                        { opacity: 1, scale: 1 },
+                        "-=0.2"
+                    );
+                }
+
+                if (elements.title) {
+                    tl.to(elements.title, {
+                        duration: 0.3,
                         opacity: 1,
-                        scale: 1,
-                        filter: "blur(0px) brightness(1)",
-                        ease: "power2.out"
-                    }, "-=0.2")
-                    .add(() => animateText(elements.title), "-=0.4")
-                    .to(elements.tags, {
-                        duration: 0.4,
+                        y: 0
+                    }, "-=0.15");
+                }
+
+                if (elements.tags.length) {
+                    tl.to(elements.tags, {
+                        duration: 0.2,
                         opacity: 1,
-                        stagger: 0.05,
-                        ease: "power2.out"
-                    }, "-=0.2");
+                        stagger: 0.02
+                    }, "-=0.1");
+                }
             },
             once: true
         });
@@ -290,19 +306,18 @@ function initializeMouseFollower() {
         window.cursor = new MouseFollower({
             container: document.body,
             speed: 0.55,
-            skewing: 0,           // Reduce skewing to prevent drift
+            skewing: 0,
             ease: 'expo.out',
             className: 'mf-cursor',
             stateDetection: {
                 '-active': 'a,button',
                 '-loading': '[data-loading]'
             },
-            hideOnLeave: true,    // Hide when leaving window
-            hideOnStop: false,    // Don't hide when stopping
-            initTimeout: 1        // Quick initialization
+            hideOnLeave: true,
+            hideOnStop: false,
+            initTimeout: 1
         });
 
-        // Force cursor to follow mouse
         document.addEventListener('mousemove', () => {
             if (window.cursor?.el?.classList.contains('-loading')) {
                 window.cursor.el.style.opacity = '1';
@@ -314,43 +329,6 @@ function initializeMouseFollower() {
     }
 }
 
-// Update Swup hooks
-swup.hooks.on('visit:start', () => {
-    const content = document.querySelector('#swup');
-    gsap.to(content, {
-        duration: 0.4,
-        opacity: 0,
-        ease: "expo.in"
-    });
-
-    if (window.cursor?.el) {
-        window.cursor.el.classList.add('-loading');
-        // Force cursor visibility and centered position
-        window.cursor.el.style.opacity = '1';
-        window.cursor.el.style.transform = 'translate(-50%, -50%)';
-    }
-});
-
-swup.hooks.on('visit:end', () => {
-    const content = document.querySelector('#swup');
-    gsap.to(content, {
-        duration: 0.5,
-        opacity: 1,
-        ease: "expo.out",
-        delay: 0.1
-    });
-
-    if (window.cursor?.el) {
-        window.cursor.el.classList.remove('-loading');
-        // Reset cursor position to current mouse position
-        const event = new MouseEvent('mousemove', {
-            clientX: window.innerWidth / 2,
-            clientY: window.innerHeight / 2
-        });
-        document.dispatchEvent(event);
-    }
-});
-
 function isMobile() {
     return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
         window.matchMedia("(max-width: 768px)").matches;
@@ -361,98 +339,129 @@ function addStyles() {
         const style = document.createElement('style');
         style.id = 'animation-styles';
         style.textContent = `
-            .card, .list-feed {
-                position: relative;
-                overflow: hidden;
-                visibility: hidden;
-                will-change: transform, opacity;
-            }
+           .card, .list-feed {
+               position: relative;
+               overflow: hidden;
+               visibility: hidden;
+               will-change: transform, opacity;
+           }
 
-            .card *, .list-feed * {
-                backface-visibility: hidden;
-            }
+           .card *, .list-feed * {
+               backface-visibility: hidden;
+           }
 
-            .blog-roll-image, .card-image {
-                will-change: transform, opacity, filter;
-            }
+           .blog-roll-image, .card-image {
+               will-change: transform, opacity, filter;
+           }
 
-            .title span, .content span {
-                will-change: transform, opacity, filter;
-            }
+           .title span, .content span {
+               will-change: transform, opacity, filter;
+           }
 
-            .swiper-lightbox {
-                z-index: 100;
-            }
+           .swiper-lightbox {
+               z-index: 100;
+           }
 
-            .mf-cursor {
-                position: fixed;
-                top: 0;
-                left: 0;
-                z-index: 100;
-                contain: layout style size;
-                pointer-events: none;
-                will-change: transform;
-                mix-blend-mode: difference;
-            }
+           .mf-cursor {
+               position: fixed;
+               top: 0;
+               left: 0;
+               z-index: 100;
+               contain: layout style size;
+               pointer-events: none;
+               will-change: transform;
+               mix-blend-mode: difference;
+           }
 
-            .mf-cursor::before {
-                content: "";
-                position: absolute;
-                top: -50px;
-                left: -50px;
-                display: block;
-                width: 100px;
-                height: 100px;
-                transform: scale(0.3);
-                background: rgba(255, 255, 255, 0.1);
-                border-radius: 50%;
-                border: 2px solid var(--color-border-dark);
-            }
+           .mf-cursor::before {
+               content: "";
+               position: absolute;
+               top: -50px;
+               left: -50px;
+               display: block;
+               width: 100px;
+               height: 100px;
+               transform: scale(0.3);
+               background: rgba(255, 255, 255, 0.1);
+               border-radius: 50%;
+               border: 2px solid var(--color-border-dark);
+           }
 
-            .mf-cursor.-active::before {
-                background: transparent;
-                border: 2px solid var(--color-border-light);
-                transform: scale(1);
-            }
+           .mf-cursor.-active::before {
+               background: transparent;
+               border: 2px solid var(--color-border-light);
+               transform: scale(1);
+           }
 
-            .mf-cursor.-loading::before {
-                animation: cursorLoad 1s ease-in-out infinite;
-                background: transparent;
-                border: 2px solid var(--color-border-light);
-                opacity: 1 !important;  // Force visibility during loading
-            }
+           .mf-cursor.-loading::before {
+               animation: cursorLoad 1s ease-in-out infinite;
+               background: transparent;
+               border: 2px solid var(--color-border-light);
+               opacity: 1 !important;
+           }
 
-            @media (hover: none) and (pointer: coarse), (max-width: 768px) {
-                .mf-cursor {
-                    display: none !important;
-                }
-            }
 
-            @keyframes cursorLoad {
-                0% { transform: scale(0.2); }
-                50% { transform: scale(1); }
-                100% { transform: scale(0.2); }
-            }
 
-            .transition-fade {
-                transition: opacity 0.4s ease;
-                opacity: 1;
-            }
+.hero-carousel {
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
 
-            html.is-animating .transition-fade {
-                opacity: 0;
-            }
-            @keyframes cursorLoad {
-                0% { transform: scale(0.2); }
-                50% { transform: scale(1); }
-                100% { transform: scale(0.2); }
-            }
+.hero-carousel .swiper-button-prev,
+.hero-carousel .swiper-button-next {
+    font-size: 2rem;
+    color: white;
+    opacity: 0.8;
+    mix-blend-mode: difference;
+    transition: all 0.3s ease;
+    width: 50px;
+    height: 50px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
-            html.is-changing .mf-cursor {
-                opacity: 1 !important;
-                pointer-events: none;
-            }
-        `;
+.hero-carousel .swiper-button-prev:hover,
+.hero-carousel .swiper-button-next:hover {
+    opacity: 1;
+    border-color: rgba(255, 255, 255, 0.8);
+}
+
+.hero-carousel .swiper-button-prev:after,
+.hero-carousel .swiper-button-next:after {
+    font-size: 1.5rem;
+}
+
+
+           @media (hover: none) and (pointer: coarse), (max-width: 768px) {
+               .mf-cursor {
+                   display: none !important;
+               }
+           }
+
+           @keyframes cursorLoad {
+               0% { transform: scale(0.2); }
+               50% { transform: scale(1); }
+               100% { transform: scale(0.2); }
+           }
+
+           .transition-fade {
+               transition: opacity 0.4s ease;
+               opacity: 1;
+           }
+
+           html.is-animating .transition-fade {
+               opacity: 0;
+           }
+
+           html.is-changing .mf-cursor {
+               opacity: 1 !important;
+               pointer-events: none;
+           }
+       `;
         document.head.appendChild(style);
     }
 }
@@ -468,4 +477,11 @@ function cleanup() {
     if (window.lightboxCleanup) {
         window.lightboxCleanup();
     }
+
+    const carousels = document.querySelectorAll('.carousel');
+    carousels.forEach(carousel => {
+        if (carousel.swiper) {
+            carousel.swiper.destroy(true, true);
+        }
+    });
 }
