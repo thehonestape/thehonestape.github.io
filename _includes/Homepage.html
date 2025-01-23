@@ -26,7 +26,7 @@
                             <!-- Tags -->
                             <div class="tags are-medium">
                                 {% for category in note_items.categories %}
-                                    <a href="{{ site.baseurl }}/categories/#{{ category | slugify }}" 
+                                    <a href="{{ site.baseurl }}/category/{{ category | slugify }}" 
                                        class="tag is-transparent is-rounded">
                                         {{ category }}
                                     </a>
