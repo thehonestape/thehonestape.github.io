@@ -25,7 +25,7 @@ function initializeSwup() {
                 }),
                 new window.SwupProgressPlugin(),
                 new window.SwupPreloadPlugin(),
-                new window.SwupSlideTheme()
+                new window.SwupSmoothTheme()  // Changed from SwupSlideTheme
             ]
         });
 
@@ -57,10 +57,8 @@ function initializeSwup() {
             });
         };
 
+        // We'll let our custom theme handle the initial fade out
         swup.hooks.on('visit:start', () => {
-            const content = document.querySelector('#swup');
-            content.style.opacity = '0';
-
             if (window.cursor) {
                 window.cursor.destroy();
                 window.cursor = null;
@@ -103,11 +101,6 @@ function initializeSwup() {
         });
 
         swup.hooks.on('visit:end', () => {
-            const content = document.querySelector('#swup');
-            setTimeout(() => {
-                content.style.opacity = '1';
-            }, 50);
-
             if (!isMobile()) {
                 if (!window.cursor) {
                     initializeMouseFollower();
@@ -449,7 +442,7 @@ function addStyles() {
            }
 
            .transition-fade {
-               transition: opacity 0.4s ease;
+               transition: opacity 0.125s ease;
                opacity: 1;
            }
 
