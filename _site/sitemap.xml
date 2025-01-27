@@ -29,12 +29,16 @@
       <lastmod>2012-04-05T00:00:00-04:00</lastmod>
     </url>
     <url>
-      <loc>http://0.0.0.0:4000/note/state-your-purpose</loc>
-      <lastmod>2017-10-31T00:00:00-04:00</lastmod>
+      <loc>http://0.0.0.0:4000/note/Grounded-in-Brookland</loc>
+      <lastmod>2016-10-15T00:00:00-04:00</lastmod>
     </url>
     <url>
       <loc>http://0.0.0.0:4000/note/Priori</loc>
       <lastmod>2018-01-03T00:00:00-05:00</lastmod>
+    </url>
+    <url>
+      <loc>http://0.0.0.0:4000/note/first-things-first-2000-at-20</loc>
+      <lastmod>2019-09-10T00:00:00-04:00</lastmod>
     </url>
     <url>
       <loc>http://0.0.0.0:4000/note/working-remotely</loc>
@@ -47,6 +51,10 @@
     <url>
       <loc>http://0.0.0.0:4000/note/mlk-memorial-library-exhibition-design</loc>
       <lastmod>2020-09-04T00:00:00-04:00</lastmod>
+    </url>
+    <url>
+      <loc>http://0.0.0.0:4000/note/neurogazer</loc>
+      <lastmod>2021-06-15T00:00:00-04:00</lastmod>
     </url>
     <url>
       <loc>http://0.0.0.0:4000/note/Branding-and-the-Truth</loc>
@@ -73,16 +81,8 @@
       <lastmod>2023-01-08T00:00:00-05:00</lastmod>
     </url>
     <url>
-      <loc>http://0.0.0.0:4000/note/Grounded-in-Brookland</loc>
-      <lastmod>2023-01-08T00:00:00-05:00</lastmod>
-    </url>
-    <url>
       <loc>http://0.0.0.0:4000/note/dcdox-film-festival</loc>
       <lastmod>2023-03-01T00:00:00-05:00</lastmod>
-    </url>
-    <url>
-      <loc>http://0.0.0.0:4000/note/First-Things-First-2000-at-20</loc>
-      <lastmod>2025-01-23T15:57:48-05:00</lastmod>
     </url>
     <url>
       <loc>http://0.0.0.0:4000/note/Progressland</loc>
@@ -90,14 +90,21 @@
     </url>
     <url>
       <loc>http://0.0.0.0:4000/category/design/</loc>
-      <lastmod>2025-01-23T15:57:48-05:00</lastmod>
+      <lastmod>2025-01-27T01:50:04-05:00</lastmod>
+    </url>
+    <url>
+      <loc>http://0.0.0.0:4000/note/state-your-purpose</loc>
+      <lastmod>2025-01-27T01:50:04-05:00</lastmod>
     </url>
     <url>
       <loc>http://0.0.0.0:4000/category/writing/</loc>
-      <lastmod>2025-01-23T15:57:48-05:00</lastmod>
+      <lastmod>2025-01-27T01:50:04-05:00</lastmod>
     </url>
     <url>
       <loc>http://0.0.0.0:4000/about</loc>
+    </url>
+    <url>
+      <loc>http://0.0.0.0:4000/design/</loc>
     </url>
     <url>
       <loc>http://0.0.0.0:4000/</loc>

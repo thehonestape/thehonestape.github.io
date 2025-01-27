@@ -5225,7 +5225,8 @@ a.navbar-item,
   .navbar-start,
   .navbar-end {
     align-items: stretch;
-    display: flex; }
+    display: flex;
+    align-items: center; }
   .navbar {
     min-height: 3.25rem; }
     .navbar.is-spaced {

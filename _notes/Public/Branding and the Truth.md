@@ -1,6 +1,6 @@
 ---
 featured-image: https://wrkhrs.co/wp-content/uploads/2021/10/truth-wide.jpg
-categories: [Writing]
+categories: [writing]
 feed: show
 date : 13-10-2021
 source: https://medium.com/workhorse/progressland-b192771b753

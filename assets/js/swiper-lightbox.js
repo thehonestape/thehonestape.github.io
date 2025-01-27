@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function setupGallery() {
         const imageElements = document.querySelectorAll('a.lightbox-image');
         imageElements.forEach(element => {
-            element.setAttribute('data-cursor-text', 'View Gallery');
+            element.setAttribute('data-cursor-text', '<i class="fa-3x fa-light fa-magnifying-glass-plus"></i>');
             element.addEventListener("click", function (event) {
                 event.preventDefault();
                 openLightbox(this);

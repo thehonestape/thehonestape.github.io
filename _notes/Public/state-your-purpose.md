@@ -1,10 +1,9 @@
 ---
 featured-image: https://cdn-images-1.medium.com/max/5760/1*az7ZyM8LGs4tG2I_RK_zQg.jpeg
 title : State Your Purpose!
-categories: [Writing]
+categories: [writing, design]
 feed: show
 featured: false
-date : 31-10-2017
 ---
 
 A few weeks ago my friend Greg, who has been working with Workhorse as a freelancer since we started the company, told me that he was applying to MFA design programs. I was excited for him, but also surprised. Never thought he would be looking to pay several thousands of dollars to do what he’s already getting paid several thousands of dollars to do! But, I’m also proud of him — going back to school will definitely improve his practice and change the trajectory of his already-promising career.

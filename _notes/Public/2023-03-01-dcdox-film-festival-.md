@@ -3,7 +3,7 @@ title: "DC/DOX Film Festival"
 featured-image: https://wrkhrs.co/wp-content/uploads/2024/06/@wrkhrsco-dc-dox-collateral-posters-mockups-1536x1024.jpg
 featured: true
 external_link: https://wrkhrs.co/portfolio/dc-dox-film-festival/
-categories: [Design]
+categories: [design]
 feed: show
 author: Abraham Garcia Flores
 ---

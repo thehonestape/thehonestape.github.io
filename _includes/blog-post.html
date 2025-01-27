@@ -1,0 +1,45 @@
+<div class="box mb-6">
+    <article class="media">
+        <div class="media-content">
+            <div class="content">
+                <div class="mb-4">
+                    {% for category in note_items.categories %}
+                        <span class="tag is-primary is-light mr-2">{{ category }}</span>
+                    {% endfor %}
+                </div>
+                
+                {% if note_items.external_link %}
+                    <a href="{{ note_items.external_link }}" target="_blank" class="has-text-black">
+                {% else %}
+                    <a href="{{ site.baseurl }}{{note_items.url}}" class="has-text-black">
+                {% endif %}
+                    <h2 class="title is-3 mb-2">{{ note_items.title }}</h2>
+                </a>
+
+                <p class="subtitle is-6 has-text-grey mb-4">
+                    {{ note_items.date | date: "%B %d, %Y" }}
+                </p>
+                
+                {%- if note_items.featured-image -%}
+                    <figure class="image mb-5">
+                        <img src="{{- note_items.featured-image | relative_url -}}" 
+                             alt="" 
+                             style="object-fit: cover; border-radius: 6px;">
+                    </figure>
+                {%- endif -%}
+                
+                <div class="content is-medium mb-4">
+                    {{ note_items.content | strip_html | truncate: 280 }}
+                </div>
+                
+                {% if note_items.external_link %}
+                    <a href="{{ note_items.external_link }}" target="_blank" class="button is-primary is-outlined">
+                {% else %}
+                    <a href="{{ site.baseurl }}{{note_items.url}}" class="button is-primary is-outlined">
+                {% endif %}
+                    Read More
+                </a>
+            </div>
+        </div>
+    </article>
+</div>

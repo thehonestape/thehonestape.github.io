@@ -1,6 +1,8 @@
 ---
 title: Design
 category: design
+feed: show
 feedformat: card
-permalink: /category/design/
+permalink: /design/
 ---
+v

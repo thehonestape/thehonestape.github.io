@@ -1,6 +1,6 @@
 ---
 featured-image: /assets/img/bioplastics/bioplastcis-01.jpg
-categories: [Design]
+categories: [design]
 feed: show
 author: Abraham Garcia Flores
 gallery_path: /img/bioplastics

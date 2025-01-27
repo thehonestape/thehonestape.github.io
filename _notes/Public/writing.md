@@ -1,6 +1,6 @@
 ---
 title: Writing
-category: Writing
-feedformat: card
+category: writing
+feedformat: blog
 permalink: /category/writing/
 ---

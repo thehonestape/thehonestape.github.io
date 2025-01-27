@@ -1,7 +1,7 @@
 ---
 featured-image: /assets/img/starry-night/snc-lettering.jpg
 featured: true
-categories: [Design]
+categories: [design]
 feed: show
 author: Abraham Garcia Flores
 gallery_path: /img/starry-night

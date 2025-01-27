@@ -1,6 +1,6 @@
 ---
 featured-image: /assets/img/infographic/infographic-thumbnail.jpg
-categories: [Design]
+categories: [design]
 feed: show
 author: Abraham Garcia Flores
 gallery_path: /img/infographic

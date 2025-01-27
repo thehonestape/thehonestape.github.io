@@ -1,22 +1,15 @@
-{%- comment -%}
-/**
- * Unified Feed Template using Bulma classes
- * With properly grouped inline tags
- */
-{%- endcomment -%}
-
-{%- if site.preferences.search.enabled and page.feedformat == "card" -%}
-        {%- include search-bar.html -%}
+{%- if site.preferences.search.enabled and (page.feedformat == "blog" or page.feedformat == "card") -%}
+    {%- include search-bar.html -%}
 {%- endif -%}
 
 <div class="columns is-multiline">
-    {% assign note_items = site.notes | sort: "date" | reverse %}
+    {% assign note_items = site.notes | sort : "date" | reverse %}
     {% for note_items in note_items %}
         {% assign should_show = false %}
-        
+
         {% if page.feedformat == "home" and note_items.feed == "show" %}
             {% assign should_show = true %}
-        {% elsif page.feedformat == "card" and note_items.feed == "show" %}
+            {% elsif page.feedformat == "card" and note_items.feed == "show" %}
             {% if page.category %}
                 {% if note_items.categories contains page.category %}
                     {% assign should_show = true %}
@@ -24,66 +17,93 @@
             {% else %}
                 {% assign should_show = true %}
             {% endif %}
-        {% elsif page.feedformat == "row" and note_items.format == "list" %}
+            {% elsif page.feedformat == "blog" and note_items.feed == "show" %}
+            {% if note_items.categories contains page.category %}
+                {% assign should_show = true %}
+            {% endif %}
+            {% elsif page.feedformat == "row" and note_items.format == "list" %}
             {% assign should_show = true %}
         {% endif %}
 
         {% if should_show %}
-        <div class="column is-one-third-desktop is-half-tablet">
-            <div class="card">
-                {%- if note_items.external_link -%}
-                    <a href="{{ note_items.external_link }}" target="_blank" class="is-block has-text-black">
-                {%- else -%}
-                    <a href="{{ site.baseurl }}{{note_items.url}}" class="is-block has-text-black">
-                {%- endif -%}
+            <div class="column {% if page.feedformat == 'blog' %}is-two-thirds{% else %}is-one-third-desktop is-half-tablet{% endif %}">
+                {% if page.feedformat == "blog" %}
+                <article class="mt-4 mb-4 media">
+                    <div class="media-content">
+                        <div class="content">
+                            <p class="subtitle is-6 has-text-grey">{{ note_items.date | date: "%B %d, %Y" }}</p>
+                            {% if note_items.external_link %}
+                                <a href="{{ note_items.external_link }}" target="_blank" class="has-text-black">
+                            {% else %}
+                                <a href="{{ site.baseurl }}{{note_items.url}}" class="has-text-black">
+                            {% endif %}
+                                <h2 class="title is-2">{{ note_items.title }}</h2>
+                            </a>
+                            <p class="mb-8">{{ note_items.content | strip_html | truncate: 360 }}</p>
 
-                <div class="card-header is-hidden">
-                    <div class="card-header-title">
-                        <h5 class="title is-6 mb-0">{{ note_items.title }}</h5>
+                            {% if note_items.featured-image %}
+                                {% if note_items.external_link %}
+                                    <a href="{{ note_items.external_link }}" target="_blank">
+                                {% else %}
+                                    <a href="{{ site.baseurl }}{{note_items.url}}">
+                                {% endif %}
+                                    <figure class="image p-0 m-0" data-cursor-text="<i class='fa-3x fa-sharp fa-thin fa-arrow-right-long'></i> ">
+                                        <img src="{{- note_items.featured-image | relative_url -}}" alt="" style="object-fit: cover;">
+                                    </figure>
+                                </a>
+                            {% endif %}
+
+                            <a href="{{ site.baseurl }}{{note_items.url}}" class="button is-primary is-outlined mt-4">Read More</a>
+                        </div>
                     </div>
-                </div>
-                
-                <!-- Image Section with Tags Overlay -->
-                {%- if note_items.featured-image -%}
-                    <div class="card-image">
-                        <figure class="image is-5by3">
-                            <img class="blog-roll-image" src="{{- note_items.featured-image | relative_url -}}" alt="" style="object-fit: cover;">
-                        </figure>
-                        <div class="is-overlay p-4" style="pointer-events: none;">
-                            <div class="field is-grouped is-grouped-multiline">
-                                {% for category in note_items.categories %}
-                                    <div class="control">
-                                        <span class="tag is-primary is-rounded is-size-6 has-text-light	">{{ category }}</span>
+                </article>
+                {% else %}
+                    <div class="card">
+                        {%- if note_items.external_link -%}
+                            <a href="{{ note_items.external_link }}" target="_blank" class="is-block has-text-black">
+                            {%- else -%}
+                                <a href="{{ site.baseurl }}{{note_items.url}}" class="is-block has-text-black">
+                                {%- endif -%}
+
+                                {%- if note_items.featured-image -%}
+                                    <div class="card-image">
+                                        <figure class="image is-5by3">
+                                            <img class="blog-roll-image" src="{{- note_items.featured-image | relative_url -}}" alt="" style="object-fit: cover;">
+                                        </figure>
+                                        <div class="is-overlay p-4" style="pointer-events: none;">
+                                            <div class="field is-grouped is-grouped-multiline">
+                                                {% for category in note_items.categories %}
+                                                    <div class="control">
+                                                        <span class="tag is-primary is-rounded is-size-6 has-text-light">{{ category }}</span>
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
                                     </div>
-                                {% endfor %}
-                            </div>
-                        </div>
-                    </div>
-                {%- endif -%}
-                
-                <!-- Content Section -->
-                <div class="card-content">
-                    <!-- Tags for cards without featured image -->
-                    {%- unless note_items.featured-image -%}
-                        <div class="field is-grouped is-grouped-multiline mb-2">
-                            {% for category in note_items.categories %}
-                                <div class="control">
-                                    <span class="tag is-primary is-rounded">{{ category }}</span>
+                                {%- endif -%}
+
+                                <div class="card-content">
+                                    {%- unless note_items.featured-image -%}
+                                        <div class="field is-grouped is-grouped-multiline mb-2">
+                                            {% for category in note_items.categories %}
+                                                <div class="control">
+                                                    <span class="tag is-primary is-rounded">{{ category }}</span>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    {%- endunless -%}
+
+                                    <div class="content">
+                                        <h5 class="title is-6 mb-0">{{ note_items.title }}</h5>
+                                        {% if page.feedformat != "row" %}
+                                            <p class="is-hidden is-size-6 has-text-grey">{{ note_items.content | strip_html | strip | remove: "[[" | remove: "]]" | remove: "-" | escape | truncate: 150 }}</p>
+                                        {% endif %}
+                                    </div>
                                 </div>
-                            {% endfor %}
+                            </a>
                         </div>
-                    {%- endunless -%}
-                    
-                    <div class="content">
-                        <h5 class="title is-6 mb-0">{{ note_items.title }}</h5>
-                        {% if page.feedformat != "row" %}
-                            <p class="is-hidden is-size-6 has-text-grey">{{ note_items.content | strip_html | strip | remove: "[[" | remove: "]]" | remove: "-" | escape | truncate: 150 }}</p>
-                        {% endif %}
-                    </div>
+                    {% endif %}
                 </div>
-                </a>
-            </div>
-        </div>
-        {% endif %}
-    {% endfor %}
-</div>
+            {% endif %}
+        {% endfor %}
+    </div>

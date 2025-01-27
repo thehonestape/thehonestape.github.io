@@ -2,7 +2,7 @@
 Title: Hifi Lofi Wifi
 featured-image: /assets/img/thesis/exhibition01.jpeg
 featured: true
-categories: [Design]
+categories: [design]
 feed: show
 author: Abraham Garcia Flores
 gallery_path: /img/thesis

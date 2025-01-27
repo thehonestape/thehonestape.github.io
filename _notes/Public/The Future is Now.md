@@ -1,6 +1,6 @@
 ---
 featured-image: https://cdn-images-1.medium.com/max/3600/0*Zg-JF4LT685A8BtJ.jpg
-categories: [Writing, Design]
+categories: [writing, design]
 feed: show
 date : 31-03-2020
 featured: false

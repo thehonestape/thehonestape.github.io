@@ -1,6 +1,6 @@
 ---
 featured-image: /assets/img/bloompop/bloompop-box-2.jpg
-categories: [Design]
+categories: [design]
 feed: show
 date : 08-01-2023
 author: Abraham Garcia Flores
